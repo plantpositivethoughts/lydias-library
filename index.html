@@ -92,10 +92,23 @@
   .chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.85rem;background:#fff;cursor:pointer}
   .chip.on{background:var(--leaf-soft);border-color:var(--leaf)}
   .small{font-size:.85rem;color:var(--muted)}
+  header.sunlit{background:linear-gradient(180deg,rgba(40,22,12,.1) 0%,rgba(40,22,12,.7) 100%),url("header-sunlit.jpg") center 35%/cover,
+      linear-gradient(135deg,var(--walnut),#6b3f22 60%,var(--gold))}
+  .empty img{display:block;width:min(240px,70%);margin:0 auto 12px;mix-blend-mode:multiply}
+  .stats-banner{height:170px;border-radius:var(--radius);margin-bottom:12px;border:2px solid var(--gold);
+    background:linear-gradient(180deg,transparent 40%,rgba(30,18,10,.8)),url("stats.jpg") center 30%/cover,linear-gradient(135deg,var(--walnut),#1f3d4a);
+    display:flex;align-items:flex-end;padding:14px;color:#fff3dc;box-shadow:0 4px 14px rgba(59,36,24,.25)}
+  .stats-banner h2{margin:0;font-size:1.7rem;text-shadow:0 2px 8px rgba(0,0,0,.7)}
+  .theme-pick{display:flex;gap:10px}
+  .theme-pick button{flex:1;border:2px solid var(--line);border-radius:12px;padding:0;overflow:hidden;background:var(--card);cursor:pointer;font:inherit;color:var(--ink)}
+  .theme-pick button.on{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+  .theme-pick span{display:block;height:64px;background-size:cover;background-position:center}
+  .theme-pick em{display:block;padding:6px;font-size:.85rem;font-style:normal}
+  .wall-thumb{display:block;width:120px;border-radius:10px;border:2px solid var(--gold);margin:8px 0}
 </style>
 </head>
 <body>
-<header>
+<header id="appHeader">
   <h1>📚 Lydia’s Library</h1>
   <p>every book, every thought, by lantern light</p>
 </header>
@@ -110,6 +123,7 @@
 
   <!-- STATS -->
   <section id="view-stats" class="view">
+    <div class="stats-banner"><h2>Lydia’s reading year</h2></div>
     <div class="panel">
       <h3 style="margin-top:0">This year's goal</h3>
       <div id="goalText" class="small"></div>
@@ -126,6 +140,20 @@
 
   <!-- SETTINGS -->
   <section id="view-settings" class="view">
+    <div class="panel">
+      <h3 style="margin-top:0">Header picture</h3>
+      <div class="theme-pick" id="themePick">
+        <button data-theme="lantern"><span style="background-image:url('header.jpg'),linear-gradient(135deg,#3b2418,#e3a94c)"></span><em>Lantern library</em></button>
+        <button data-theme="sunlit"><span style="background-image:url('header-sunlit.jpg'),linear-gradient(135deg,#2f6f73,#e3a94c)"></span><em>Sunlit library</em></button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Phone wallpaper</h3>
+      <p class="small">A lantern-lit library for your lock screen.</p>
+      <img src="wallpaper.jpg" alt="" class="wall-thumb" onerror="this.style.display='none'">
+      <a class="btn" href="wallpaper.jpg" download="lydias-library-wallpaper.jpg" style="display:inline-block;text-decoration:none">Save wallpaper</a>
+      <p class="small">On iPhone, press and hold the picture after it opens, then tap "Save to Photos".</p>
+    </div>
     <div class="panel">
       <h3 style="margin-top:0">Back up your journal</h3>
       <p class="small">Your journal is saved on this device only. Export a backup now and then, especially before clearing your browser or changing phones.</p>
@@ -260,7 +288,7 @@ function renderBooks(){
     (!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)));
   list.sort((a,b)=>(b.updated||0)-(a.updated||0));
   if(!list.length){
-    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'Your shelves are waiting.<br>Tap + to add your first book. 📖'}</div>`;
+    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'<img src="reader.png" alt="" onerror="this.remove()">Your shelves are waiting.<br>Tap + to add your first book. 📖'}</div>`;
     return;
   }
   $('bookList').innerHTML=list.map(b=>`
@@ -413,11 +441,20 @@ $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=e=>{
   const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.books))throw 0;
-    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{}};save();renderAll();alert('Backup restored.');}
+    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{},theme:d.theme||state.theme};save();renderAll();alert('Backup restored.');}
   }catch(err){alert("That file doesn't look like a Lydia’s Library backup.");}};
   r.readAsText(f);e.target.value='';
 };
-$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals};save();renderAll();}};
+$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,theme:state.theme};save();renderAll();}};
+
+/* ---------- Header picture ---------- */
+function applyTheme(){
+  const t=state.theme||'lantern';
+  $('appHeader').classList.toggle('sunlit',t==='sunlit');
+  document.querySelectorAll('#themePick button').forEach(b=>b.classList.toggle('on',b.dataset.theme===t));
+}
+$('themePick').onclick=e=>{const b=e.target.closest('[data-theme]');if(b){state.theme=b.dataset.theme;save();applyTheme();}};
+applyTheme();
 
 /* ---------- Navigation ---------- */
 document.querySelector('nav.bottom').onclick=e=>{

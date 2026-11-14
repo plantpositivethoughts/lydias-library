@@ -1,9 +1,11 @@
 // Lets Lydia’s Library open without an internet connection.
-const CACHE = 'lydias-library-v2';
-const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon.png', 'header.jpg'];
+const CACHE = 'lydias-library-v3';
+const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon.png', 'header.jpg',
+  'header-sunlit.jpg', 'stats.jpg', 'reader.png', 'wallpaper.jpg'];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
+  // Cache each file on its own so one missing picture doesn't stop the rest.
+  e.waitUntil(caches.open(CACHE).then(c => Promise.all(FILES.map(f => c.add(f).catch(() => {})))));
   self.skipWaiting();
 });
 
