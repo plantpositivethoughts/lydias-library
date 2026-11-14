@@ -71,6 +71,11 @@
   .series-link{color:inherit;font-weight:bold}
   .pick-books label{display:flex;gap:10px;align-items:center;margin:8px 0;font-family:var(--serif);font-size:1rem;color:var(--ink)}
   .pick-books input{width:auto}
+  nav.bottom .ni{display:none!important} nav.bottom .nl{margin:0!important}
+  .fab{width:auto!important;height:auto!important;padding:13px 20px!important;border-radius:30px!important;font-size:.95rem!important;font-family:var(--type)!important;line-height:1.1}
+  .x{font-size:.82rem!important;font-family:var(--type);padding:6px 4px}
+  .crow .ops button{font-size:.72rem;font-family:var(--type);padding:3px 6px}
+  .crow .ops button:disabled{opacity:.35}
   .hs-banner{position:relative;background:var(--paper,#fffdf7);color:var(--ink);border:2px dashed var(--caramel,#d9b382);border-radius:10px;padding:12px 14px 12px;margin:0 2px 14px;font-size:.95rem;line-height:1.45;box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .hs-banner.warn{border-style:solid;border-color:#c0392b;background:#fff4f2;color:#5a1d16}
   .hs-banner b.t{display:block;font-family:var(--script);font-size:1.3rem;margin-bottom:4px}
@@ -287,10 +292,10 @@
   .month::before,.month::after{position:absolute;font-size:1.6rem;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.2))}
   .month::before{content:var(--c1);top:-10px;left:-8px}
   .month::after{content:var(--c2);bottom:-10px;right:-8px}
-  .month.winter{--c1:"❄️";--c2:"❄️";background-color:#fbfdff;background-image:linear-gradient(90deg,rgba(176,196,214,.38) 50%,transparent 50%),linear-gradient(rgba(176,196,214,.38) 50%,transparent 50%);background-size:16px 16px;border:3px solid #dfe8ef}
-  .month.spring{--c1:"🌱";--c2:"🌷";background-color:#eef6e4;background-image:linear-gradient(90deg,rgba(134,176,104,.42) 50%,transparent 50%),linear-gradient(rgba(134,176,104,.42) 50%,transparent 50%);background-size:16px 16px;border:3px solid #a9c98e}
-  .month.summer{--c1:"🍓";--c2:"🌻";background:repeating-linear-gradient(45deg,#e8473f 0 10px,#fbd34d 10px 20px,#f58bb4 20px 30px,#3fae4f 30px 40px);border:3px solid #2f8f3e}
-  .month.autumn{--c1:"🍂";--c2:"🍁";background-color:#fbe6b8;background-image:linear-gradient(90deg,rgba(232,138,40,.45) 50%,transparent 50%),linear-gradient(rgba(232,138,40,.45) 50%,transparent 50%);background-size:16px 16px;border:3px solid #d9822b}
+  .month.winter{background-color:#fbfdff;background-image:linear-gradient(90deg,rgba(176,196,214,.38) 50%,transparent 50%),linear-gradient(rgba(176,196,214,.38) 50%,transparent 50%);background-size:16px 16px;border:3px solid #dfe8ef}
+  .month.spring{background-color:#eef6e4;background-image:linear-gradient(90deg,rgba(134,176,104,.42) 50%,transparent 50%),linear-gradient(rgba(134,176,104,.42) 50%,transparent 50%);background-size:16px 16px;border:3px solid #a9c98e}
+  .month.summer{background:repeating-linear-gradient(45deg,#e8473f 0 10px,#fbd34d 10px 20px,#f58bb4 20px 30px,#3fae4f 30px 40px);border:3px solid #2f8f3e}
+  .month.autumn{background-color:#fbe6b8;background-image:linear-gradient(90deg,rgba(232,138,40,.45) 50%,transparent 50%),linear-gradient(rgba(232,138,40,.45) 50%,transparent 50%);background-size:16px 16px;border:3px solid #d9822b}
   .month-inner{position:relative;background:var(--paper);padding:26px 22px}
   .month-inner::before{content:"";position:absolute;inset:-7px;pointer-events:none;z-index:1;background:var(--lt) top left/24px 12px repeat-x,var(--lb) bottom left/24px 12px repeat-x,var(--ll) top left/12px 24px repeat-y,var(--lr) top right/12px 24px repeat-y;filter:drop-shadow(0 1px 1px rgba(0,0,0,.15))}
   .month.winter{--lt:var(--lace-ice-top);--lb:var(--lace-ice-bottom);--ll:var(--lace-ice-left);--lr:var(--lace-ice-right)}
@@ -455,9 +460,9 @@
   body.t-romantasy header h1,body.t-romantasy #welcome h1{background:none;color:var(--gold);font-family:var(--script);font-size:2.15rem;letter-spacing:.5px;margin:0 0 10px;
     background:linear-gradient(180deg,#f6dfa0,#d8b56d 45%,#a77d33);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
     text-shadow:none;filter:drop-shadow(0 2px 6px rgba(216,181,109,.35));display:block;padding:0}
-  body.t-romantasy header h1::before{content:"☾ ";-webkit-text-fill-color:var(--gold)}
+  
   body.t-romantasy .tape{background:none;box-shadow:none;transform:none!important;color:#e9d6a6;font-family:var(--type);font-size:.78rem;letter-spacing:2px;text-transform:uppercase;padding:2px 6px}
-  body.t-romantasy .tape+.tape::before{content:"✦ ";color:var(--gold)}
+  body.t-romantasy .tape+.tape::before{content:"· ";color:var(--gold)}
   body.t-romantasy .sprig-doodle{display:none}
   body.t-romantasy .panel .tape,body.t-romantasy .diary .tape{color:var(--wine)}
   body.t-romantasy .ed-top .btn.ghost{color:var(--gold);border-color:var(--gold2)}
@@ -552,7 +557,7 @@
   body.t-fantasy header h1,body.t-fantasy #welcome h1{background:none;color:var(--moss);font-family:var(--script);font-weight:400;font-size:2.1rem;line-height:1.15;padding:0;margin:0 0 10px;display:block;
     text-shadow:0 1px 0 rgba(255,255,255,.4)}
   body.t-fantasy .tape{background:none;box-shadow:none;transform:none!important;color:var(--cocoa);font-family:var(--type);font-size:.95rem;letter-spacing:1px;padding:2px 4px}
-  body.t-fantasy .tape+.tape::before{content:"❧ ";color:var(--bronze2)}
+  body.t-fantasy .tape+.tape::before{content:"· ";color:var(--bronze2)}
   body.t-fantasy .tab{background:rgba(255,255,255,.05);color:#d8e6cf;border:1px solid rgba(194,154,91,.5);font-family:var(--type);font-size:.9rem;transform:none!important;border-radius:3px}
   body.t-fantasy .tab.active{background:linear-gradient(180deg,#4f8a64,#2f5a43);color:#fff8e6;border-color:var(--bronze)}
   body.t-fantasy .search{background:rgba(255,255,255,.06);border:1px solid rgba(194,154,91,.5);color:#e6f0e2;border-radius:4px}
@@ -644,7 +649,7 @@
   body.t-romance .frame::after{display:block!important;inset:5px;background:var(--rm-c1) top left/42px no-repeat,var(--rm-c2) top right/42px no-repeat,var(--rm-c3) bottom right/42px no-repeat,var(--rm-c4) bottom left/42px no-repeat;opacity:1}
   body.t-romance header h1,body.t-romance #welcome h1{background:none;display:block;padding:0;margin:0 0 10px;font-family:var(--script);line-height:1.15;color:#b3475e;font-style:italic;font-weight:600;font-size:2.4rem}
   body.t-romance .tape{transform:none!important;box-shadow:none;margin:3px;background:#fde7ec;color:#b3475e;font-family:var(--type);font-weight:700;letter-spacing:1px;font-size:.78rem;text-transform:uppercase;border-radius:20px;padding:4px 12px}
-  body.t-romance .tape+.tape::before{content:"♡ ";color:#e07a92}
+  body.t-romance .tape+.tape::before{content:"· ";color:#e07a92}
   body.t-romance .tab{transform:none!important;box-shadow:none;background:#fff;color:#b3475e;border:1px solid #f0c3cc;border-radius:20px;font-family:var(--type);font-weight:700}
   body.t-romance .tab.active{background:#c25b74;color:#fff;border-color:#c25b74}
   body.t-romance .search{background:#fff;border:1px solid #f0c3cc;border-radius:22px}
@@ -697,7 +702,7 @@
   body.t-mythic .frame::after{display:block!important;inset:5px;background:var(--my-key) top left/30px 30px repeat-x,var(--my-key) bottom left/30px 30px repeat-x;opacity:1}
   body.t-mythic header h1,body.t-mythic #welcome h1{background:none;display:block;padding:0;margin:0 0 10px;font-family:var(--script);line-height:1.15;color:#1f3a5c;font-weight:700;font-size:2.1rem;letter-spacing:1px}
   body.t-mythic .tape{transform:none!important;box-shadow:none;margin:3px;background:none;box-shadow:none;transform:none!important;color:#a2552f;font-family:var(--type);letter-spacing:2px;font-size:.85rem}
-  body.t-mythic .tape+.tape::before{content:"✦ ";color:#c9a24a}
+  body.t-mythic .tape+.tape::before{content:"· ";color:#c9a24a}
   body.t-mythic .tab{transform:none!important;box-shadow:none;background:#fbf9f4;color:#1f3a5c;border:1px solid #c9a24a;border-radius:2px;font-family:var(--type);letter-spacing:1px}
   body.t-mythic .tab.active{background:#1f3a5c;color:#f3d98a;border-color:#1f3a5c}
   body.t-mythic .search{background:#fbf9f4;border:1px solid #d9c9a0;border-radius:2px}
@@ -750,7 +755,7 @@
   body.t-classic .frame::after{display:block!important;inset:5px;background:var(--cl-c1) top left/34px no-repeat,var(--cl-c2) top right/34px no-repeat,var(--cl-c3) bottom right/34px no-repeat,var(--cl-c4) bottom left/34px no-repeat;opacity:1}
   body.t-classic header h1,body.t-classic #welcome h1{background:none;display:block;padding:0;margin:0 0 10px;font-family:var(--script);line-height:1.15;color:#3a2014;font-weight:400;font-size:2.3rem}
   body.t-classic .tape{transform:none!important;box-shadow:none;margin:3px;background:none;box-shadow:none;transform:none!important;color:#6b1e1e;font-family:var(--type);letter-spacing:1px;font-size:.95rem}
-  body.t-classic .tape+.tape::before{content:"❧ ";color:#8a6a2a}
+  body.t-classic .tape+.tape::before{content:"· ";color:#8a6a2a}
   body.t-classic .tab{transform:none!important;box-shadow:none;background:rgba(0,0,0,.25);color:#e9cf86;border:1px solid rgba(201,162,74,.5);font-family:var(--type)}
   body.t-classic .tab.active{background:#6b1e1e;color:#f6e7c4;border-color:#c9a24a}
   body.t-classic .search{background:rgba(0,0,0,.25);border:1px solid rgba(201,162,74,.5);color:#efe3c8}
@@ -849,7 +854,7 @@
   .star-input .god-btn{position:relative;margin-left:8px;font-size:2rem;color:#e2d3bd;border-left:1px dashed rgba(150,120,90,.4)!important;padding-left:10px}
   .star-input .god-btn.on{background:linear-gradient(135deg,#fff3b0,#f5c542 30%,#ff8fb1 65%,#b77cff);-webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;filter:drop-shadow(0 0 4px rgba(255,200,90,.9));animation:godglow 2.4s ease-in-out infinite}
-  .star-input .god-btn::after{content:"✦";position:absolute;top:-2px;right:-6px;font-size:.7rem;color:#f5c542;-webkit-text-fill-color:#f5c542;opacity:.5}
+  .star-input .god-btn::after{content:"";position:absolute;top:-2px;right:-6px;font-size:.7rem;color:#f5c542;-webkit-text-fill-color:#f5c542;opacity:.5}
   .star-input .god-btn.on::after{opacity:1}
   @media (prefers-reduced-motion:reduce){.god,.star-input .god-btn.on{animation:none}}
   nav.bottom .ni{font-style:normal}
@@ -906,14 +911,14 @@
     </div>
     <div id="seriesMode" hidden>
       <div id="seriesList"></div>
-      <button class="btn" id="newSeries" style="width:100%;margin-top:6px">＋ New collection</button>
+      <button class="btn" id="newSeries" style="width:100%;margin-top:6px">New collection</button>
     </div>
   </section>
 
   <!-- COLLECTION -->
   <section id="view-collection" class="view">
     <div class="topbar">
-      <button class="back" id="colBack">← Collections</button>
+      <button class="back" id="colBack">Back to collections</button>
       <span><button class="btn ghost" id="colEdit">Edit</button></span>
     </div>
     <div class="hero col-hero">
@@ -927,7 +932,7 @@
     <div class="panel">
       <h3>Books in this collection</h3>
       <div id="colBooks"></div>
-      <button class="btn ghost" id="colAdd" style="margin-top:10px">＋ Add books</button>
+      <button class="btn ghost" id="colAdd" style="margin-top:10px">Add books</button>
     </div>
     <div class="panel">
       <h3>The whole series</h3>
@@ -952,8 +957,8 @@
   <!-- REVIEW -->
   <section id="view-review" class="view">
     <div class="topbar">
-      <button class="back" id="backBtn">← Bookshelf</button>
-      <span><button class="btn ghost" id="rStyle">🎨 Style</button> <button class="btn ghost" id="rEdit">Edit details</button></span>
+      <button class="back" id="backBtn">Back to bookshelf</button>
+      <span><button class="btn ghost" id="rStyle">Style</button> <button class="btn ghost" id="rEdit">Edit details</button></span>
     </div>
     <div class="hero">
       <button class="cover-big" id="rCover" aria-label="Add or change cover"></button>
@@ -961,7 +966,7 @@
         <h2 id="rTitle"></h2>
         <div class="author" id="rAuthor"></div>
         <div class="meta" id="rMeta"></div>
-        <div class="btn-row" style="margin-top:10px"><button class="btn" id="rFinish" hidden>✓ Mark as finished</button><button class="btn ghost" id="rShare">📤 Share</button></div>
+        <div class="btn-row" style="margin-top:10px"><button class="btn" id="rFinish" hidden>Mark as finished</button><button class="btn ghost" id="rShare">Share</button></div>
       </div>
     </div>
 
@@ -1012,50 +1017,50 @@
 
   <!-- GUIDE -->
   <section id="view-guide" class="view">
-    <div class="topbar"><button class="back" id="guideBack">← Settings</button><button class="btn ghost" id="guideTour">📖 Tutorial cards</button></div>
+    <div class="topbar"><button class="back" id="guideBack">Back to settings</button><button class="btn ghost" id="guideTour">Tutorial cards</button></div>
     <h2 class="sec-title" style="font-size:2rem;margin:4px 4px 16px">How to use your journal</h2>
 
-    <div class="panel guide"><h3>📚 Adding books</h3>
+    <div class="panel guide"><h3>Adding books</h3>
       <ul>
-        <li>Tap the round <b>+</b> button on your shelf to add a book.</li>
-        <li>Tap <b>📷 Scan the barcode</b> and point the camera at the barcode on the back. The title, author, pages, genre and cover fill in for you.</li>
+        <li>Tap <b>Add a book</b> on your shelf.</li>
+        <li>Tap <b>Scan the barcode</b> and point the camera at the barcode on the back. The title, author, pages, genre and cover fill in for you.</li>
         <li>Or add a photo of the front cover first: the journal reads the cover and suggests matching books to tap.</li>
         <li>Tap the <b>Add cover</b> box to take a photo, choose one from your phone, or search for the real cover online.</li>
         <li>Pick a shelf: <b>Reading</b>, <b>Want to read</b>, <b>Finished</b> or <b>Did not finish</b>. Adding a finished date puts it on Finished for you.</li>
-        <li>Changed your mind? Tap <b>Cancel</b>, the <b>×</b>, or anywhere outside the box.</li>
+        <li>Changed your mind? Tap <b>Cancel</b>, <b>Close</b>, or anywhere outside the box.</li>
         <li>Use the tabs and search bar above the shelf to find a book.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>🗂 Collections (book series)</h3>
+    <div class="panel guide"><h3>Collections (book series)</h3>
       <ul>
         <li>When adding or editing a book, type a <b>Series</b> name and its <b>Book #</b>. Books with the same series name are grouped together.</li>
         <li>Tap <b>Collections</b> at the top of your shelf to see every series, how many you've read, and the series rating.</li>
-        <li>On a collection, reorder books with ▲ ▼, take one out with ×, or tap <b>＋ Add books</b>.</li>
+        <li>On a collection, reorder books with Up and Down, take one out with Remove, or tap <b>Add books</b>.</li>
         <li>Rate the whole series yourself, or choose <b>Average of the books</b> to work it out from your book ratings. Write a review of the series too.</li>
-        <li>A book that's part of a series shows a <b>🗂 Part of…</b> link on its page.</li>
+        <li>A book that's part of a series shows a <b>Part of…</b> link on its page.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>⭐ Your book's page</h3>
+    <div class="panel guide"><h3>Your book's page</h3>
       <ul>
         <li>Tap any book on your shelf to open its page.</li>
         <li>Tap the stars for your rating. The glowing sixth star is for <b>god tier</b> books.</li>
         <li>Tap the peppers for the spice rating, and pick how the book made you feel.</li>
         <li>Your review saves as you type. Add favourite quotes and reading notes further down.</li>
-        <li><b>✓ Mark as finished</b> moves a book to Finished with today's date.</li>
+        <li><b>Mark as finished</b> moves a book to Finished with today's date.</li>
         <li><b>Edit details</b> changes the title, dates or cover, or deletes the book.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>🖼 Collages</h3>
+    <div class="panel guide"><h3>Collages</h3>
       <ul>
         <li>On a book's page, tap <b>Create collage</b>. It starts with spaces ready to fill.</li>
-        <li>Tap a <b>＋ art</b> space to add a photo or drawing from your phone, a book cover, free-to-use art, or something saved from Pinterest.</li>
-        <li>Tap a <b>＋ quote</b> space to add a quote from any book you've saved quotes for.</li>
+        <li>Tap an <b>Add art</b> space to add a photo or drawing from your phone, a book cover, free-to-use art, or something saved from Pinterest.</li>
+        <li>Tap an <b>Add quote</b> space to add a quote from any book you've saved quotes for.</li>
         <li>Drag pieces to move them. Tap a piece for Smaller, Bigger, rotate, Front, Back, Style, Edit or Remove.</li>
-        <li><b>📐 Layout</b> gives a new arrangement, <b>✨ Sticker</b> adds lace, tape, doilies and more, and <b>📄 Page</b> changes the paper.</li>
+        <li><b>Layout</b> gives a new arrangement, <b>Sticker</b> adds lace, tape, doilies and more, and <b>Page</b> changes the paper.</li>
         <li>Tap <b>Done</b> when you're finished. Free art is credited under the collage for you.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>📔 Diary &amp; 🗓️ Calendar</h3>
+    <div class="panel guide"><h3>Diary &amp; Calendar</h3>
       <ul>
         <li><b>Diary</b> shows what you're reading now, what you read this month and everything you've read this year.</li>
         <li><b>Calendar</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons.</li>
@@ -1063,20 +1068,20 @@
         <li>Tap any book in either one to jump to its page.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>👆 Getting around</h3>
+    <div class="panel guide"><h3>Getting around</h3>
       <ul>
         <li>Swipe left and right to move between Shelf, Diary, Calendar and Settings, or tap the buttons at the bottom.</li>
         <li>On a book's page, the button at the top takes you back to where you came from.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>🎨 Make it yours</h3>
+    <div class="panel guide"><h3>Make it yours</h3>
       <ul>
         <li><b>Journal look</b> in Settings switches between Cosy scrapbook, Romantasy and Fantasy.</li>
         <li><b>Customise</b> changes the background, colours, fonts, text size, star and pepper colours, and the bottom buttons.</li>
-        <li>On any book's page, <b>🎨 Style</b> gives that book its own look. Try <b>Match the cover colours</b>.</li>
+        <li>On any book's page, <b>Style</b> gives that book its own look. Try <b>Match the cover colours</b>.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>🔒 Keeping your journal safe</h3>
+    <div class="panel guide"><h3>Keeping your journal safe</h3>
       <ul>
         <li>Your journal is saved <b>only on this phone</b>, in this browser. Nobody else can see it.</li>
         <li>If you clear Safari's data or change phones, it will be lost unless you have a backup. Tap <b>Export backup</b> in Settings now and then, and keep the file somewhere safe.</li>
@@ -1103,7 +1108,7 @@
     <div class="panel">
       <h3>How to use your journal</h3>
       <p class="small" style="margin-top:0">See the tutorial cards again, or open the full guide to everything your journal can do and how to keep it safe.</p>
-      <div class="btn-row" style="margin-top:6px"><button class="btn" id="openGuide">Open the guide</button><button class="btn ghost" id="openTour">📖 Tutorial cards</button></div>
+      <div class="btn-row" style="margin-top:6px"><button class="btn" id="openGuide">Open the guide</button><button class="btn ghost" id="openTour">Tutorial cards</button></div>
     </div>
     <div class="panel">
       <h3>Journal look</h3>
@@ -1130,8 +1135,6 @@
         <button class="btn ghost" data-v="s">Small</button><button class="btn ghost" data-v="">Normal</button><button class="btn ghost" data-v="l">Large</button></div></div>
       <div class="cust-sec"><label>Star colour</label><div class="swatches" id="cStar"></div></div>
       <div class="cust-sec"><label>Pepper colour</label><div class="swatches" id="cChili"></div></div>
-      <div class="cust-sec"><label>Bottom buttons: icons</label><div class="opt-grid" id="nIcons"></div></div>
-      <div class="cust-sec"><label>Bottom buttons: layout</label><div class="opt-grid" id="nLayout"></div></div>
       <div class="cust-sec"><label>Bottom buttons: bar colour</label><div class="swatches" id="nBar"></div></div>
       <div class="cust-sec"><label>Bottom buttons: shape</label><div class="opt-grid" id="nShape"></div></div>
       <div class="btn-row"><button class="btn ghost" id="cReset">Reset to the look's defaults</button></div>
@@ -1162,13 +1165,13 @@
   </section>
 </main>
 
-<button class="fab" id="addBtn" aria-label="Add book">+</button>
+<button class="fab" id="addBtn">Add a book</button>
 
 <nav class="bottom" id="navBar">
-  <button data-view="shelf" class="active"><span class="ni">📚</span><span class="nl">Shelf</span></button>
-  <button data-view="diary"><span class="ni">📔</span><span class="nl">Diary</span></button>
-  <button data-view="months"><span class="ni">🗓️</span><span class="nl">Calendar</span></button>
-  <button data-view="settings"><span class="ni">⚙️</span><span class="nl">Settings</span></button>
+  <button data-view="shelf" class="active"><span class="ni"></span><span class="nl">Shelf</span></button>
+  <button data-view="diary"><span class="ni"></span><span class="nl">Diary</span></button>
+  <button data-view="months"><span class="ni"></span><span class="nl">Calendar</span></button>
+  <button data-view="settings"><span class="ni"></span><span class="nl">Settings</span></button>
 </nav>
 
 <!-- COLLAGE EDITOR -->
@@ -1177,26 +1180,26 @@
   <div class="ed-stage"><div id="edPage"></div></div>
   <div class="ed-tools">
     <div class="ed-row sel-tools" id="selTools" hidden>
-      <button data-act="smaller">− Smaller</button><button data-act="bigger">+ Bigger</button>
-      <button data-act="left">⟲</button><button data-act="right">⟳</button>
-      <button data-act="front">⬆ Front</button><button data-act="back">⬇ Back</button>
-      <button data-act="style">🎨 Style</button><button data-act="edit" id="editTextBtn">✏️ Edit</button>
-      <button data-act="delete">🗑 Remove</button>
+      <button data-act="smaller">Smaller</button><button data-act="bigger">Bigger</button>
+      <button data-act="left">Rotate left</button><button data-act="right">Rotate right</button>
+      <button data-act="front">Front</button><button data-act="back">Back</button>
+      <button data-act="style">Style</button><button data-act="edit" id="editTextBtn">Edit</button>
+      <button data-act="delete">Remove</button>
     </div>
     <div class="ed-row">
-      <button data-add="layout">📐 Layout</button>
-      <button data-add="art">🖼 Art</button>
-      <button data-add="quote">❝ Quote</button>
-      <button data-add="label">🏷 Label</button>
-      <button data-add="sticker">✨ Sticker</button>
-      <button data-add="bg">📄 Page</button>
+      <button data-add="layout">Layout</button>
+      <button data-add="art">Art</button>
+      <button data-add="quote">Quote</button>
+      <button data-add="label">Label</button>
+      <button data-add="sticker">Sticker</button>
+      <button data-add="bg">Page</button>
     </div>
   </div>
 </section>
 
 <!-- PICKER (stickers, quotes, labels, page backgrounds) -->
 <dialog id="pickDlg">
-  <div class="dlg-head"><h2 id="pickTitle"></h2><button class="x" onclick="pickDlg.close()">×</button></div>
+  <div class="dlg-head"><h2 id="pickTitle"></h2><button class="x" onclick="pickDlg.close()">Close</button></div>
   <div class="dlg-body" id="pickBody"></div>
 </dialog>
 
@@ -1214,10 +1217,10 @@
 
 <!-- BOOK PAGE STYLE -->
 <dialog id="styleDlg">
-  <div class="dlg-head"><h2>Style this page</h2><button class="x" onclick="styleDlg.close()">×</button></div>
+  <div class="dlg-head"><h2>Style this page</h2><button class="x" onclick="styleDlg.close()">Close</button></div>
   <div class="dlg-body">
     <p class="small" style="margin-top:6px">Give this book its own look. Only this book's page changes.</p>
-    <button class="btn" id="sMatch" style="width:100%">🎨 Match the cover colours</button>
+    <button class="btn" id="sMatch" style="width:100%">Match the cover colours</button>
     <p class="small" id="sMatchMsg"></p>
     <div class="cust-sec"><label>Background</label><div class="opt-grid" id="sBg"></div>
       <div class="swatches" id="sBgColRow" style="margin-top:8px"><span class="small">Colour for plain &amp; patterns</span><input type="color" id="sBgCol" value="#d9a5a0"></div>
@@ -1231,11 +1234,11 @@
 
 <!-- BARCODE SCANNER -->
 <dialog id="scanDlg">
-  <div class="dlg-head"><h2>Scan the barcode</h2><button class="x" id="scanCancel" aria-label="Close">×</button></div>
+  <div class="dlg-head"><h2>Scan the barcode</h2><button class="x" id="scanCancel">Close</button></div>
   <div class="dlg-body">
     <div class="scan-box"><video id="scanVideo" playsinline muted></video><span class="scan-frame"></span></div>
     <p class="small" id="scanStatus"></p>
-    <label class="btn ghost" for="scanPhoto" style="display:block;text-align:center;margin:8px 0 0;font-size:.9rem">📸 Take a photo of the barcode</label>
+    <label class="btn ghost" for="scanPhoto" style="display:block;text-align:center;margin:8px 0 0;font-size:.9rem">Take a photo of the barcode</label>
     <input type="file" id="scanPhoto" accept="image/*" capture="environment" hidden>
     <p class="small">The barcode is usually on the back cover, with the ISBN number.</p>
   </div>
@@ -1243,7 +1246,7 @@
 
 <!-- SHARE -->
 <dialog id="shareDlg">
-  <div class="dlg-head"><h2>Share your review</h2><button class="x" onclick="shareDlg.close()">×</button></div>
+  <div class="dlg-head"><h2>Share your review</h2><button class="x" onclick="shareDlg.close()">Close</button></div>
   <div class="dlg-body">
     <div class="cust-sec"><label>Size</label><div class="opt-grid" id="shFmt" style="grid-template-columns:1fr 1fr">
       <button data-v="post">Post<br><span class="small">Instagram &amp; TikTok, 4:5</span></button><button data-v="story">Story<br><span class="small">Full screen, 9:16</span></button></div></div>
@@ -1251,18 +1254,18 @@
       <button data-v="review">Review card</button><button data-v="collage">My collage</button></div></div>
     <img id="shPreview" alt="Preview of your share picture" style="display:block;width:100%;margin:14px 0 6px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);background:#eee;min-height:120px">
     <p class="small" id="shStatus"></p>
-    <div class="btn-row"><button class="btn" id="shGo">📤 Share…</button><button class="btn ghost" id="shSave">Save image</button></div>
+    <div class="btn-row"><button class="btn" id="shGo">Share…</button><button class="btn ghost" id="shSave">Save image</button></div>
     <p class="small">In the share menu, pick <b>Instagram</b> (then Story or Post) or <b>TikTok</b>. You can also save the picture and post it from your photos.</p>
   </div>
 </dialog>
 
 <!-- COVER PICKER -->
 <dialog id="coverDlg">
-  <div class="dlg-head"><h2>Book cover</h2><button class="x" onclick="coverDlg.close()">×</button></div>
+  <div class="dlg-head"><h2>Book cover</h2><button class="x" onclick="coverDlg.close()">Close</button></div>
   <div class="dlg-body">
-    <label class="btn" for="coverPhoto" style="display:block;color:#f6e7cf;margin:10px 0 0;font-size:.95rem">📷 Take a photo or choose from your photos</label>
+    <label class="btn" for="coverPhoto" style="display:block;color:#f6e7cf;margin:10px 0 0;font-size:.95rem">Take a photo or choose from your photos</label>
     <input type="file" id="coverPhoto" accept="image/*" hidden>
-    <label for="coverQuery">🔎 Find the cover online</label>
+    <label for="coverQuery">Find the cover online</label>
     <div class="row"><input id="coverQuery" placeholder="Title and author"><button class="btn" id="coverSearch" style="flex:0">Search</button></div>
     <p class="small" id="coverStatus"></p>
     <div class="cover-grid" id="coverResults"></div>
@@ -1273,9 +1276,9 @@
 <!-- ADD / EDIT BOOK -->
 <dialog id="editDlg">
   <form method="dialog" id="editForm">
-    <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" type="button" data-cancel aria-label="Close">×</button></div>
+    <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" type="button" data-cancel>Close</button></div>
     <div class="dlg-body">
-      <div class="btn-row" style="margin:6px 0 2px"><button type="button" class="btn ghost" id="fScan" style="width:100%">📷 Scan the barcode to fill this in</button></div>
+      <div class="btn-row" style="margin:6px 0 2px"><button type="button" class="btn ghost" id="fScan" style="width:100%">Scan the barcode to fill this in</button></div>
       <div class="row" style="align-items:flex-end;gap:14px">
         <div style="flex:0 0 96px"><label>Cover</label>
           <button type="button" class="cover-big" id="fCover" style="width:96px;flex:none" aria-label="Add a cover"></button></div>
@@ -1326,6 +1329,7 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 
 let state=load();
 state.series=state.series||[];
+if(state.custom?.nav){delete state.custom.nav.icons;delete state.custom.nav.layout;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
 // Feelings used to start with an emoji; keep just the word
 const plainMood=m=>String(m).replace(/^[^A-Za-z]+/,'');
 state.books.forEach(b=>{if(b.moods)b.moods=b.moods.map(plainMood);});
@@ -1390,7 +1394,7 @@ function renderShelf(){
   for(let i=0;i<list.length;i+=cols)rows.push(list.slice(i,i+cols));
   while(rows.length<3)rows.push([]);
   $('bookcase').innerHTML=rows.map((r,i)=>`<div class="shelf-row" style="--bw:${bw}">${
-    r.length?r.map(spine).join(''):(i===0?`<div class="shelf-empty">${state.books.length?'No books on this shelf':'Your shelves are waiting…<br>tap + to add a book'}</div>`:'')
+    r.length?r.map(spine).join(''):(i===0?`<div class="shelf-empty">${state.books.length?'No books on this shelf':'Your shelves are waiting…<br>tap Add a book to begin'}</div>`:'')
   }</div>`).join('');
 }
 $('shelfTabs').onclick=e=>{const t=e.target.closest('[data-shelf]');if(t){shelf=t.dataset.shelf;renderShelf();}};
@@ -1401,7 +1405,7 @@ addEventListener('resize',()=>{if($('view-shelf').classList.contains('active'))r
 /* ================= ADD / EDIT BOOK ================= */
 const FIELDS=['title','author','shelf','pages','started','finished','genre','format'];
 let tempCover, coverTarget='book';
-function renderFormCover(){$('fCover').innerHTML=(tempCover?`<img src="${esc(tempCover)}" alt="">`:'📖')+`<span class="tap">${tempCover?'Change':'Add cover'}</span>`;}
+function renderFormCover(){$('fCover').innerHTML=(tempCover?`<img src="${esc(tempCover)}" alt="">`:'')+`<span class="tap">${tempCover?'Change':'Add cover'}</span>`;}
 function openEdit(id){
   editingId=id;tempCover=book(id)?.cover||null;renderFormCover();$('editDlg').returnValue='';fStatus('');formISBN=book(id)?.isbn||'';$('fScan').parentElement.hidden=!!id;
   const f=$('editForm'), b=book(id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
@@ -1491,7 +1495,7 @@ function fillForm(info,keepPhoto){
   if(info.genre&&!f.genre.value)f.genre.value=info.genre;
   if(info.cover&&!(keepPhoto&&tempCover)){tempCover=info.cover;renderFormCover();}
   formISBN=info.isbn||formISBN;
-  fStatus(`<span class="found">✓ Found <b>${esc(info.title)}</b>${info.author?' by '+esc(info.author):''}. Check the details, then save.</span>`);
+  fStatus(`<span class="found">Found <b>${esc(info.title)}</b>${info.author?' by '+esc(info.author):''}. Check the details, then save.</span>`);
 }
 let formISBN='';
 async function useISBN(code){
@@ -1557,24 +1561,24 @@ $('scanPhoto').onchange=async e=>{
 async function autoFillFromPhoto(dataUrl){
   const f=$('editForm').elements;
   if(f.title.value.trim())return;
-  fStatus('<span class="busy">🔎 Reading your photo to fill in the details…</span>');
+  fStatus('<span class="busy">Reading your photo to fill in the details…</span>');
   // a photo of the back might show the barcode
   try{const blob=await (await fetch(dataUrl)).blob();const code=await decodeImage(blob);if(code&&isISBN(code)){await useISBN(code);return;}}catch(e){}
   let text='';
   try{
     await loadScript(LIBS.tesseract);
     const r=await Tesseract.recognize(dataUrl,'eng');text=r.data.text||'';
-  }catch(e){fStatus("Couldn't read the photo just now. Type the title, or use 📷 Scan barcode.");return;}
+  }catch(e){fStatus("Couldn't read the photo just now. Type the title, or scan the barcode.");return;}
   const lines=text.split('\n').map(l=>l.replace(/[^A-Za-z0-9'&:\- ]/g,' ').replace(/\s+/g,' ').trim()).filter(l=>l.length>2&&/[A-Za-z]{3}/.test(l));
   const q=lines.sort((a,b)=>b.length-a.length).slice(0,4).join(' ').split(' ').filter(w=>w.length>1).slice(0,9).join(' ');
-  if(!q){fStatus("Couldn't read any words on that cover. Type the title, or use 📷 Scan barcode.");return;}
+  if(!q){fStatus("Couldn't read any words on that cover. Type the title, or scan the barcode.");return;}
   try{
     const r=await fetch('https://openlibrary.org/search.json?limit=3&fields=title,author_name,cover_i,number_of_pages_median,subject,isbn&q='+encodeURIComponent(q));
     const docs=(await r.json()).docs||[];
-    if(!docs.length){fStatus("Couldn't match that cover to a book. Type the title, or use 📷 Scan barcode.");return;}
+    if(!docs.length){fStatus("Couldn't match that cover to a book. Type the title, or scan the barcode.");return;}
     window._sugg=docs.map(d=>({title:d.title,author:(d.author_name||[]).slice(0,2).join(', '),pages:d.number_of_pages_median||'',genre:tidyGenre(d.subject||[]),
       cover:d.cover_i?`https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg`:'',isbn:(d.isbn||[]).find(x=>/^97/.test(x))||''}));
-    fStatus(`<div class="sugg"><span>Is it one of these?</span>${window._sugg.map((d,i)=>`<button type="button" data-sg="${i}">${d.cover?`<img src="${esc(d.cover.replace('-L','-M'))}" alt="">`:'<span class="ph">📖</span>'}<b>${esc(d.title)}</b>${d.author?`<i>${esc(d.author)}</i>`:''}</button>`).join('')}<button type="button" data-sg="x" class="none">None of these</button></div>`);
+    fStatus(`<div class="sugg"><span>Is it one of these?</span>${window._sugg.map((d,i)=>`<button type="button" data-sg="${i}">${d.cover?`<img src="${esc(d.cover.replace('-L','-M'))}" alt="">`:'<span class="ph"></span>'}<b>${esc(d.title)}</b>${d.author?`<i>${esc(d.author)}</i>`:''}</button>`).join('')}<button type="button" data-sg="x" class="none">None of these</button></div>`);
   }catch(e){fStatus("Couldn't search just now. Check your internet connection, or type the details.");}
 }
 $('fSuggest').onclick=e=>{const b=e.target.closest('[data-sg]');if(!b)return;
@@ -1603,7 +1607,7 @@ function setBookSeries(b,name,num){
 }
 function fanHTML(list){
   const three=list.slice(0,3);
-  return three.length?three.map(b=>`<span>${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</span>`).join(''):'<span>🗂</span>';
+  return three.length?three.map(b=>`<span>${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</span>`).join(''):'<span></span>';
 }
 function renderShelfMode(){
   document.querySelectorAll('#shelfMode [data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===shelfMode));
@@ -1648,13 +1652,12 @@ function renderCollection(){
   const sr=state.series.find(x=>x.id===colId), list=colBooks(sr), read=list.filter(b=>b.shelf==='finished').length;
   $('colFan').innerHTML=fanHTML(list);
   $('colTitle').textContent=sr.name;$('colAuthor').textContent=sr.author||'';
-  $('colMeta').textContent=list.length?`${list.length} book${list.length>1?'s':''} · ${read} read${read===list.length&&list.length?' · series complete ✓':''}`:'No books yet';
+  $('colMeta').textContent=list.length?`${list.length} book${list.length>1?'s':''} · ${read} read${read===list.length&&list.length?' · series complete':''}`:'No books yet';
   $('colBooks').innerHTML=list.map((b,i)=>`<div class="crow" data-id="${b.id}">
       <span class="num">${b.seriesNum!==''&&b.seriesNum!=null?b.seriesNum:'·'}</span>
-      <span class="dc" data-open="${b.id}">${b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖'}</span>
+      <span class="dc" data-open="${b.id}">${b.cover?`<img src="${esc(b.cover)}" alt="">`:''}</span>
       <span class="ct" data-open="${b.id}"><b>${esc(b.title)}</b><small>${SHELVES[b.shelf]}</small>${b.rating?` <span class="stars">${stars(b.rating).replace(/☆/g,'')}</span>`:''}</span>
-      <span class="ops"><button data-mv="-1" aria-label="Move up" ${i?'':'disabled'}>▲</button><button data-mv="1" aria-label="Move down" ${i<list.length-1?'':'disabled'}>▼</button></span>
-      <span class="ops"><button data-rm aria-label="Remove from collection" title="Remove from collection">×</button></span></div>`).join('')||'<p class="small">Add books from your shelf, or give a book this series name when you add it.</p>';
+      <span class="ops"><button data-mv="-1" ${i?'':'disabled'}>Up</button><button data-mv="1" ${i<list.length-1?'':'disabled'}>Down</button><button data-rm>Remove</button></span></div>`).join('')||'<p class="small">Add books from your shelf, or give a book this series name when you add it.</p>';
   const eff=seriesRating(sr), a=seriesAvg(sr);
   document.querySelectorAll('#colMode [data-v]').forEach(b=>b.style.outline=(sr.auto?'auto':'')===b.dataset.v?'2px solid currentColor':'');
   $('colAvg').innerHTML=a.nR||a.nS?`From your book ratings: ${a.nR?`★ ${a.avgR.toFixed(1)}`:''}${a.nS?` · <span class="chilis">${CHILI}</span> ${a.avgS.toFixed(1)}`:''} <span style="opacity:.7">(${Math.max(a.nR,a.nS)} rated)</span>${sr.auto?'':''}`:'Rate the books in this collection to see their average here.';
@@ -1702,19 +1705,19 @@ document.addEventListener('click',e=>{const a=e.target.closest('.series-link');i
 
 /* ================= REVIEW PAGE ================= */
 let cameFrom='shelf';
-const BACK={shelf:'← Bookshelf',diary:'← Diary',months:'← Calendar',collection:'← Collection'};
+const BACK={shelf:'Back to bookshelf',diary:'Back to diary',months:'Back to calendar',collection:'Back to collection'};
 function openReview(id){
   const cur=document.querySelector('.view.active')?.id.replace('view-','');if(cur&&cur!=='review')cameFrom=cur;
-  $('backBtn').textContent=BACK[cameFrom]||'← Back';
+  $('backBtn').textContent=BACK[cameFrom]||'Back';
   reviewId=id;const b=book(id);if(!b)return;
   show('review');scrollTo(0,0);
-  $('rCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change cover':'Add cover'}</span>`;
+  $('rCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'')+`<span class="tap">${b.cover?'Change cover':'Add cover'}</span>`;
   $('rTitle').textContent=b.title;
   $('rAuthor').textContent=b.author||'';
   $('rFinish').hidden=!['reading','want'].includes(b.shelf);
   $('rMeta').innerHTML=[SHELVES[b.shelf],b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',
     b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ')+
-    (seriesOf(b)?`<br><a href="#" class="series-link" data-series="${seriesOf(b).id}">🗂 Part of: ${esc(seriesOf(b).name)}${b.seriesNum!==''&&b.seriesNum!=null?' #'+b.seriesNum:''}</a>`:'');
+    (seriesOf(b)?`<br><a href="#" class="series-link" data-series="${seriesOf(b).id}">Part of: ${esc(seriesOf(b).name)}${b.seriesNum!==''&&b.seriesNum!=null?' #'+b.seriesNum:''}</a>`:'');
   renderRatings();
   $('rReview').value=b.review||'';
   renderQuotes();renderNotes();renderReviewCollage();
@@ -1787,7 +1790,7 @@ function collageHTML(c,{editing=false,emptyText='',showSlots=true}={}){
     let inner='';
     if(it.type==='photo'){inner=`<img src="${esc(it.src)}" alt="">`;}
     else if(it.type==='quote'){cls.push('quote-item','v'+(it.v||0));inner=`“${esc(it.text)}”${it.by?`<small>— ${esc(it.by)}</small>`:''}`;}
-    else if(it.type==='slot'){cls.push('slot','slot-'+it.kind);st+=`;aspect-ratio:${(1/it.a).toFixed(3)}`;inner=it.kind==='art'?'＋ art':'＋ quote';}
+    else if(it.type==='slot'){cls.push('slot','slot-'+it.kind);st+=`;aspect-ratio:${(1/it.a).toFixed(3)}`;inner=it.kind==='art'?'Add art':'Add quote';}
     else if(it.type==='label'){cls.push('label-item','v'+(it.v||0));inner=esc(it.text);}
     else if(it.type==='sticker'){cls.push('sticker');inner=esc(it.text);}
     else if(it.type==='special'){cls.push('sp','sp-'+it.text);}
@@ -1832,7 +1835,7 @@ const LAYOUTS={
     {type:'slot',kind:'art',x:35,y:30,w:52,a:.95,r:-6},
     {type:'slot',kind:'art',x:65,y:58,w:52,a:.95,r:5},
     {type:'slot',kind:'quote',x:38,y:86,w:58,a:.42,r:-2},
-    {type:'sticker',text:'🍂',x:85,y:22,w:14,r:10}]},
+    {type:'special',text:'pearl',x:86,y:20,w:6,r:0}]},
   blank:{name:'Blank page',items:[]}
 };
 function applyLayout(k){const c=coll();c.items=LAYOUTS[k].items.map((it,i)=>({id:uid(),z:i+1,v:0,...it}));c.started=true;sel=null;save();renderEditor();}
@@ -1851,7 +1854,7 @@ function renderEditor(){
 function updateSel(it){
   $('selTools').hidden=!it;if(!it)return;
   const txt=['quote','label'].includes(it.type);
-  $('editTextBtn').hidden=!(txt||it.type==='slot');$('editTextBtn').textContent=it.type==='slot'?'＋ Fill':'✏️ Edit';
+  $('editTextBtn').hidden=!(txt||it.type==='slot');$('editTextBtn').textContent=it.type==='slot'?'Fill':'Edit';
   document.querySelector('[data-act=style]').hidden=!txt;
 }
 function addItem(it){
@@ -1904,11 +1907,11 @@ function artPicker(done){
   const b=book(reviewId);
   const covers=state.books.filter(x=>x.cover).sort((a,c)=>(c.finished||'').localeCompare(a.finished||''));
   picker('Add art',
-    `<label class="btn" for="artPhoto" style="display:block;margin:10px 0 0;font-size:.95rem;text-align:center">🖼 Photo or artwork from your phone</label>
+    `<label class="btn" for="artPhoto" style="display:block;margin:10px 0 0;font-size:.95rem;text-align:center">Photo or artwork from your phone</label>
      <input type="file" id="artPhoto" accept="image/*" hidden>
-     <label for="artQuery">🔎 Find art</label>
+     <label for="artQuery">Find art</label>
      <input id="artQuery" value="${esc([b.title,'art'].join(' '))}" placeholder="e.g. enchanted forest, roses, dragon">
-     <div class="btn-row" style="margin-top:8px"><button class="btn" id="artFree">Search free art</button><button class="btn ghost" id="artPin"><img src="pinterest-badge.svg" alt="" class="pin-ico">Search Pinterest ↗</button></div>
+     <div class="btn-row" style="margin-top:8px"><button class="btn" id="artFree">Search free art</button><button class="btn ghost" id="artPin">Search Pinterest</button></div>
      <p class="small" id="artStatus"></p>
      <div class="cover-grid" id="artResults"></div>
      ${covers.length?`<label>Or a cover from your bookshelf</label><div class="cover-grid">${covers.map(x=>`<button data-src="${esc(x.cover)}" aria-label="${esc(x.title)}"><img src="${esc(x.cover)}" alt=""></button>`).join('')}</div>`:''}`,
@@ -1960,7 +1963,7 @@ document.querySelector('.ed-tools').addEventListener('click',e=>{
   if(a==='layout')picker('Layout',
     `<div class="layout-grid">${Object.entries(LAYOUTS).map(([k,l])=>`<button data-layout="${k}">${collageHTML({bg:coll().bg,items:l.items.map((it,i)=>({id:'l'+i,z:i+1,...it}))},{emptyText:'blank'})}${l.name}</button>`).join('')}</div>
      <label>Or add a single space</label>
-     <div class="btn-row" style="margin-top:4px"><button class="btn ghost" id="addArtSpace">＋ Art space</button><button class="btn ghost" id="addQuoteSpace">＋ Quote space</button></div>`,
+     <div class="btn-row" style="margin-top:4px"><button class="btn ghost" id="addArtSpace">Art space</button><button class="btn ghost" id="addQuoteSpace">Quote space</button></div>`,
     body=>{
       body.querySelectorAll('[data-layout]').forEach(n=>n.onclick=()=>{
         if(coll().items.some(i=>i.type!=='slot')&&!confirm('Start this page again with the new layout? Pictures and quotes already on it will be removed.'))return;
@@ -2205,7 +2208,7 @@ function bgTiles(c,keys,extra){
   return keys.map(k=>{
     const name=k===''?extra.own:k==='photo'?'My photo':k==='cover'?'The cover':PAGE_BGS[k][0];
     const img=k==='photo'?c.bgImg:k==='cover'?extra.cover:null;
-    return `<button data-v="${k}" class="${(c.bg||'')===k?'on':''}"><span class="bgsw" style="${bgSwatch(k,c,img)}">${k==='photo'&&!c.bgImg?'📷':''}</span>${name}</button>`;}).join('');
+    return `<button data-v="${k}" class="${(c.bg||'')===k?'on':''}"><span class="bgsw" style="${bgSwatch(k,c,img)}">${k==='photo'&&!c.bgImg?'Add photo':''}</span>${name}</button>`;}).join('');
 }
 function fontTiles(c,key,own){
   return `<button data-v="" class="${!c[key]?'on':''}"><span class="ftsw" style="font-family:inherit">Aa</span>${own}</button>`+
@@ -2259,25 +2262,24 @@ $('cReset').onclick=()=>{if(!confirm("Reset the background, colours, fonts and t
 /* ---- bottom buttons ---- */
 const NAV_KEYS=['shelf','diary','months','settings'], NAV_NAMES={shelf:'Shelf',diary:'Diary',months:'Calendar',settings:'Settings'};
 const NAV_ICONS={
-  classic:['Classic',['📚','📔','🗓️','⚙️']],
+  classic:['Classic',['','📔','🗓️','⚙️']],
   cosy:['Cosy',['🧸','✏️','🌻','🧶']], cafe:['Café',['☕','📝','🍰','🫖']], garden:['Garden',['🪴','🌸','🍂','✂️']],
   moonlit:['Moonlit',['📖','🌙','✨','🗝️']], roses:['Roses',['🌹','💌','🥀','🕯️']], dragon:['Dragon',['🐉','📜','🔥','⚔️']],
   quest:['Quest',['🗺️','📜','🧭','🛠️']], woodland:['Woodland',['🍄','🦉','🌿','🪶']], wizard:['Wizard',['🔮','🧪','📖','🪄']],
   love:['Love notes',['💗','💌','📅','🎀']], bouquet:['Bouquet',['💐','🌷','🌸','🎀']], datenight:['Date night',['🍷','🕯️','🌹','💍']],
-  olympus:['Olympus',['🏛️','📜','🌙','⚡']], oracle:['Oracle',['🔱','🦉','✨','🏺']], heavens:['Heavens',['⭐','🌙','☀️','🪐']],
-  study:['Study',['📚','✒️','🕰️','🗝️']], scholar:['Scholar',['🎓','📜','🕯️','🔍']], teatime:['Tea & tomes',['📖','🫖','🗓️','🪶']],
+  olympus:['Olympus',['🏛️','📜','🌙','⚡']], oracle:['Oracle',['🔱','🦉','✨','🏺']], heavens:['Heavens',['','🌙','☀️','🪐']],
+  study:['Study',['','✒️','🕰️','🗝️']], scholar:['Scholar',['🎓','📜','🕯️','🔍']], teatime:['Tea & tomes',['📖','🫖','🗓️','🪶']],
   none:['No icons',['','','','']],
 };
 const NAV_SETS={scrapbook:['classic','cosy','cafe','garden'],romantasy:['classic','moonlit','roses','dragon'],fantasy:['classic','quest','woodland','wizard'],romance:['classic','love','bouquet','datenight'],mythic:['classic','olympus','oracle','heavens'],classic:['classic','study','scholar','teatime']};
 const NAV_LAYOUTS=[['','Side by side'],['stacked','Stacked'],['icons','Icons only'],['words','Words only']];
 const NAV_SHAPES=[['','Full bar'],['pill','Floating']];
 function renderNav(){
-  const n=(state.custom||{}).nav||{}, icons=NAV_ICONS[n.icons]?.[1]||NAV_ICONS.classic[1];
+  const n=(state.custom||{}).nav||{}, icons=['','','',''];
   NAV_KEYS.forEach((k,i)=>{const b=document.querySelector(`nav.bottom [data-view=${k}]`);
     b.querySelector('.ni').textContent=icons[i];b.querySelector('.nl').textContent=NAV_NAMES[k];});
   document.body.classList.remove('nav-stacked','nav-icons','nav-words','nav-noicon');
-  if(n.layout)document.body.classList.add('nav-'+n.layout);
-  if(n.icons==='none'&&n.layout!=='words')document.body.classList.add('nav-noicon');
+  document.body.classList.add('nav-words');
 }
 function navCSS(n){
   let css='';
@@ -2291,8 +2293,8 @@ function navCSS(n){
 }
 function renderNavOptions(){
   const n=(state.custom||{}).nav||{}, o=tOpts();
-  $('nIcons').innerHTML=[...NAV_SETS[state.theme||'scrapbook'],'none'].map(k=>`<button data-v="${k==='classic'?'':k}" class="${(n.icons||'')===(k==='classic'?'':k)?'on':''}"><span class="navsw">${NAV_ICONS[k][1].join('')||'Aa'}</span>${NAV_ICONS[k][0]}</button>`).join('');
-  $('nLayout').innerHTML=NAV_LAYOUTS.map(([k,l])=>`<button data-v="${k}" class="${(n.layout||'')===k?'on':''}">${l}</button>`).join('');
+  if(false)$('nIcons').innerHTML=[...NAV_SETS[state.theme||'scrapbook'],'none'].map(k=>`<button data-v="${k==='classic'?'':k}" class="${(n.icons||'')===(k==='classic'?'':k)?'on':''}"><span class="navsw">${NAV_ICONS[k][1].join('')||'Aa'}</span>${NAV_ICONS[k][0]}</button>`).join('');
+  if(false)$('nLayout').innerHTML=NAV_LAYOUTS.map(([k,l])=>`<button data-v="${k}" class="${(n.layout||'')===k?'on':''}">${l}</button>`).join('');
   $('nShape').innerHTML=NAV_SHAPES.map(([k,l])=>`<button data-v="${k}" class="${(n.shape||'')===k?'on':''}">${l}</button>`).join('');
   $('nBar').innerHTML=`<button class="def ${!n.bar?'on':''}" data-v="">Look's own</button><button class="def ${n.bar==='clear'?'on':''}" data-v="clear">See-through</button>`+
     o.accents.map(a=>`<button data-v="${a}" class="${n.bar===a?'on':''}" style="background:${a}" aria-label="${a}"></button>`).join('')+
@@ -2304,8 +2306,8 @@ function setNav(k,v,live){
   if(!Object.keys(n).length)delete state.custom.nav;
   applyCustom();if(!live&&save())renderNavOptions();
 }
-$('nIcons').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('icons',b.dataset.v);};
-$('nLayout').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('layout',b.dataset.v);};
+if(false)$('nIcons').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('icons',b.dataset.v);};
+if(false)$('nLayout').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('layout',b.dataset.v);};
 $('nShape').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('shape',b.dataset.v);};
 $('nBar').onclick=e=>{const b=e.target.closest('button[data-v]');if(b)setNav('bar',b.dataset.v);};
 $('nBar').addEventListener('input',e=>{if(e.target.id==='nBarPick')setNav('bar',e.target.value,true);});
@@ -2508,7 +2510,7 @@ async function makeShareCanvas(b,fmt,kind){
       x.fillStyle=P.ink;y=drawLines(x,ql,W/2,y+58,52,3,'center')+40;}
     if(review){x.fillStyle=P.ink;x.font=`34px ${body}`;drawLines(x,wrap(x,review,W-M*2-130),M+64,y+28,48,Math.max(1,Math.floor((H-M-100-y)/48)));}
   }
-  x.fillStyle=P.soft;x.globalAlpha=.75;x.font=`24px ${type}`;x.textAlign='center';x.fillText('✦  from my reading journal  ✦',W/2,H-M-26);x.globalAlpha=1;x.textAlign='left';
+  x.fillStyle=P.soft;x.globalAlpha=.75;x.font=`24px ${type}`;x.textAlign='center';x.fillText('from my reading journal',W/2,H-M-26);x.globalAlpha=1;x.textAlign='left';
   return cv;
 }
 async function renderSharePreview(){
@@ -2549,44 +2551,44 @@ try{localStorage.setItem('__t','1');STORAGE_OK=localStorage.getItem('__t')==='1'
 // Ask the phone to keep this journal's storage (honoured best for home-screen apps)
 try{navigator.storage?.persist?.();}catch(e){}
 function homeSteps(){
-  if(IS_IOS)return `<ol class="hs-steps"><li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button <span class="hs-key">□↑</span> at the bottom of the screen.</li>
+  if(IS_IOS)return `<ol class="hs-steps"><li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button at the bottom of the screen.</li>
     <li>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>Close Safari and open your journal from its <b>new icon</b> on your Home Screen.</li></ol>`;
-  if(IS_ANDROID)return `<ol class="hs-steps"><li>Open this page in <b>Chrome</b>.</li><li>Tap the <b>⋮</b> menu in the top corner.</li>
+  if(IS_ANDROID)return `<ol class="hs-steps"><li>Open this page in <b>Chrome</b>.</li><li>Tap the menu in the top corner.</li>
     <li>Tap <b>Add to Home screen</b> or <b>Install app</b>.</li><li>Open your journal from its <b>new icon</b> from now on.</li></ol>`;
-  return `<ol class="hs-steps"><li>On iPhone: Safari → Share <span class="hs-key">□↑</span> → <b>Add to Home Screen</b>.</li><li>On Android: Chrome → <b>⋮</b> → <b>Add to Home screen</b>.</li><li>Then always open your journal from its icon.</li></ol>`;
+  return `<ol class="hs-steps"><li>On iPhone: in Safari, tap Share, then <b>Add to Home Screen</b>.</li><li>On Android: in Chrome, open the menu, then <b>Add to Home screen</b>.</li><li>Then always open your journal from its icon.</li></ol>`;
 }
 function homeScreenHTML(inTour){
-  if(STANDALONE())return `<p>You've opened your journal from your Home Screen, so your books will be kept safe here.</p><span class="ok">✓ You're all set</span>`;
-  if(IN_APP)return `<p><b>You've opened this inside another app</b>, which may forget your books when you close it.</p><p>Tap the <b>⋯</b> or <b>↗</b> menu and choose <b>Open in Safari</b> (or Chrome), then add it to your Home Screen:</p>${homeSteps()}`;
+  if(STANDALONE())return `<p>You've opened your journal from your Home Screen, so your books will be kept safe here.</p><span class="ok">You're all set</span>`;
+  if(IN_APP)return `<p><b>You've opened this inside another app</b>, which may forget your books when you close it.</p><p>Open the app's menu and choose <b>Open in Safari</b> (or Chrome), then add it to your Home Screen:</p>${homeSteps()}`;
   return `<p>Your journal is saved on your phone. To keep your books safe, use it as an app from your Home Screen${inTour?'':', not from a browser tab'}:</p>${homeSteps()}
     <p class="small">The browser and the Home Screen app keep separate copies. If you've already added books here, tap <b>Export backup</b> in Settings first, then <b>Import backup</b> in the Home Screen app.</p>`;
 }
 function renderHomeBanner(){
   const el=$('hsBanner');
   if(!STORAGE_OK){el.className='hs-banner warn';el.hidden=false;
-    el.innerHTML=`<b class="t">⚠️ Your books can't be saved here</b>This browser isn't letting the journal save, which usually happens in <b>Private Browsing</b> or inside another app. Open it in a normal Safari or Chrome tab, then add it to your Home Screen.`;return;}
+    el.innerHTML=`<b class="t">Your books can't be saved here</b>This browser isn't letting the journal save, which usually happens in <b>Private Browsing</b> or inside another app. Open it in a normal Safari or Chrome tab, then add it to your Home Screen.`;return;}
   if(STANDALONE()){el.hidden=true;return;}
   const snoozed=(state.hsSnooze||0)>Date.now();
   if(snoozed&&!IN_APP){el.hidden=true;return;}
   el.className='hs-banner'+(IN_APP?' warn':'');el.hidden=false;
-  el.innerHTML=`${IN_APP?'':'<button class="x" id="hsClose" aria-label="Remind me later">×</button>'}<b class="t">📲 Add your journal to your Home Screen</b>${homeScreenHTML(false)}`;
+  el.innerHTML=`${IN_APP?'':'<button class="x" id="hsClose">Later</button>'}<b class="t">Add your journal to your Home Screen</b>${homeScreenHTML(false)}`;
   const c=$('hsClose');if(c)c.onclick=()=>{state.hsSnooze=Date.now()+3*864e5;save();renderHomeBanner();};
 }
 function renderHomeSettings(){$('hsSettings').innerHTML=homeScreenHTML(false);}
 
 /* ================= WELCOME TOUR & GUIDE ================= */
 const TOUR=[
-  ['📲','First, add me to your Home Screen',()=>homeScreenHTML(true)],
-  ['📚','Your bookshelf',`<p>Tap the round <b>+</b> to add a book. Give it a cover with a photo, or find the real one online.</p><p>Tap any book on the shelf to open its page.</p>`],
-  ['⭐','Rate &amp; review',`<p>Give each book stars and a <span class="tape">spice rating</span>, pick how it made you feel, and write your thoughts.</p><p>Loved it beyond words? Tap the glowing sixth star: <span class="stars">${GOD}</span> god tier.</p>`],
-  ['🖼','Make a collage',`<p>On a book's page, tap <b>Create collage</b>. Fill the <b>＋ art</b> and <b>＋ quote</b> spaces with pictures and favourite lines.</p><p>Drag things around, add lace and stickers, or pick a new layout.</p>`],
-  ['👆','Find your way',`<p>Swipe left and right to move between your <b>Shelf</b>, <b>Diary</b>, <b>Calendar</b> and <b>Settings</b>.</p><p>The Diary and Calendar pages gather up everything you've read.</p>`],
-  ['🎨','Make it yours',`<p>In <b>Settings</b>, choose a look and customise colours, fonts and backgrounds. Each book can have its own style too.</p><p>Your journal lives only on this phone, so tap <b>Export backup</b> now and then to keep it safe.</p>`],
+  ['','First, add me to your Home Screen',()=>homeScreenHTML(true)],
+  ['','Your bookshelf',`<p>Tap <b>Add a book</b> to add one. Give it a cover with a photo, or find the real one online.</p><p>Tap any book on the shelf to open its page.</p>`],
+  ['','Rate &amp; review',`<p>Give each book stars and a <span class="tape">spice rating</span>, pick how it made you feel, and write your thoughts.</p><p>Loved it beyond words? Tap the glowing sixth star: <span class="stars">${GOD}</span> god tier.</p>`],
+  ['','Make a collage',`<p>On a book's page, tap <b>Create collage</b>. Fill the <b>Add art</b> and <b>Add quote</b> spaces with pictures and favourite lines.</p><p>Drag things around, add lace and stickers, or pick a new layout.</p>`],
+  ['','Find your way',`<p>Swipe left and right to move between your <b>Shelf</b>, <b>Diary</b>, <b>Calendar</b> and <b>Settings</b>.</p><p>The Diary and Calendar pages gather up everything you've read.</p>`],
+  ['','Make it yours',`<p>In <b>Settings</b>, choose a look and customise colours, fonts and backgrounds. Each book can have its own style too.</p><p>Your journal lives only on this phone, so tap <b>Export backup</b> now and then to keep it safe.</p>`],
 ];
 let tourAt=0;
 function renderTour(){
   const [ic,h,b0]=TOUR[tourAt], body=typeof b0==='function'?b0():b0;
-  $('tourSlides').innerHTML=`<div class="tslide"><div class="ticon">${ic}</div><h2>${h}</h2>${body}</div>`;
+  $('tourSlides').innerHTML=`<div class="tslide"><h2>${h}</h2>${body}</div>`;
   $('tourDots').innerHTML=TOUR.map((_,i)=>`<span class="${i===tourAt?'on':''}"></span>`).join('');
   $('tourNext').textContent=tourAt===TOUR.length-1?'Start reading':'Next';
   $('tourSkip').textContent=tourAt?'Back':'Skip';
@@ -2618,9 +2620,9 @@ $('saveName').onclick=()=>{const n=$('nameInput').value.trim();if(!n)return;stat
 function dentry(b,meta){
   const hasCol=b.collage?.items?.some(i=>i.type!=='slot');
   return `<button class="dentry" data-open="${b.id}">
-    <span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖'}</span>
+    <span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:''}</span>
     <span class="dt"><b>${esc(b.title)}</b>${b.author?`<i>${esc(b.author)}</i>`:''}<span class="dm">${meta}</span></span>
-    ${hasCol?`<span class="dcol">${collageHTML(b.collage,{showSlots:false})}</span>`:''}<span class="go">›</span></button>`;
+    ${hasCol?`<span class="dcol">${collageHTML(b.collage,{showSlots:false})}</span>`:''}</button>`;
 }
 function renderDiary(){
   const now=new Date(), y=now.getFullYear(), ym=today().slice(0,7);
