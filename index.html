@@ -304,6 +304,34 @@
   .month.spring,.month.summer{--lt:var(--lace-cream-top);--lb:var(--lace-cream-bottom);--ll:var(--lace-cream-left);--lr:var(--lace-cream-right)}
   .month.autumn{--lt:var(--lace-brown-top);--lb:var(--lace-brown-bottom);--ll:var(--lace-brown-left);--lr:var(--lace-brown-right)}
   .month.winter .month-inner{background:#fff}
+
+  .month.f-blush{background-color:#fdf2f2;background-image:linear-gradient(90deg,rgba(226,150,165,.45) 50%,transparent 50%),linear-gradient(rgba(226,150,165,.45) 50%,transparent 50%);background-size:16px 16px;border:3px solid #e8b4be}
+  .month.f-lavender{background-color:#f5f0fb;background-image:linear-gradient(90deg,rgba(170,145,210,.42) 50%,transparent 50%),linear-gradient(rgba(170,145,210,.42) 50%,transparent 50%);background-size:16px 16px;border:3px solid #c6b3e2}
+  .month.f-sky{background-color:#f0f7fc;background-image:linear-gradient(90deg,rgba(130,180,220,.42) 50%,transparent 50%),linear-gradient(rgba(130,180,220,.42) 50%,transparent 50%);background-size:16px 16px;border:3px solid #a9cbe6}
+  .month.f-sage{background-color:#f1f5ec;background-image:linear-gradient(90deg,rgba(140,170,120,.4) 50%,transparent 50%),linear-gradient(rgba(140,170,120,.4) 50%,transparent 50%);background-size:16px 16px;border:3px solid #b3c9a2}
+  .month.f-candy{background:repeating-linear-gradient(45deg,#f6c4cf 0 10px,#fffaf6 10px 20px);border:3px solid #e79aab}
+  .month.f-butter{background:repeating-linear-gradient(90deg,#fbe7a1 0 10px,#fffaf0 10px 20px);border:3px solid #e9c768}
+  .month.f-kraft{background-color:#d9bc93;background-image:radial-gradient(rgba(120,80,40,.18) 1px,transparent 1.5px);background-size:7px 7px;border:3px solid #b8915f}
+  .month.f-gold{background:linear-gradient(135deg,#f6e7b0,#c9a24a 30%,#f3dc96 50%,#b8892f 70%,#f2d98a);border:3px solid #8a6420}
+  .month.f-midnight{background-color:#2e2a4a;background-image:radial-gradient(#f4e7b0 1px,transparent 1.6px),radial-gradient(rgba(244,231,176,.6) 1px,transparent 1.4px);background-size:22px 22px,13px 13px;background-position:0 0,7px 9px;border:3px solid #1d1a33}
+  .month.f-plain{background:var(--paper);border:2px solid var(--line);padding:6px}
+  .month.f-blush,.month.f-candy,.month.f-butter,.month.f-lavender,.month.f-sky,.month.f-sage{--lt:var(--lace-cream-top);--lb:var(--lace-cream-bottom);--ll:var(--lace-cream-left);--lr:var(--lace-cream-right)}
+  .month.f-kraft,.month.f-gold,.month.f-midnight{--lt:var(--lace-brown-top);--lb:var(--lace-brown-bottom);--ll:var(--lace-brown-left);--lr:var(--lace-brown-right)}
+  .month.f-plain .month-inner::before{display:none}
+  .month.l-cream{--lt:var(--lace-cream-top);--lb:var(--lace-cream-bottom);--ll:var(--lace-cream-left);--lr:var(--lace-cream-right)}
+  .month.l-brown{--lt:var(--lace-brown-top);--lb:var(--lace-brown-bottom);--ll:var(--lace-brown-left);--lr:var(--lace-brown-right)}
+  .month.l-ice{--lt:var(--lace-ice-top);--lb:var(--lace-ice-bottom);--ll:var(--lace-ice-left);--lr:var(--lace-ice-right)}
+  .month.l-none .month-inner::before{display:none}
+  .month.f-plain.l-cream .month-inner::before,.month.f-plain.l-brown .month-inner::before,.month.f-plain.l-ice .month-inner::before{display:block}
+  .frame-bar{display:flex;justify-content:space-between;align-items:center;margin:0 4px 14px}
+  .frame-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .frame-grid button{border:2px solid transparent;background:none;padding:0;cursor:pointer;font-family:var(--type);font-size:.75rem;color:var(--ink)}
+  .frame-grid button.on{border-color:var(--espresso)}
+  .frame-grid .month{margin:0 0 4px;padding:9px;box-shadow:none;pointer-events:none}
+  .frame-grid .month-inner{padding:0;height:56px}
+  .frame-grid .month-inner::before{inset:-5px;background-size:16px 8px,16px 8px,8px 16px,8px 16px}
+  .lace-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+  .lace-row button.on{background:var(--espresso);color:#fff}
   .month h2{margin:0 0 4px;font-family:var(--script);font-weight:700;font-size:2.1rem;line-height:1.1;color:var(--espresso)}
   .month .tapes{margin:2px 0 12px}
   .mcovers{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 10px}
@@ -1065,7 +1093,7 @@
     <div class="panel guide"><h3>Diary &amp; Calendar</h3>
       <ul>
         <li><b>Diary</b> shows what you're reading now, what you read this month and everything you've read this year.</li>
-        <li><b>Calendar</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons.</li>
+        <li><b>Calendar</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons, or tap Frame to choose your own frame and lace.</li>
         <li>Set a reading goal for the year at the top of the Calendar.</li>
         <li>Tap any book in either one to jump to its page.</li>
       </ul></div>
@@ -1102,6 +1130,7 @@
       <div class="row"><input type="number" id="goalInput" min="1" placeholder="Books this year"><button class="btn" id="saveGoal" style="flex:0">Save</button></div>
       <div class="stat-grid" id="statGrid" style="margin-top:14px"></div>
     </div>
+    <div class="frame-bar"><h3 class="sec-title" style="margin:0">Month pages</h3><button class="btn ghost" id="frameBtn">Frame</button></div>
     <div id="monthList"></div>
   </section>
 
@@ -1948,7 +1977,7 @@ function artPicker(done){
 }
 
 /* ---- pickers ---- */
-function picker(title,html,bind){$('pickTitle').textContent=title;$('pickBody').innerHTML=html;bind($('pickBody'));$('pickDlg').showModal();}
+function picker(title,html,bind){$('pickTitle').textContent=title;$('pickBody').innerHTML=html;bind($('pickBody'));if(!$('pickDlg').open)$('pickDlg').showModal();}
 function textPicker(type,current,done){
   const q=type==='quote', b=book(reviewId);
   const others=state.books.filter(x=>x!==b&&(x.quotes||[]).length).sort((x,y)=>(y.finished||'').localeCompare(x.finished||''));
@@ -2017,7 +2046,7 @@ function renderMonths(){
     const quotes=list.flatMap(b=>(b.quotes||[]).map(q=>[q,b]));
     const qm=quotes.length?quotes[(yy*12+mm)%quotes.length]:null;
     const collages=list.filter(b=>b.collage?.items?.some(i=>i.type!=='slot'));
-    return `<article class="month ${season(mm)}"><div class="month-inner">
+    return `<article class="month ${frameClass(mm)}"><div class="month-inner">
       <h2>${MONTHS[mm-1]} ${yy}</h2>
       <div class="tapes"><span class="tape">${list.length} book${list.length>1?'s':''}</span>${pages?`<span class="tape">${pages.toLocaleString('en-GB')} pages</span>`:''}${avg(list,'rating')!=='–'?`<span class="tape">★ ${avg(list,'rating')}</span>`:''}${avg(list,'spice')!=='–'?`<span class="tape"><span class="chilis">${CHILI}</span> ${avg(list,'spice')}</span>`:''}${list.some(b=>b.rating===6)?`<span class="tape"><span class="stars">${GOD}</span> ${list.filter(b=>b.rating===6).length} god tier</span>`:''}</div>
       <div class="mcovers">${list.map(b=>`<button data-open="${b.id}" aria-label="${esc(b.title)}">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</button>`).join('')}</div>
@@ -2027,6 +2056,24 @@ function renderMonths(){
     </div></article>`;
   }).join('');
 }
+
+const FRAMES=[['seasonal','Seasonal'],['winter','Winter'],['spring','Spring'],['summer','Summer'],['autumn','Autumn'],['blush','Blush'],['candy','Candy stripe'],['butter','Butter stripe'],['lavender','Lavender'],['sky','Sky'],['sage','Sage'],['kraft','Kraft paper'],['gold','Gilded'],['midnight','Starry night'],['plain','Plain']];
+const LACES=[['match','Match frame'],['cream','Cream'],['brown','Brown'],['ice','Icy white'],['none','No lace']];
+function frameClass(mm){const f=state.frames||{};const st=(!f.style||f.style==='seasonal')?season(mm):f.style;
+  return (['winter','spring','summer','autumn'].includes(st)?st:'f-'+st)+(f.lace&&f.lace!=='match'?' l-'+f.lace:'');}
+function openFrames(){
+  const f=state.frames||{}, cur=f.style||'seasonal', lace=f.lace||'match', mm=new Date().getMonth()+1;
+  picker('Month page frame',`<p class="small">Seasonal changes with the month. Pick any other frame to use it on every month.</p>
+    <label>Lace</label><div class="lace-row">${LACES.map(([k,n])=>`<button class="btn ghost${k===lace?' on':''}" data-lace="${k}">${n}</button>`).join('')}</div>
+    <label>Frame</label><div class="frame-grid">${FRAMES.map(([k,n])=>{const st=k==='seasonal'?season(mm):k;
+      const cls=(['winter','spring','summer','autumn'].includes(st)?st:'f-'+st)+(lace!=='match'?' l-'+lace:'');
+      return `<button data-frame="${k}" class="${k===cur?'on':''}"><div class="month ${cls}"><div class="month-inner"></div></div>${n}</button>`;}).join('')}</div>`,
+    body=>body.onclick=e=>{const fr=e.target.closest('[data-frame]'), la=e.target.closest('[data-lace]');if(!fr&&!la)return;
+      state.frames={...(state.frames||{})};
+      if(fr)state.frames.style=fr.dataset.frame; if(la)state.frames.lace=la.dataset.lace;
+      save();renderMonths();const d=$('pickDlg'),y=d.scrollTop;openFrames();d.scrollTop=y;});
+}
+$('frameBtn').onclick=openFrames;
 $('monthList').onclick=e=>{const t=e.target.closest('[data-open]');if(t)openReview(t.dataset.open);};
 $('saveGoal').onclick=()=>{const v=+$('goalInput').value, y=String(new Date().getFullYear());if(v>0)state.goals[y]=v;else delete state.goals[y];save();renderMonths();};
 
@@ -2045,11 +2092,11 @@ $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=e=>{
   const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.books))throw 0;
-    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{},name:d.name||state.name,theme:d.theme||state.theme,custom:d.custom||state.custom,toured:true,series:d.series||[]};save();renderAll();alert('Backup restored.');}
+    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{},name:d.name||state.name,theme:d.theme||state.theme,custom:d.custom||state.custom,toured:true,series:d.series||[],frames:d.frames||state.frames};save();renderAll();alert('Backup restored.');}
   }catch(err){alert("That file doesn't look like a Reading Journal backup.");}};
   r.readAsText(f);e.target.value='';
 };
-$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,name:state.name,theme:state.theme,custom:state.custom,toured:true,series:[]};save();renderAll();}};
+$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,name:state.name,theme:state.theme,custom:state.custom,toured:true,series:[],frames:state.frames};save();renderAll();}};
 
 /* ================= JOURNAL LOOK ================= */
 const THEME_COLOUR={scrapbook:'#fbf5ea',romantasy:'#17121f',fantasy:'#0f1f19',romance:'#fdf3f1',mythic:'#f4f1ea',classic:'#2a1810'};
