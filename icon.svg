@@ -1,9 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9b8ee"/><stop offset=".55" stop-color="#f7cfdd"/><stop offset="1" stop-color="#fbd9c6"/></linearGradient></defs>
+  <defs>
+    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#f4e4cb"/>
+      <rect width="20" height="40" fill="#c9925e" fill-opacity=".42"/><rect width="40" height="20" fill="#c9925e" fill-opacity=".42"/></pattern>
+    <filter id="r"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="10"/></filter>
+  </defs>
   <rect width="512" height="512" rx="110" fill="url(#g)"/>
-  <rect x="130" y="150" width="56" height="230" rx="10" fill="#cdebdd"/>
-  <rect x="196" y="120" width="60" height="260" rx="10" fill="#ffffff"/>
-  <rect x="266" y="165" width="50" height="215" rx="10" fill="#d3e6f6"/>
-  <rect x="320" y="150" width="58" height="232" rx="10" fill="#fbefc0" transform="rotate(12 349 266)"/>
-  <rect x="110" y="380" width="292" height="16" rx="8" fill="#7e68b8"/>
+  <rect x="96" y="76" width="320" height="360" fill="#fdf8ef" stroke="#4a3022" stroke-width="16"/>
+  <rect x="116" y="96" width="280" height="320" fill="none" stroke="#cfae86" stroke-width="4" stroke-dasharray="10 8"/>
+  <g filter="url(#r)" fill="none"><circle cx="300" cy="320" r="70" stroke="#a8743f" stroke-opacity=".45" stroke-width="9"/></g>
+  <circle cx="190" cy="350" r="5" fill="#7a4b2f" fill-opacity=".5"/><circle cx="350" cy="170" r="4" fill="#7a4b2f" fill-opacity=".45"/>
+  <text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="190" fill="#4a3022">L</text>
+  <g fill="#f1ebe1" stroke="#c9bba6" stroke-width="3"><circle cx="96" cy="76" r="16"/><circle cx="416" cy="76" r="16"/><circle cx="96" cy="436" r="16"/><circle cx="416" cy="436" r="16"/></g>
 </svg>
