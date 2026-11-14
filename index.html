@@ -4,113 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lydia’s Library — Book Journal</title>
-<meta name="theme-color" content="#3b2418">
+<meta name="theme-color" content="#c9b8ee">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Lora:wght@400;600&display=swap">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Lydia’s Library">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.png" type="image/png">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
   :root{
-    --bg:#f5ecdc; --card:#fffaf1; --ink:#2e2117; --muted:#86705a;
-    --leaf:#2f6f73; --leaf-soft:#dcebe7; --bloom:#c2643a; --line:#e6d6bc;
-    --walnut:#3b2418; --gold:#e3a94c; --ivy:#5f7d4a;
-    --radius:14px;
+    --bg:#fbf7f3; --card:#ffffff; --ink:#3e3a48; --muted:#8d8698; --line:#ece4ee;
+    --lav:#c9b8ee; --lav-deep:#7e68b8; --pink:#f7cfdd; --pink-deep:#d9789a;
+    --peach:#fbd9c6; --mint:#cdebdd; --sky:#d3e6f6; --butter:#fbefc0;
+    --radius:16px;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Lora,Georgia,"Times New Roman",serif;background:var(--bg);color:var(--ink);
-    background-image:radial-gradient(circle at 15% 0%,rgba(227,169,76,.18),transparent 45%),radial-gradient(circle at 100% 100%,rgba(95,125,74,.12),transparent 40%);background-attachment:fixed;
     padding-bottom:calc(80px + env(safe-area-inset-bottom))}
-  header{position:relative;color:#fff8ea;padding:calc(48px + env(safe-area-inset-top)) 20px 20px;min-height:150px;
-    background:linear-gradient(180deg,rgba(40,22,12,.15) 0%,rgba(40,22,12,.75) 100%),url("header.jpg") center/cover,
-      linear-gradient(135deg,var(--walnut),#6b3f22 60%,var(--gold));
-    border-bottom:3px solid var(--gold);box-shadow:0 4px 18px rgba(59,36,24,.35)}
-  header h1{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:2.2rem;font-weight:700;letter-spacing:.5px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
-  header p{margin:2px 0 0;font-size:.9rem;font-style:italic;color:#f6dfae;text-shadow:0 1px 6px rgba(0,0,0,.6)}
   h2,h3{font-family:"Cormorant Garamond",Georgia,serif}
-  .panel h3{font-size:1.35rem;color:var(--walnut)}
+  header{color:var(--ink);padding:calc(30px + env(safe-area-inset-top)) 20px 18px;
+    background:linear-gradient(120deg,var(--lav),var(--pink) 50%,var(--peach))}
+  header h1{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:2.2rem;font-weight:700;letter-spacing:.3px}
+  header p{margin:2px 0 0;font-size:.9rem;font-style:italic;color:#5d5568}
   main{max-width:720px;margin:0 auto;padding:14px}
   .tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
   .tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;
     font:inherit;font-size:.9rem;color:var(--ink);white-space:nowrap;cursor:pointer}
-  .tab.active{background:var(--walnut);color:#fff3dc;border-color:var(--gold)}
-  .search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;
-    background:var(--card);margin-bottom:12px}
-  .book{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:var(--radius);
-    padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(59,36,24,.08)}
-  .book h3{font-size:1.25rem!important}
-  .cover{width:56px;height:84px;border-radius:4px 8px 8px 4px;background:linear-gradient(135deg,var(--leaf),#1f4d50);color:#fff;box-shadow:2px 2px 6px rgba(0,0,0,.25);flex-shrink:0;
+  .tab.active{background:var(--lav);border-color:var(--lav);font-weight:600}
+  .search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:inherit;background:var(--card);margin-bottom:12px}
+  .book{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 10px rgba(126,104,184,.07)}
+  .book:nth-child(5n+1) .cover{background:var(--lav)} .book:nth-child(5n+2) .cover{background:var(--mint)}
+  .book:nth-child(5n+3) .cover{background:var(--pink)} .book:nth-child(5n+4) .cover{background:var(--sky)}
+  .book:nth-child(5n+5) .cover{background:var(--butter)}
+  .cover{width:56px;height:84px;border-radius:4px 10px 10px 4px;background:var(--lav);flex-shrink:0;
     display:flex;align-items:center;justify-content:center;font-size:1.5rem;overflow:hidden}
   .cover img{width:100%;height:100%;object-fit:cover}
-  .book h3{margin:0 0 2px;font-size:1.05rem}
+  .book h3{margin:0 0 2px;font-size:1.25rem}
   .book .author{color:var(--muted);font-size:.9rem;margin:0 0 6px}
   .meta{font-size:.8rem;color:var(--muted)}
-  .stars{color:var(--bloom);letter-spacing:1px}
+  .stars{color:var(--pink-deep);letter-spacing:1px}
+  .spice{font-size:.85rem}
   .empty{text-align:center;color:var(--muted);padding:40px 10px;font-style:italic;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.25rem}
   .fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;
-    background:radial-gradient(circle at 35% 30%,#e9884f,var(--bloom));border:2px solid var(--gold)!important;color:#fff;border:none;font-size:1.8rem;box-shadow:0 4px 12px rgba(0,0,0,.2);cursor:pointer}
-  nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--walnut);border-top:2px solid var(--gold);
+    background:var(--pink-deep);color:#fff;border:none;font-size:1.8rem;box-shadow:0 4px 14px rgba(217,120,154,.4);cursor:pointer}
+  nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);
     display:flex;padding-bottom:env(safe-area-inset-bottom)}
-  nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font:inherit;font-size:.85rem;color:#c9b08c;cursor:pointer}
-  nav.bottom button.active{color:var(--gold);font-weight:bold}
+  nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font:inherit;font-size:.85rem;color:var(--muted);cursor:pointer}
+  nav.bottom button.active{color:var(--lav-deep);font-weight:bold}
   .view{display:none}.view.active{display:block}
   .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+  .panel h3{font-size:1.35rem}
   .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .stat{background:var(--leaf-soft);border-radius:12px;padding:14px;text-align:center}
-  .stat b{display:block;font-size:1.9rem;color:var(--walnut);font-family:"Cormorant Garamond",Georgia,serif}
-  .stat span{font-size:.8rem;color:var(--muted)}
+  .stat{border-radius:14px;padding:14px;text-align:center;background:var(--lav)}
+  .stat:nth-child(6n+2){background:var(--mint)} .stat:nth-child(6n+3){background:var(--pink)}
+  .stat:nth-child(6n+4){background:var(--sky)} .stat:nth-child(6n+5){background:var(--butter)} .stat:nth-child(6n){background:var(--peach)}
+  .stat b{display:block;font-size:1.9rem;font-family:"Cormorant Garamond",Georgia,serif}
+  .stat span{font-size:.8rem;color:#5d5568}
   .bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0}
-  .bar div{height:100%;background:linear-gradient(90deg,var(--ivy),var(--gold));transition:width .4s}
+  .bar div{height:100%;background:linear-gradient(90deg,var(--lav),var(--pink));transition:width .4s}
   label{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 4px}
-  input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+  input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;font:inherit;background:#fff;color:var(--ink)}
   textarea{min-height:90px;resize:vertical}
   .row{display:flex;gap:10px}.row>*{flex:1}
-  .btn{background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:12px 16px;font:inherit;cursor:pointer}
-  .btn.ghost{background:none;color:var(--leaf);border:1px solid var(--leaf)}
-  .btn.danger{background:none;color:#a33;border:1px solid #a33}
+  .btn{background:var(--lav-deep);color:#fff;border:none;border-radius:12px;padding:12px 16px;font:inherit;cursor:pointer}
+  .btn.ghost{background:none;color:var(--lav-deep);border:1px solid var(--lav-deep)}
+  .btn.danger{background:none;color:#b5475e;border:1px solid #b5475e}
   .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-  dialog{border:none;border-radius:18px;padding:0;width:min(560px,94vw);max-height:90vh;background:var(--card);color:var(--ink)}
-  dialog::backdrop{background:rgba(30,30,25,.45)}
+  dialog{border:none;border-radius:20px;padding:0;width:min(560px,94vw);max-height:90vh;background:var(--card);color:var(--ink)}
+  dialog::backdrop{background:rgba(62,58,72,.35)}
   .dlg-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);
     position:sticky;top:0;background:var(--card);z-index:1}
-  .dlg-head h2{margin:0;font-size:1.5rem;font-weight:700;color:var(--walnut)}
+  .dlg-head h2{margin:0;font-size:1.5rem;font-weight:700}
   .dlg-body{padding:4px 16px 18px}
   .x{background:none;border:none;font-size:1.5rem;color:var(--muted);cursor:pointer}
   .star-input button{background:none;border:none;font-size:1.7rem;color:var(--line);cursor:pointer;padding:0 2px}
-  .star-input button.on{color:var(--bloom)}
+  .star-input button.on{color:var(--pink-deep)}
   .spice-input button{background:none;border:none;font-size:1.5rem;cursor:pointer;padding:0 2px;filter:grayscale(1);opacity:.35}
   .spice-input button.on{filter:none;opacity:1}
-  .spice{font-size:.85rem}
-  .quote{border-left:3px solid var(--gold);padding:6px 10px;margin:8px 0;font-style:italic;background:#fbf1e0;border-radius:0 8px 8px 0;
+  .quote{border-left:3px solid var(--lav);padding:6px 10px;margin:8px 0;font-style:italic;background:#f8f4fd;border-radius:0 10px 10px 0;
     display:flex;justify-content:space-between;gap:8px}
   .quote button{background:none;border:none;color:var(--muted);cursor:pointer}
   .note-entry{border-bottom:1px dashed var(--line);padding:8px 0;font-size:.95rem}
   .note-entry small{color:var(--muted);display:block}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.85rem;background:#fff;cursor:pointer}
-  .chip.on{background:var(--leaf-soft);border-color:var(--leaf)}
+  .chip.on{background:var(--mint);border-color:#9fd3bb}
   .small{font-size:.85rem;color:var(--muted)}
-  header.sunlit{background:linear-gradient(180deg,rgba(40,22,12,.1) 0%,rgba(40,22,12,.7) 100%),url("header-sunlit.jpg") center 35%/cover,
-      linear-gradient(135deg,var(--walnut),#6b3f22 60%,var(--gold))}
-  .empty img{display:block;width:min(240px,70%);margin:0 auto 12px;mix-blend-mode:multiply}
-  .stats-banner{height:170px;border-radius:var(--radius);margin-bottom:12px;border:2px solid var(--gold);
-    background:linear-gradient(180deg,transparent 40%,rgba(30,18,10,.8)),url("stats.jpg") center 30%/cover,linear-gradient(135deg,var(--walnut),#1f3d4a);
-    display:flex;align-items:flex-end;padding:14px;color:#fff3dc;box-shadow:0 4px 14px rgba(59,36,24,.25)}
-  .stats-banner h2{margin:0;font-size:1.7rem;text-shadow:0 2px 8px rgba(0,0,0,.7)}
-  .theme-pick{display:flex;gap:10px}
-  .theme-pick button{flex:1;border:2px solid var(--line);border-radius:12px;padding:0;overflow:hidden;background:var(--card);cursor:pointer;font:inherit;color:var(--ink)}
-  .theme-pick button.on{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
-  .theme-pick span{display:block;height:64px;background-size:cover;background-position:center}
-  .theme-pick em{display:block;padding:6px;font-size:.85rem;font-style:normal}
-  .wall-thumb{display:block;width:120px;border-radius:10px;border:2px solid var(--gold);margin:8px 0}
 </style>
 </head>
 <body>
 <header id="appHeader">
   <h1>📚 Lydia’s Library</h1>
-  <p>every book, every thought, by lantern light</p>
+  <p>every book, every thought</p>
 </header>
 
 <main>
@@ -123,7 +110,6 @@
 
   <!-- STATS -->
   <section id="view-stats" class="view">
-    <div class="stats-banner"><h2>Lydia’s reading year</h2></div>
     <div class="panel">
       <h3 style="margin-top:0">This year's goal</h3>
       <div id="goalText" class="small"></div>
@@ -140,20 +126,6 @@
 
   <!-- SETTINGS -->
   <section id="view-settings" class="view">
-    <div class="panel">
-      <h3 style="margin-top:0">Header picture</h3>
-      <div class="theme-pick" id="themePick">
-        <button data-theme="lantern"><span style="background-image:url('header.jpg'),linear-gradient(135deg,#3b2418,#e3a94c)"></span><em>Lantern library</em></button>
-        <button data-theme="sunlit"><span style="background-image:url('header-sunlit.jpg'),linear-gradient(135deg,#2f6f73,#e3a94c)"></span><em>Sunlit library</em></button>
-      </div>
-    </div>
-    <div class="panel">
-      <h3 style="margin-top:0">Phone wallpaper</h3>
-      <p class="small">A lantern-lit library for your lock screen.</p>
-      <img src="wallpaper.jpg" alt="" class="wall-thumb" onerror="this.style.display='none'">
-      <a class="btn" href="wallpaper.jpg" download="lydias-library-wallpaper.jpg" style="display:inline-block;text-decoration:none">Save wallpaper</a>
-      <p class="small">On iPhone, press and hold the picture after it opens, then tap "Save to Photos".</p>
-    </div>
     <div class="panel">
       <h3 style="margin-top:0">Back up your journal</h3>
       <p class="small">Your journal is saved on this device only. Export a backup now and then, especially before clearing your browser or changing phones.</p>
@@ -288,7 +260,7 @@ function renderBooks(){
     (!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)));
   list.sort((a,b)=>(b.updated||0)-(a.updated||0));
   if(!list.length){
-    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'<img src="reader.png" alt="" onerror="this.remove()">Your shelves are waiting.<br>Tap + to add your first book. 📖'}</div>`;
+    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'Your shelves are waiting.<br>Tap + to add your first book. 📖'}</div>`;
     return;
   }
   $('bookList').innerHTML=list.map(b=>`
@@ -446,15 +418,6 @@ $('importFile').onchange=e=>{
   r.readAsText(f);e.target.value='';
 };
 $('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,theme:state.theme};save();renderAll();}};
-
-/* ---------- Header picture ---------- */
-function applyTheme(){
-  const t=state.theme||'lantern';
-  $('appHeader').classList.toggle('sunlit',t==='sunlit');
-  document.querySelectorAll('#themePick button').forEach(b=>b.classList.toggle('on',b.dataset.theme===t));
-}
-$('themePick').onclick=e=>{const b=e.target.closest('[data-theme]');if(b){state.theme=b.dataset.theme;save();applyTheme();}};
-applyTheme();
 
 /* ---------- Navigation ---------- */
 document.querySelector('nav.bottom').onclick=e=>{
