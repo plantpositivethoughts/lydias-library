@@ -784,17 +784,17 @@
         <li>Tap <b>Done</b> when you're finished. Free art is credited under the collage for you.</li>
       </ul></div>
 
-    <div class="panel guide"><h3>📔 Diary &amp; 🗓️ Months</h3>
+    <div class="panel guide"><h3>📔 Diary &amp; 🗓️ Calendar</h3>
       <ul>
         <li><b>Diary</b> shows what you're reading now, what you read this month and everything you've read this year.</li>
-        <li><b>Months</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons.</li>
-        <li>Set a reading goal for the year at the top of Months.</li>
+        <li><b>Calendar</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons.</li>
+        <li>Set a reading goal for the year at the top of the Calendar.</li>
         <li>Tap any book in either one to jump to its page.</li>
       </ul></div>
 
     <div class="panel guide"><h3>👆 Getting around</h3>
       <ul>
-        <li>Swipe left and right to move between Shelf, Diary, Months and Settings, or tap the buttons at the bottom.</li>
+        <li>Swipe left and right to move between Shelf, Diary, Calendar and Settings, or tap the buttons at the bottom.</li>
         <li>On a book's page, the button at the top takes you back to where you came from.</li>
       </ul></div>
 
@@ -894,7 +894,7 @@
 <nav class="bottom" id="navBar">
   <button data-view="shelf" class="active"><span class="ni">📚</span><span class="nl">Shelf</span></button>
   <button data-view="diary"><span class="ni">📔</span><span class="nl">Diary</span></button>
-  <button data-view="months"><span class="ni">🗓️</span><span class="nl">Months</span></button>
+  <button data-view="months"><span class="ni">🗓️</span><span class="nl">Calendar</span></button>
   <button data-view="settings"><span class="ni">⚙️</span><span class="nl">Settings</span></button>
 </nav>
 
@@ -1146,7 +1146,7 @@ $('deleteBtn').onclick=()=>{
 
 /* ================= REVIEW PAGE ================= */
 let cameFrom='shelf';
-const BACK={shelf:'← Bookshelf',diary:'← Diary',months:'← Months'};
+const BACK={shelf:'← Bookshelf',diary:'← Diary',months:'← Calendar'};
 function openReview(id){
   const cur=document.querySelector('.view.active')?.id.replace('view-','');if(cur&&cur!=='review')cameFrom=cur;
   $('backBtn').textContent=BACK[cameFrom]||'← Back';
@@ -1676,7 +1676,7 @@ $('cSize').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setCustom('size
 $('cReset').onclick=()=>{if(!confirm("Reset the background, colours, fonts and text size to this look's defaults?"))return;state.custom={};save();applyCustom();renderCustom();};
 
 /* ---- bottom buttons ---- */
-const NAV_KEYS=['shelf','diary','months','settings'], NAV_NAMES={shelf:'Shelf',diary:'Diary',months:'Months',settings:'Settings'};
+const NAV_KEYS=['shelf','diary','months','settings'], NAV_NAMES={shelf:'Shelf',diary:'Diary',months:'Calendar',settings:'Settings'};
 const NAV_ICONS={
   classic:['Classic',['📚','📔','🗓️','⚙️']],
   cosy:['Cosy',['🧸','✏️','🌻','🧶']], cafe:['Café',['☕','📝','🍰','🫖']], garden:['Garden',['🪴','🌸','🍂','✂️']],
@@ -1956,7 +1956,7 @@ const TOUR=[
   ['📚','Your bookshelf',`<p>Tap the round <b>+</b> to add a book. Give it a cover with a photo, or find the real one online.</p><p>Tap any book on the shelf to open its page.</p>`],
   ['⭐','Rate &amp; review',`<p>Give each book stars and a <span class="tape">spice rating</span>, pick how it made you feel, and write your thoughts.</p><p>Loved it beyond words? Tap the glowing sixth star: <span class="stars">${GOD}</span> god tier.</p>`],
   ['🖼','Make a collage',`<p>On a book's page, tap <b>Create collage</b>. Fill the <b>＋ art</b> and <b>＋ quote</b> spaces with pictures and favourite lines.</p><p>Drag things around, add lace and stickers, or pick a new layout.</p>`],
-  ['👆','Find your way',`<p>Swipe left and right to move between your <b>Shelf</b>, <b>Diary</b>, <b>Months</b> and <b>Settings</b>.</p><p>The Diary and Months pages gather up everything you've read.</p>`],
+  ['👆','Find your way',`<p>Swipe left and right to move between your <b>Shelf</b>, <b>Diary</b>, <b>Calendar</b> and <b>Settings</b>.</p><p>The Diary and Calendar pages gather up everything you've read.</p>`],
   ['🎨','Make it yours',`<p>In <b>Settings</b>, choose a look and customise colours, fonts and backgrounds. Each book can have its own style too.</p><p>Your journal lives only on this phone, so tap <b>Export backup</b> now and then to keep it safe.</p>`],
 ];
 let tourAt=0;
