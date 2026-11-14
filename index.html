@@ -701,7 +701,7 @@
         <h2 id="rTitle"></h2>
         <div class="author" id="rAuthor"></div>
         <div class="meta" id="rMeta"></div>
-        <button class="btn" id="rFinish" style="margin-top:10px" hidden>✓ Mark as finished</button>
+        <div class="btn-row" style="margin-top:10px"><button class="btn" id="rFinish" hidden>✓ Mark as finished</button><button class="btn ghost" id="rShare">📤 Share</button></div>
       </div>
     </div>
 
@@ -752,7 +752,7 @@
 
   <!-- GUIDE -->
   <section id="view-guide" class="view">
-    <div class="topbar"><button class="back" id="guideBack">← Settings</button><button class="btn ghost" id="guideTour">Replay the tour</button></div>
+    <div class="topbar"><button class="back" id="guideBack">← Settings</button><button class="btn ghost" id="guideTour">📖 Tutorial cards</button></div>
     <h2 class="sec-title" style="font-size:2rem;margin:4px 4px 16px">How to use your journal</h2>
 
     <div class="panel guide"><h3>📚 Adding books</h3>
@@ -831,8 +831,8 @@
   <section id="view-settings" class="view">
     <div class="panel">
       <h3>How to use your journal</h3>
-      <p class="small" style="margin-top:0">Tips for everything your journal can do, and how to keep it safe.</p>
-      <div class="btn-row" style="margin-top:6px"><button class="btn" id="openGuide">Open the guide</button><button class="btn ghost" id="openTour">Replay the tour</button></div>
+      <p class="small" style="margin-top:0">See the tutorial cards again, or open the full guide to everything your journal can do and how to keep it safe.</p>
+      <div class="btn-row" style="margin-top:6px"><button class="btn" id="openGuide">Open the guide</button><button class="btn ghost" id="openTour">📖 Tutorial cards</button></div>
     </div>
     <div class="panel">
       <h3>Journal look</h3>
@@ -953,6 +953,21 @@
     <div class="cust-sec"><label>Heading font</label><div class="opt-grid" id="sHead"></div></div>
     <div class="cust-sec"><label>Body font</label><div class="opt-grid" id="sBody"></div></div>
     <div class="btn-row"><button class="btn ghost" id="sReset">Reset this page</button><button class="btn" onclick="styleDlg.close()">Done</button></div>
+  </div>
+</dialog>
+
+<!-- SHARE -->
+<dialog id="shareDlg">
+  <div class="dlg-head"><h2>Share your review</h2><button class="x" onclick="shareDlg.close()">×</button></div>
+  <div class="dlg-body">
+    <div class="cust-sec"><label>Size</label><div class="opt-grid" id="shFmt" style="grid-template-columns:1fr 1fr">
+      <button data-v="post">Post<br><span class="small">Instagram &amp; TikTok, 4:5</span></button><button data-v="story">Story<br><span class="small">Full screen, 9:16</span></button></div></div>
+    <div class="cust-sec" id="shKindRow"><label>Show</label><div class="opt-grid" id="shKind" style="grid-template-columns:1fr 1fr">
+      <button data-v="review">Review card</button><button data-v="collage">My collage</button></div></div>
+    <img id="shPreview" alt="Preview of your share picture" style="display:block;width:100%;margin:14px 0 6px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);background:#eee;min-height:120px">
+    <p class="small" id="shStatus"></p>
+    <div class="btn-row"><button class="btn" id="shGo">📤 Share…</button><button class="btn ghost" id="shSave">Save image</button></div>
+    <p class="small">In the share menu, pick <b>Instagram</b> (then Story or Post) or <b>TikTok</b>. You can also save the picture and post it from your photos.</p>
   </div>
 </dialog>
 
@@ -1765,6 +1780,176 @@ $('sMatch').onclick=()=>{
   img.onerror=()=>{$('sMatchMsg').textContent="Couldn't load the cover. Check your internet connection.";};
   img.src=b.cover;
 };
+
+/* ================= SHARE A REVIEW AS A PICTURE ================= */
+const SHARE_PAL={
+  scrapbook:{bg:'#f6ecdf',paper:'#fffdf7',ink:'#4a3a30',soft:'#8a6248',accent:'#b8746c',line:'#eadcc8'},
+  romantasy:{bg:'#17121f',paper:'#f3e9d6',ink:'#2a1d1a',soft:'#6b2436',accent:'#7a1f33',line:'#d9c7a4',outer:'#d8b56d'},
+  fantasy:{bg:'#0f1f19',paper:'#ecdfbd',ink:'#2b2216',soft:'#2f4a35',accent:'#3f7d5a',line:'#d4c196',outer:'#c29a5b'},
+};
+let shareFmt='post', shareKind='review', shareBlob=null;
+const cssVar=n=>getComputedStyle(document.body).getPropertyValue(n).trim();
+const svgUrl=n=>{const m=cssVar(n).match(/url\("?(.*?)"?\)$/s);return m?m[1]:null;};
+function loadImg(src,cors){
+  return new Promise(res=>{if(!src)return res(null);const i=new Image();if(cors&&/^https?:/.test(src))i.crossOrigin='anonymous';
+    i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src;});
+}
+function rr(x,X,Y,W,H,R){x.beginPath();x.moveTo(X+R,Y);x.arcTo(X+W,Y,X+W,Y+H,R);x.arcTo(X+W,Y+H,X,Y+H,R);x.arcTo(X,Y+H,X,Y,R);x.arcTo(X,Y,X+W,Y,R);x.closePath();}
+function wrap(x,text,maxW){
+  const words=String(text).replace(/\s+/g,' ').trim().split(' '), lines=[];let line='';
+  for(const w of words){const t=line?line+' '+w:w;if(x.measureText(t).width>maxW&&line){lines.push(line);line=w;}else line=t;}
+  if(line)lines.push(line);return lines;
+}
+function drawLines(x,lines,X,Y,lh,max,align='left'){
+  let out=lines;if(max&&lines.length>max){out=lines.slice(0,max);out[max-1]=out[max-1].replace(/\s*\S*$/,'')+'…';}
+  x.textAlign=align;out.forEach((l,i)=>x.fillText(l,X,Y+i*lh));x.textAlign='left';return Y+out.length*lh;
+}
+const CHILI_BODY=new Path2D('M8 6.2C5 7 3.8 10.2 5.8 14.2c2 4 7 7.2 13.2 7.9 1.1.1 1.2-.9.4-1.4-3.9-2.2-6.1-5.4-6.2-9.6C13.1 8 11.2 5.8 8 6.2Z');
+const CHILI_STEM=new Path2D('M9.4 6.3C9.3 4.6 10.2 3.2 12 2.6');
+function drawChilis(x,n,X,Y,size,col){
+  for(let i=0;i<n;i++){x.save();x.translate(X+i*size*.92,Y-size*.85);x.scale(size/24,size/24);
+    x.fillStyle=col;x.fill(CHILI_BODY);x.strokeStyle='#4f8a3a';x.lineWidth=1.6;x.lineCap='round';x.stroke(CHILI_STEM);x.restore();}
+  return X+n*size*.92;
+}
+function drawStars(x,n,X,Y,size,col,align='left'){
+  if(!n)return;
+  x.font=`${size}px Georgia,serif`;const base='★'.repeat(Math.min(5,n)), w=x.measureText(base).width, godW=n>=6?size*1.35:0;
+  let sx=align==='center'?X-(w+godW)/2:X;
+  x.fillStyle=col;x.fillText(base,sx,Y);
+  if(n>=6){const gx=sx+w+size*.15, g=x.createLinearGradient(gx,Y-size,gx+size*1.2,Y);
+    g.addColorStop(0,'#fff3b0');g.addColorStop(.3,'#f5c542');g.addColorStop(.65,'#ff8fb1');g.addColorStop(1,'#b77cff');
+    x.save();x.shadowColor='rgba(255,200,90,.9)';x.shadowBlur=size*.35;x.font=`${size*1.2}px Georgia,serif`;x.fillStyle=g;x.fillText('★',gx,Y+size*.05);x.restore();}
+}
+async function drawCollageOn(x,c,X,Y,W,H){
+  const bgs={paper:'#fdf8ef',gingham:'#f4e4cb',kraft:'#d9bc93',linen:'#f5f1ea',blush:'#f6e3df',night:'#2e2a3a'};
+  x.save();x.beginPath();x.rect(X,Y,W,H);x.clip();
+  x.fillStyle=bgs[c.bg]||'#fdf8ef';x.fillRect(X,Y,W,H);
+  if(c.bg==='gingham'){x.fillStyle='rgba(201,146,94,.42)';const s=W*.06;for(let i=0;i<W/s;i+=2)x.fillRect(X+i*s,Y,s,H);for(let j=0;j<H/s;j+=2)x.fillRect(X,Y+j*s,W,s);}
+  const type=cssVar('--type')||'monospace', script=cssVar('--script')||'cursive';
+  const specials={ring:svgUrl('--ring'),splat:svgUrl('--splat'),lace:svgUrl('--lace-cream-top'),lacebrown:svgUrl('--lace-brown-top'),doily:svgUrl('--doily'),doilybrown:svgUrl('--doily-brown')};
+  for(const it of (c.items||[]).filter(i=>i.type!=='slot').sort((a,b)=>a.z-b.z)){
+    const w=it.w/100*W;x.save();x.translate(X+it.x/100*W,Y+it.y/100*H);x.rotate((it.r||0)*Math.PI/180);
+    if(it.type==='photo'){const im=await loadImg(it.src,true);
+      if(im){const h=w*im.height/im.width;x.shadowColor='rgba(0,0,0,.25)';x.shadowBlur=W*.02;x.shadowOffsetY=W*.01;x.drawImage(im,-w/2,-h/2,w,h);}}
+    else if(it.type==='quote'||it.type==='label'){
+      const q=it.type==='quote', fs=it.w*(q?.105:.065)*W/100, pad=q?W*.035:W*.024;
+      x.font=q?`500 ${fs}px ${script}`:`${fs}px ${type}`;
+      const lines=wrap(x,q?`“${it.text}”`:it.text,w-pad*2), lh=fs*1.25, byH=q&&it.by?fs*.75:0, h=lines.length*lh+pad*2+byH;
+      x.fillStyle=q?(it.v===1?'#e8d5b5':'#fffdf8'):(it.v===1?'#4a3022':'#efe2cc');
+      x.shadowColor='rgba(0,0,0,.18)';x.shadowBlur=W*.015;x.fillRect(-w/2,-h/2,w,h);x.shadowColor='transparent';
+      x.fillStyle=it.type==='label'&&it.v===1?'#f6e7cf':'#3b2a20';x.textBaseline='top';
+      drawLines(x,lines,0,-h/2+pad,lh,0,'center');
+      if(byH){x.font=`${fs*.5}px ${type}`;x.fillStyle='#8a6f5a';x.textAlign='center';x.fillText('— '+it.by,0,-h/2+pad+lines.length*lh+fs*.15);x.textAlign='left';}
+      x.textBaseline='alphabetic';}
+    else if(it.type==='sticker'){const fs=it.w*.8*W/100;x.font=`${fs}px serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(it.text,0,0);x.textAlign='left';x.textBaseline='alphabetic';}
+    else if(it.type==='special'){
+      const k=it.text;
+      if(k==='pearl'){const g=x.createRadialGradient(-w*.15,-w*.2,0,0,0,w/2);g.addColorStop(0,'#fff');g.addColorStop(.4,'#f1ebe1');g.addColorStop(1,'#c9bba6');x.fillStyle=g;x.beginPath();x.arc(0,0,w/2,0,7);x.fill();}
+      else if(k==='washi'||k==='washi2'||k==='kraft'){const h=w/5;x.globalAlpha=.88;x.fillStyle=k==='kraft'?'#c9a77c':k==='washi'?'#f4e4cb':'#f6e3df';x.fillRect(-w/2,-h/2,w,h);
+        x.fillStyle=k==='washi'?'rgba(201,146,94,.5)':'#e9c9c0';if(k!=='kraft')for(let i=0;i<w;i+=h/2)x.fillRect(-w/2+i,-h/2,h/4,h);x.globalAlpha=1;}
+      else{const im=await loadImg(specials[k]);if(im){
+        if(k==='lace'||k==='lacebrown'){const h=w/5, tw=h*2;for(let i=0;i<w;i+=tw)x.drawImage(im,-w/2+i,-h/2,Math.min(tw,w-i),h);}
+        else{const h=k==='splat'?w*1.5:w;x.drawImage(im,-w/2,-h/2,w,h);}}}
+    }
+    x.restore();
+  }
+  x.restore();
+}
+async function makeShareCanvas(b,fmt,kind){
+  await document.fonts.ready;
+  const W=1080,H=fmt==='story'?1920:1350, cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  const x=cv.getContext('2d'), theme=state.theme||'scrapbook', P={...SHARE_PAL[theme]}, st=b.style||{};
+  if(st.accent||state.custom?.accent)P.accent=st.accent||state.custom.accent;
+  const head=cssVar('--script')||'Georgia,serif', body=cssVar('--serif')||'Georgia,serif', type=cssVar('--type')||'monospace';
+  const starCol=cssVar('--star')||'#b88a3e', chiliCol=cssVar('--chili')||'#d23b2a';
+  // background
+  let bg=P.bg;if(st.bg==='plain'&&st.bgCol)bg=st.bgCol;
+  x.fillStyle=bg;x.fillRect(0,0,W,H);
+  const g=x.createRadialGradient(W*.25,H*.15,0,W*.25,H*.15,W);g.addColorStop(0,'rgba(255,255,255,.18)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  if(st.bg==='cover'&&b.cover){const im=await loadImg(b.cover,true);if(im){x.save();x.filter='blur(30px)';x.globalAlpha=.6;x.drawImage(im,-60,-60,W+120,H+120);x.restore();}}
+  // paper card
+  const M=54;x.save();x.shadowColor='rgba(0,0,0,.28)';x.shadowBlur=40;x.shadowOffsetY=14;x.fillStyle=P.paper;rr(x,M,M,W-M*2,H-M*2,18);x.fill();x.restore();
+  if(P.outer){x.strokeStyle=P.outer;x.lineWidth=3;rr(x,M+14,M+14,W-M*2-28,H-M*2-28,10);x.stroke();}
+  else{x.fillStyle='rgba(217,165,160,.75)';x.save();x.translate(W/2,M+4);x.rotate(-.03);x.fillRect(-90,-20,180,40);x.restore();}
+  // journal name
+  x.fillStyle=P.soft;x.font=`600 46px ${head}`;x.textAlign='center';x.fillText((state.name?state.name+'’s':'My')+' Journal',W/2,M+92);x.textAlign='left';
+  const cover=await loadImg(b.cover,true);
+  const drawCover=(X,Y,w,h)=>{x.save();x.shadowColor='rgba(0,0,0,.3)';x.shadowBlur=24;x.shadowOffsetY=10;
+    if(cover){const r=Math.max(w/cover.width,h/cover.height),cw=w/r,ch=h/r;x.drawImage(cover,(cover.width-cw)/2,(cover.height-ch)/2,cw,ch,X,Y,w,h);}
+    else{x.fillStyle=P.accent;x.fillRect(X,Y,w,h);x.shadowColor='transparent';x.fillStyle='#fff8ee';x.font=`600 ${w*.11}px ${body}`;x.textBaseline='top';drawLines(x,wrap(x,b.title,w*.8),X+w/2,Y+h*.35,w*.14,4,'center');x.textBaseline='alphabetic';}
+    x.restore();};
+  const chips=(X,Y,maxW,align)=>{const ms=(b.moods||[]).slice(0,4);if(!ms.length)return Y;x.font=`30px ${body}`;let cx=X,cy=Y;const rows=[[]];
+    ms.forEach(m=>{const w=x.measureText(m).width+36;if(cx+w>X+maxW&&rows.at(-1).length){rows.push([]);cx=X;}rows.at(-1).push([m,w]);cx+=w+12;});
+    rows.forEach(r=>{const tot=r.reduce((s,[,w])=>s+w+12,-12);let rx=align==='center'?X+(maxW-tot)/2:X;
+      r.forEach(([m,w])=>{x.fillStyle='rgba(0,0,0,.06)';rr(x,rx,cy-34,w,48,24);x.fill();x.fillStyle=P.ink;x.fillText(m,rx+18,cy);rx+=w+12;});cy+=60;});return cy;};
+  const quote=(b.quotes||[])[0], review=(b.review||'').trim();
+  x.textBaseline='alphabetic';
+  if(kind==='collage'&&b.collage?.items?.some(i=>i.type!=='slot')){
+    const cw=fmt==='story'?860:600, ch=cw*4/3, cx=(W-cw)/2, cy=fmt==='story'?380:M+310;
+    x.fillStyle=P.ink;x.font=`700 ${fmt==='story'?64:54}px ${body}`;x.textAlign='center';
+    const tl=wrap(x,b.title,W-200);let y=drawLines(x,tl,W/2,M+170,fmt==='story'?70:60,2,'center');
+    x.fillStyle=P.soft;x.font=`italic 34px ${body}`;x.textAlign='center';if(b.author)x.fillText(b.author,W/2,y+2);x.textAlign='left';
+    if(fmt==='story'){drawStars(x,b.rating,W/2,y+70,56,starCol,'center');}
+    const top=fmt==='story'?cy+40:Math.max(cy,y+90);
+    x.save();x.shadowColor='rgba(0,0,0,.25)';x.shadowBlur=26;x.shadowOffsetY=10;x.fillStyle='#fff';x.fillRect(cx,top,cw,ch);x.restore();
+    await drawCollageOn(x,b.collage,cx,top,cw,ch);
+    if(fmt==='story'){const by=cy+40+ch+90;if(b.spice)drawChilis(x,b.spice,W/2-b.spice*25,by,54,chiliCol);}
+    else{const sy=y+62;drawStars(x,b.rating,W/2-(b.spice?b.spice*20:0),sy,44,starCol,'center');
+      if(b.spice)drawChilis(x,b.spice,W/2-(b.spice?b.spice*20:0)+(b.rating?(b.rating>=6?175:130):-b.spice*20)+14,sy,40,chiliCol);}
+  } else if(fmt==='story'){
+    drawCover(W/2-210,M+150,420,630);
+    let y=M+150+630+95;x.fillStyle=P.ink;x.font=`700 66px ${body}`;y=drawLines(x,wrap(x,b.title,W-220),W/2,y,74,2,'center');
+    x.fillStyle=P.soft;x.font=`italic 38px ${body}`;x.textAlign='center';if(b.author){x.fillText(b.author,W/2,y+4);y+=60;}x.textAlign='left';
+    if(b.rating){drawStars(x,b.rating,W/2,y+40,64,starCol,'center');y+=95;}
+    if(b.spice){drawChilis(x,b.spice,W/2-b.spice*27,y+30,58,chiliCol);y+=80;}
+    y=chips(M+70,y+30,W-M*2-140,'center')+10;
+    if(quote){x.font=`italic 44px ${body}`;const ql=wrap(x,`“${quote}”`,W-M*2-180);const qh=Math.min(ql.length,4)*56+50;
+      x.fillStyle='rgba(0,0,0,.05)';rr(x,M+60,y,W-M*2-120,qh,14);x.fill();x.fillStyle=P.accent;x.fillRect(M+60,y,8,qh);
+      x.fillStyle=P.ink;y=drawLines(x,ql,W/2,y+62,56,4,'center')+40;}
+    if(review){x.fillStyle=P.ink;x.font=`36px ${body}`;drawLines(x,wrap(x,review,W-M*2-160),W/2,y+30,50,Math.max(1,Math.floor((H-M-110-y)/50)),'center');}
+  } else {
+    drawCover(M+56,M+140,330,495);
+    const tx=M+56+330+48, tw=W-tx-M-50;let y=M+200;
+    x.fillStyle=P.ink;x.font=`700 58px ${body}`;y=drawLines(x,wrap(x,b.title,tw),tx,y,64,3);
+    x.fillStyle=P.soft;x.font=`italic 34px ${body}`;if(b.author){y=drawLines(x,wrap(x,b.author,tw),tx,y+8,42,2);}
+    if(b.rating){drawStars(x,b.rating,tx,y+56,50,starCol);y+=78;}
+    if(b.spice){drawChilis(x,b.spice,tx,y+44,46,chiliCol);y+=66;}
+    chips(tx,y+46,tw,'left');
+    y=M+140+495+70;
+    if(quote){x.font=`italic 40px ${body}`;const ql=wrap(x,`“${quote}”`,W-M*2-170);const qh=Math.min(ql.length,3)*52+46;
+      x.fillStyle='rgba(0,0,0,.05)';rr(x,M+56,y,W-M*2-112,qh,14);x.fill();x.fillStyle=P.accent;x.fillRect(M+56,y,8,qh);
+      x.fillStyle=P.ink;y=drawLines(x,ql,W/2,y+58,52,3,'center')+40;}
+    if(review){x.fillStyle=P.ink;x.font=`34px ${body}`;drawLines(x,wrap(x,review,W-M*2-130),M+64,y+28,48,Math.max(1,Math.floor((H-M-100-y)/48)));}
+  }
+  x.fillStyle=P.soft;x.globalAlpha=.75;x.font=`24px ${type}`;x.textAlign='center';x.fillText('✦  from my reading journal  ✦',W/2,H-M-26);x.globalAlpha=1;x.textAlign='left';
+  return cv;
+}
+async function renderSharePreview(){
+  const b=book(reviewId), hasCol=b.collage?.items?.some(i=>i.type!=='slot');
+  if(!hasCol)shareKind='review';
+  $('shKindRow').hidden=!hasCol;
+  document.querySelectorAll('#shFmt [data-v]').forEach(n=>n.classList.toggle('on',n.dataset.v===shareFmt));
+  document.querySelectorAll('#shKind [data-v]').forEach(n=>n.classList.toggle('on',n.dataset.v===shareKind));
+  $('shStatus').textContent='Making your picture…';$('shPreview').style.opacity=.4;shareBlob=null;
+  const cv=await makeShareCanvas(b,shareFmt,shareKind);
+  try{
+    shareBlob=await new Promise((res,rej)=>cv.toBlob(bl=>bl?res(bl):rej(),'image/png'));
+    $('shPreview').src=URL.createObjectURL(shareBlob);$('shPreview').style.opacity=1;$('shStatus').textContent='';
+  }catch(e){$('shStatus').textContent="Sorry, this picture couldn't be made. An online cover or picture may be blocking it; try a cover from your phone.";}
+}
+$('rShare').onclick=()=>{$('shareDlg').showModal();renderSharePreview();};
+$('shFmt').onclick=e=>{const t=e.target.closest('[data-v]');if(t){shareFmt=t.dataset.v;renderSharePreview();}};
+$('shKind').onclick=e=>{const t=e.target.closest('[data-v]');if(t){shareKind=t.dataset.v;renderSharePreview();}};
+const shareName=()=>(book(reviewId).title.replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').toLowerCase()||'review')+'-'+shareFmt+'.png';
+$('shGo').onclick=async()=>{
+  if(!shareBlob)return;
+  const file=new File([shareBlob],shareName(),{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:book(reviewId).title});}catch(e){/* closed the share menu */}
+  }else{$('shSave').click();$('shStatus').textContent='Your phone can\'t share straight from here, so the picture has been saved instead. Open Instagram or TikTok and pick it from your photos.';}
+};
+$('shSave').onclick=()=>{if(!shareBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(shareBlob);a.download=shareName();document.body.appendChild(a);a.click();a.remove();
+  if(!$('shStatus').textContent)$('shStatus').textContent='Saved. On iPhone, if the picture opens instead, press and hold it and choose “Save to Photos”.';};
 
 /* ================= WELCOME TOUR & GUIDE ================= */
 const TOUR=[
