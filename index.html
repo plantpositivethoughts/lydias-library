@@ -676,6 +676,7 @@
         <h2 id="rTitle"></h2>
         <div class="author" id="rAuthor"></div>
         <div class="meta" id="rMeta"></div>
+        <button class="btn" id="rFinish" style="margin-top:10px" hidden>✓ Mark as finished</button>
       </div>
     </div>
 
@@ -910,6 +911,8 @@ const BGS=[['paper','Cream paper'],['gingham','Gingham'],['kraft','Kraft'],['lin
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 let state=load();
+// Fix books saved with a finished date but left on Reading / Want to read
+state.books.forEach(b=>{if(b.finished&&['reading','want'].includes(b.shelf))b.shelf='finished';});
 if(state.custom?.nav?.names){delete state.custom.nav.names;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
 let shelf='all', editingId=null, reviewId=null, sel=null;
 
@@ -1002,6 +1005,8 @@ $('editDlg').addEventListener('close',()=>{
   FIELDS.forEach(k=>data[k]=f.elements[k].value.trim());
   if(!data.title)return;
   data.pages=data.pages?+data.pages:'';
+  // A finished date means the book is finished (unless it was marked did-not-finish)
+  if(data.finished&&data.shelf!=='dnf')data.shelf='finished';
   if(data.shelf==='finished'&&!data.finished)data.finished=today();
   if(data.shelf==='reading'&&!data.started)data.started=today();
   let b=book(editingId);
@@ -1028,6 +1033,7 @@ function openReview(id){
   $('rCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change cover':'Add cover'}</span>`;
   $('rTitle').textContent=b.title;
   $('rAuthor').textContent=b.author||'';
+  $('rFinish').hidden=!['reading','want'].includes(b.shelf);
   $('rMeta').innerHTML=[SHELVES[b.shelf],b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',
     b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ');
   renderRatings();
@@ -1048,6 +1054,7 @@ $('rMoods').onclick=e=>{const c=e.target.closest('[data-m]');if(!c)return;const 
   b.moods=(b.moods||[]).includes(m)?b.moods.filter(x=>x!==m):[...(b.moods||[]),m];touch(b);renderRatings();};
 $('rReview').oninput=()=>{const b=book(reviewId);b.review=$('rReview').value;touch(b);};
 $('rEdit').onclick=()=>openEdit(reviewId);
+$('rFinish').onclick=()=>{const b=book(reviewId);b.shelf='finished';b.finished=today();touch(b);openReview(b.id);};
 $('backBtn').onclick=()=>{show(cameFrom);scrollTo(0,0);};
 
 function renderQuotes(){
