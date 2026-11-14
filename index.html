@@ -123,7 +123,8 @@
   label{display:block;font-size:.8rem;color:var(--cocoa);margin:14px 0 5px;font-family:var(--type)}
   input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:2px;font:inherit;background:#fffdf8;color:var(--ink)}
   textarea{min-height:90px;resize:vertical}
-  .row{display:flex;gap:10px}.row>*{flex:1}
+  .row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+  input[type=date]{min-width:0;-webkit-appearance:none;appearance:none;min-height:44px}
   .btn{background:var(--espresso);color:#f6e7cf;border:none;border-radius:2px;padding:11px 16px;font-family:var(--type);font-size:.9rem;cursor:pointer}
   .btn.ghost{background:#efe2cc;color:var(--ink);box-shadow:1px 1px 2px rgba(74,48,34,.2)}
   .btn.danger{background:none;color:var(--rust);border:1px solid var(--rust)}
@@ -471,8 +472,12 @@
   <form method="dialog" id="editForm">
     <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" value="cancel" type="submit">×</button></div>
     <div class="dlg-body">
-      <label>Title *</label><input name="title" required>
-      <label>Author</label><input name="author">
+      <div class="row" style="align-items:flex-end;gap:14px">
+        <div style="flex:0 0 96px"><label>Cover</label>
+          <button type="button" class="cover-big" id="fCover" style="width:96px;flex:none" aria-label="Add a cover"></button></div>
+        <div><label>Title *</label><input name="title" required>
+          <label>Author</label><input name="author"></div>
+      </div>
       <div class="row">
         <div><label>Shelf</label>
           <select name="shelf">
@@ -574,8 +579,10 @@ addEventListener('resize',()=>{if($('view-shelf').classList.contains('active'))r
 
 /* ================= ADD / EDIT BOOK ================= */
 const FIELDS=['title','author','shelf','pages','started','finished','genre','format'];
+let tempCover, coverTarget='book';
+function renderFormCover(){$('fCover').innerHTML=(tempCover?`<img src="${esc(tempCover)}" alt="">`:'📖')+`<span class="tap">${tempCover?'Change':'Add cover'}</span>`;}
 function openEdit(id){
-  editingId=id;
+  editingId=id;tempCover=book(id)?.cover||null;renderFormCover();
   const f=$('editForm'), b=book(id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
   FIELDS.forEach(k=>f.elements[k].value=b[k]??'');
   $('editTitle').textContent=id?'Edit details':'Add a book';
@@ -595,6 +602,7 @@ $('editDlg').addEventListener('close',()=>{
   let b=book(editingId);
   if(b)Object.assign(b,data);
   else{b={id:uid(),rating:0,spice:0,notes:[],quotes:[],moods:[],review:'',...data};state.books.push(b);}
+  if(tempCover)b.cover=tempCover;else delete b.cover;
   b.updated=Date.now();save();
   if(editingId)openReview(b.id);else{renderShelf();openReview(b.id);}
 });
@@ -652,13 +660,16 @@ $('addNote').onclick=()=>{const t=$('noteText').value.trim();if(!t)return;const 
 $('rNotes').onclick=e=>{const t=e.target.closest('[data-dn]');if(!t)return;e.preventDefault();const b=book(reviewId);b.notes.splice(+t.dataset.dn,1);touch(b);renderNotes();};
 
 /* ---- cover picker ---- */
-function setCover(url){const b=book(reviewId);if(url)b.cover=url;else delete b.cover;touch(b);$('coverDlg').close();openReview(b.id);}
-$('rCover').onclick=()=>{
-  const b=book(reviewId);
-  $('coverQuery').value=[b.title,b.author].filter(Boolean).join(' ');
-  $('coverResults').innerHTML='';$('coverStatus').textContent='';$('coverRemove').hidden=!b.cover;
+function setCover(url){
+  if(coverTarget==='form'){tempCover=url||null;renderFormCover();$('coverDlg').close();return;}
+  const b=book(reviewId);if(url)b.cover=url;else delete b.cover;touch(b);$('coverDlg').close();openReview(b.id);}
+function openCoverPicker(target,query,has){
+  coverTarget=target;$('coverQuery').value=query;
+  $('coverResults').innerHTML='';$('coverStatus').textContent='';$('coverRemove').hidden=!has;
   $('coverDlg').showModal();
-};
+}
+$('rCover').onclick=()=>{const b=book(reviewId);openCoverPicker('book',[b.title,b.author].filter(Boolean).join(' '),!!b.cover);};
+$('fCover').onclick=()=>{const f=$('editForm').elements;openCoverPicker('form',[f.title.value,f.author.value].map(v=>v.trim()).filter(Boolean).join(' '),!!tempCover);};
 $('coverPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,420,setCover);e.target.value='';};
 $('coverRemove').onclick=()=>setCover(null);
 $('coverQuery').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('coverSearch').click();}};
