@@ -596,6 +596,24 @@
   .swatches input[type=color]{width:44px;height:38px;padding:2px;border-radius:8px}
   .swatches .def{width:auto;border-radius:16px;padding:0 10px;background:#fffdf8;font-size:.75rem;color:#3b2a20}
   .swatches[hidden]{display:none}
+  /* ratings: colourable stars & chillies, god-tier star */
+  :root{--star:#b88a3e;--chili:#d23b2a} body.t-romantasy{--star:#c9a04a} body.t-fantasy{--star:#b8862e}
+  .stars,.star-input button.on{color:var(--star)!important}
+  .chili{display:inline-block;width:1.05em;height:1.05em;vertical-align:-.16em;color:var(--chili)}
+  .chilis .chili+.chili{margin-left:-.12em}
+  .spice-input button{filter:none!important;opacity:1!important}
+  .spice-input button .chili{width:1.25em;height:1.25em;color:#cfc6bb;transition:color .15s}
+  .spice-input button.on .chili{color:var(--chili)}
+  .god{display:inline-block;margin-left:.15em;font-size:1.2em;background:linear-gradient(135deg,#fff3b0 0%,#f5c542 30%,#ff8fb1 65%,#b77cff 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 3px rgba(255,200,90,.85));animation:godglow 2.4s ease-in-out infinite}
+  @keyframes godglow{50%{filter:drop-shadow(0 0 7px rgba(255,150,190,.95))}}
+  .star-input{display:flex;align-items:center;flex-wrap:nowrap}
+  .star-input .god-btn{position:relative;margin-left:8px;font-size:2rem;color:#e2d3bd;border-left:1px dashed rgba(150,120,90,.4)!important;padding-left:10px}
+  .star-input .god-btn.on{background:linear-gradient(135deg,#fff3b0,#f5c542 30%,#ff8fb1 65%,#b77cff);-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;filter:drop-shadow(0 0 4px rgba(255,200,90,.9));animation:godglow 2.4s ease-in-out infinite}
+  .star-input .god-btn::after{content:"✦";position:absolute;top:-2px;right:-6px;font-size:.7rem;color:#f5c542;-webkit-text-fill-color:#f5c542;opacity:.5}
+  .star-input .god-btn.on::after{opacity:1}
+  @media (prefers-reduced-motion:reduce){.god,.star-input .god-btn.on{animation:none}}
   nav.bottom .ni{font-style:normal}
   nav.bottom .nl{margin-left:4px}
   .nav-stacked nav.bottom button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 9px}
@@ -740,6 +758,8 @@
       <div class="cust-sec"><label>Label font</label><div class="opt-grid" id="cLabel"></div></div>
       <div class="cust-sec"><label>Text size</label><div class="seg" id="cSize">
         <button class="btn ghost" data-v="s">Small</button><button class="btn ghost" data-v="">Normal</button><button class="btn ghost" data-v="l">Large</button></div></div>
+      <div class="cust-sec"><label>Star colour</label><div class="swatches" id="cStar"></div></div>
+      <div class="cust-sec"><label>Pepper colour</label><div class="swatches" id="cChili"></div></div>
       <div class="cust-sec"><label>Bottom buttons: icons</label><div class="opt-grid" id="nIcons"></div></div>
       <div class="cust-sec"><label>Bottom buttons: layout</label><div class="opt-grid" id="nLayout"></div></div>
       <div class="cust-sec"><label>Bottom buttons: names</label>
@@ -908,8 +928,10 @@ function save(){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const stars=n=>n?'★'.repeat(n)+'☆'.repeat(5-n):'';
-const chillies=n=>n?'🌶️'.repeat(n):'';
+const GOD='<span class="god" title="God tier">★</span>';
+const stars=n=>n?(n>=6?'★★★★★'+GOD:'★'.repeat(n)+'☆'.repeat(5-n)):'';
+const CHILI='<svg class="chili" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 6.2C5 7 3.8 10.2 5.8 14.2c2 4 7 7.2 13.2 7.9 1.1.1 1.2-.9.4-1.4-3.9-2.2-6.1-5.4-6.2-9.6C13.1 8 11.2 5.8 8 6.2Z"/><path fill="#ffffff" fill-opacity=".28" d="M7 9c-.6 1.8-.1 3.8 1.2 5.6.3.4-.3.8-.6.4C6.2 13 5.9 10.8 6.6 8.9c.2-.4.6-.3.4.1Z"/><path fill="#4f8a3a" d="M7.2 6.6c1-.9 2.9-1.2 4.3-.2.3.2.1.7-.3.6-1.4-.3-2.7 0-3.6.6-.5.3-.8-.6-.4-1Z"/><path fill="none" stroke="#4f8a3a" stroke-width="1.4" stroke-linecap="round" d="M9.4 6.3C9.3 4.6 10.2 3.2 12 2.6"/></svg>';
+const chillies=n=>n?`<span class="chilis">${CHILI.repeat(n)}</span>`:'';
 const fmtDate=d=>d?new Date(d+'T00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
 const today=()=>new Date().toISOString().slice(0,10);
 const book=id=>state.books.find(b=>b.id===id);
@@ -1018,12 +1040,13 @@ function openReview(id){
 }
 function renderRatings(){
   const b=book(reviewId);
-  $('rStars').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.rating?'on':''}" aria-label="${i} stars">★</button>`).join('');
-  $('rSpice').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.spice?'on':''}" aria-label="spice ${i}">🌶️</button>`).join('');
+  $('rStars').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.rating?'on':''}" aria-label="${i} stars">★</button>`).join('')+
+    `<button data-v="6" class="god-btn ${b.rating===6?'on':''}" aria-label="God tier" title="God tier">★</button>`;
+  $('rSpice').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.spice?'on':''}" aria-label="spice ${i}">${CHILI}</button>`).join('');
   $('rMoods').innerHTML=MOODS.map(m=>`<span class="chip ${b.moods?.includes(m)?'on':''}" data-m="${m}">${m}</span>`).join('');
 }
 function touch(b){b.updated=Date.now();save();}
-$('rStars').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId),v=+t.dataset.v;b.rating=b.rating===v?0:v;touch(b);renderRatings();};
+$('rStars').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId),v=+t.dataset.v;b.rating=b.rating===v?(v===6?5:0):v;touch(b);renderRatings();};
 $('rSpice').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId),v=+t.dataset.v;b.spice=b.spice===v?0:v;touch(b);renderRatings();};
 $('rMoods').onclick=e=>{const c=e.target.closest('[data-m]');if(!c)return;const b=book(reviewId),m=c.dataset.m;
   b.moods=(b.moods||[]).includes(m)?b.moods.filter(x=>x!==m):[...(b.moods||[]),m];touch(b);renderRatings();};
@@ -1287,9 +1310,9 @@ function renderMonths(){
   $('goalInput').value=goal;
   $('goalText').textContent=goal?`${finYear.length} of ${goal} books read in ${y}`:`Set a goal for ${y} and watch it fill up.`;
   $('goalBar').style.width=goal?Math.min(100,finYear.length/goal*100)+'%':'0';
-  const avg=(arr,k)=>{const r=arr.filter(b=>b[k]);return r.length?(r.reduce((s,b)=>s+b[k],0)/r.length).toFixed(1):'–';};
+  const avg=(arr,k)=>{const r=arr.filter(b=>b[k]);return r.length?(r.reduce((s,b)=>s+Math.min(5,b[k]),0)/r.length).toFixed(1):'–';};
   $('statGrid').innerHTML=[[finYear.length,'books in '+y],[finYear.reduce((s,b)=>s+(+b.pages||0),0).toLocaleString('en-GB'),'pages'],
-    [state.books.filter(b=>b.shelf==='reading').length,'reading now'],[avg(finYear,'rating'),'avg ★'],[avg(finYear,'spice'),'avg 🌶️'],
+    [state.books.filter(b=>b.shelf==='reading').length,'reading now'],[avg(finYear,'rating'),'avg ★'],[avg(finYear,'spice'),'avg '+CHILI],
     [finYear.filter(b=>b.collage?.items?.some(i=>i.type!=='slot')).length,'collages']].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
 
   const groups={};
@@ -1305,7 +1328,7 @@ function renderMonths(){
     const collages=list.filter(b=>b.collage?.items?.some(i=>i.type!=='slot'));
     return `<article class="month ${season(mm)}"><div class="month-inner">
       <h2>${MONTHS[mm-1]} ${yy}</h2>
-      <div class="tapes"><span class="tape">${list.length} book${list.length>1?'s':''}</span>${pages?`<span class="tape">${pages.toLocaleString('en-GB')} pages</span>`:''}${avg(list,'rating')!=='–'?`<span class="tape">★ ${avg(list,'rating')}</span>`:''}${avg(list,'spice')!=='–'?`<span class="tape">🌶️ ${avg(list,'spice')}</span>`:''}</div>
+      <div class="tapes"><span class="tape">${list.length} book${list.length>1?'s':''}</span>${pages?`<span class="tape">${pages.toLocaleString('en-GB')} pages</span>`:''}${avg(list,'rating')!=='–'?`<span class="tape">★ ${avg(list,'rating')}</span>`:''}${avg(list,'spice')!=='–'?`<span class="tape"><span class="chilis">${CHILI}</span> ${avg(list,'spice')}</span>`:''}${list.some(b=>b.rating===6)?`<span class="tape"><span class="stars">${GOD}</span> ${list.filter(b=>b.rating===6).length} god tier</span>`:''}</div>
       <div class="mcovers">${list.map(b=>`<button data-open="${b.id}" aria-label="${esc(b.title)}">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</button>`).join('')}</div>
       ${fav&&fav.rating?`<p class="mfav"><span class="small" style="font-family:var(--type)">favourite:</span> <b>${esc(fav.title)}</b> <span class="stars">${stars(fav.rating)}</span> ${chillies(fav.spice)}</p>`:''}
       ${qm?`<div class="quote"><span>“${esc(qm[0])}”<br><small style="font-family:var(--type);font-size:.7rem;color:var(--muted)">— ${esc(qm[1].title)}</small></span></div>`:''}
@@ -1438,7 +1461,9 @@ function styleCSS(c,S){
   ensureFonts([c.head,c.body,c.label]);
   if(c.accent)css+=`${S} .btn:not(.ghost),${S} .tab.active,${S} .fab,${S} .chip.on{background:${c.accent}!important;border-color:${c.accent}!important;color:${lum(c.accent)>.6?'#2a1d1a':'#fff'}!important}
     ${S} .btn.ghost,${S} nav.bottom button.active,${S} .back{color:${c.accent}!important}
-    ${S} .bar div{background:${c.accent}!important} ${S} .star-input button.on,${S} .stars{color:${c.accent}!important}`;
+    ${S} .bar div{background:${c.accent}!important}`;
+  if(c.star)css+=`${S}{--star:${c.star}}`;
+  if(c.chili)css+=`${S}{--chili:${c.chili}}`;
   if(c.head)css+=`${S}{--script:${ff(c.head)}} ${S} :is(header h1,#welcome h1,.panel h3,.sec-title,.month h2,.diary .date,.diary h3,.hero h2,.dlg-head h2,.empty,.shelf-empty,.dnone,#welcome .preview){font-family:${ff(c.head)}!important;text-transform:none!important;letter-spacing:normal!important}`;
   if(c.body)css+=`${S}{--serif:${ff(c.body)};font-family:${ff(c.body)}!important} ${S} :is(input,textarea,select,.chip,.hero .author,.quote,.quote-item){font-family:${ff(c.body)}!important}`;
   if(c.label)css+=`${S}{--type:${ff(c.label)}} ${S} :is(.tape,.tab,.btn,label,nav.bottom button,.meta,.dm,.ed-row button,.stat span,.small.art-credits){font-family:${ff(c.label)}!important}`;
@@ -1497,7 +1522,20 @@ function renderCustom(){
   $('cHead').innerHTML=fontTiles(c,'head',"Look's own");$('cBody').innerHTML=fontTiles(c,'body',"Look's own");$('cLabel').innerHTML=fontTiles(c,'label',"Look's own");
   document.querySelectorAll('#cSize button').forEach(b=>b.style.outline=(c.size||'')===b.dataset.v?'2px solid currentColor':'');
   renderNavOptions();
+  $('cStar').innerHTML=colourTiles(c.star,STAR_COLS,'cStarPick','★');
+  $('cChili').innerHTML=colourTiles(c.chili,CHILI_COLS,'cChiliPick',CHILI);
 }
+const STAR_COLS=['#b88a3e','#e8b923','#d9788f','#9aa3ad','#9a7ad6','#a3304a','#3f7d5a','#2a2a2a'];
+const CHILI_COLS=['#d23b2a','#e8742a','#e75a8c','#8a4fc0','#4f9a3a','#d9a520','#3a6ad2','#2a2a2a'];
+function colourTiles(cur,cols,pickId,glyph){
+  return `<button class="def ${!cur?'on':''}" data-v="">Look's own</button>`+cols.map(a=>`<button data-v="${a}" class="${cur===a?'on':''}" style="background:#fffdf8;color:${a};font-size:1.3rem;line-height:1" aria-label="${a}">${glyph}</button>`).join('')+
+    `<input type="color" id="${pickId}" value="${cur||cols[0]}" aria-label="Pick any colour">`;
+}
+[['cStar','star','cStarPick'],['cChili','chili','cChiliPick']].forEach(([id,key,pick])=>{
+  $(id).onclick=e=>{const b=e.target.closest('button[data-v]');if(b)setCustom(key,b.dataset.v);};
+  $(id).addEventListener('input',e=>{if(e.target.id===pick){state.custom=state.custom||{};state.custom[key]=e.target.value;applyCustom();}});
+  $(id).addEventListener('change',e=>{if(e.target.id===pick){save();renderCustom();}});
+});
 function setCustom(k,v){state.custom=state.custom||{};if(v)state.custom[k]=v;else delete state.custom[k];if(save()){applyCustom();renderCustom();}}
 $('cBg').onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;const c=state.custom||{};
   if(b.dataset.v==='photo'&&(!c.bgImg||c.bg==='photo')){$('cBgImg').click();return;}
@@ -1663,7 +1701,7 @@ function renderDiary(){
       :'<p class="dnone">No finished books yet this month.</p>'}
 
     <h3>This year you read <small>${y} · ${year.length} book${year.length===1?'':'s'}${pages?' · '+pages.toLocaleString('en-GB')+' pages':''}</small></h3>
-    ${year.length?`<div class="dgrid">${year.map(b=>`<button data-open="${b.id}"><span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</span>${b.rating?stars(b.rating).replace(/☆/g,''):''}</button>`).join('')}</div>`
+    ${year.length?`<div class="dgrid">${year.map(b=>`<button data-open="${b.id}"><span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</span>${b.rating?`<span class="stars">${stars(b.rating).replace(/☆/g,'')}</span>`:''}</button>`).join('')}</div>`
       :`<p class="dnone">Your ${y} books will gather here.</p>`}`;
 }
 $('diaryPage').onclick=e=>{const t=e.target.closest('[data-open]');if(t)openReview(t.dataset.open);};
