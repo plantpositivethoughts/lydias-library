@@ -195,6 +195,8 @@
   .ci.slot-quote{background:rgba(255,253,248,.75)}
   .collage:not(.editing) .ci.slot{opacity:.65}
   .ci.quote-item small{display:block;font-family:var(--type);font-size:.5em;line-height:1.4;margin-top:.5em;color:var(--muted)}
+  .topbar{gap:8px}.topbar>span{display:flex;gap:6px;flex-wrap:nowrap}.topbar .back{white-space:nowrap}
+  .topbar .btn{padding:9px 11px;font-size:.8rem;white-space:nowrap}
   .pin-ico{width:18px;height:18px;vertical-align:-4px;margin-right:7px}
   .art-credits{font-size:.72rem;margin:8px 2px 0;line-height:1.5}
   .art-credits a{color:inherit}
@@ -639,7 +641,7 @@
   <section id="view-review" class="view">
     <div class="topbar">
       <button class="back" id="backBtn">← Bookshelf</button>
-      <button class="btn ghost" id="rEdit">Edit details</button>
+      <span><button class="btn ghost" id="rStyle">🎨 Style</button> <button class="btn ghost" id="rEdit">Edit details</button></span>
     </div>
     <div class="hero">
       <button class="cover-big" id="rCover" aria-label="Add or change cover"></button>
@@ -794,6 +796,23 @@
 <dialog id="pickDlg">
   <div class="dlg-head"><h2 id="pickTitle"></h2><button class="x" onclick="pickDlg.close()">×</button></div>
   <div class="dlg-body" id="pickBody"></div>
+</dialog>
+
+<!-- BOOK PAGE STYLE -->
+<dialog id="styleDlg">
+  <div class="dlg-head"><h2>Style this page</h2><button class="x" onclick="styleDlg.close()">×</button></div>
+  <div class="dlg-body">
+    <p class="small" style="margin-top:6px">Give this book its own look. Only this book's page changes.</p>
+    <button class="btn" id="sMatch" style="width:100%">🎨 Match the cover colours</button>
+    <p class="small" id="sMatchMsg"></p>
+    <div class="cust-sec"><label>Background</label><div class="opt-grid" id="sBg"></div>
+      <div class="swatches" style="margin-top:8px"><span class="small">Pattern colour</span><input type="color" id="sBgCol" value="#d9a5a0"></div>
+      <input type="file" id="sBgImg" accept="image/*" hidden></div>
+    <div class="cust-sec"><label>Accent colour</label><div class="swatches" id="sAccent"></div></div>
+    <div class="cust-sec"><label>Heading font</label><div class="opt-grid" id="sHead"></div></div>
+    <div class="cust-sec"><label>Body font</label><div class="opt-grid" id="sBody"></div></div>
+    <div class="btn-row"><button class="btn ghost" id="sReset">Reset this page</button><button class="btn" onclick="styleDlg.close()">Done</button></div>
+  </div>
 </dialog>
 
 <!-- COVER PICKER -->
@@ -1337,33 +1356,48 @@ function ensureFonts(keys){
   document.head.appendChild(l);
 }
 const ff=k=>`"${FONTS[k][0]}",Georgia,serif`;
-function bgCSS(c){
+function bgCSS(c,S='html body',img=c.bgImg){
   const col=c.bgCol||'#d9a5a0', mix=(p,b='#fff')=>`color-mix(in srgb,${col} ${p}%,${b})`;
-  const T='html body,html body #welcome';
+  const T=S==='html body'?'html body,html body #welcome':S;
+  const pic=(src,extra='')=>`${T}{background:transparent!important} ${S}::before{display:block;content:"";position:fixed;inset:-30px;z-index:-1;${extra}
+      background:linear-gradient(rgba(255,252,246,.28),rgba(255,252,246,.28)),url("${src}") center/cover no-repeat}`;
+  const hide=S==='html body'?'':`${S}::before{display:none}`;
   switch(c.bg){
-    case 'plain':return `${T}{background:${col}!important}`;
-    case 'gingham':return `${T}{background-color:${mix(14)}!important;background-image:linear-gradient(90deg,${mix(40,'transparent')} 50%,transparent 50%),linear-gradient(${mix(40,'transparent')} 50%,transparent 50%)!important;background-size:22px 22px!important}`;
-    case 'dots':return `${T}{background-color:${mix(10)}!important;background-image:radial-gradient(${mix(70,'transparent')} 3px,transparent 3.5px)!important;background-size:24px 24px!important}`;
-    case 'stripes':return `${T}{background:repeating-linear-gradient(90deg,${mix(28)} 0 16px,${mix(8)} 16px 32px)!important}`;
-    case 'wash':return `${T}{background:#fbf5ea var(--wash) 0 0/700px 900px!important}`;
-    case 'stars':return `${T}{background:#17121f var(--bg-stars) 0 0/420px 420px!important}`;
-    case 'forest':return `${T}{background:#0f1f19 var(--bg-forest) 0 0/460px 460px!important}`;
-    case 'photo':return c.bgImg?`${T}{background:transparent!important} html body::before{content:"";position:fixed;inset:0;z-index:-1;
-      background:linear-gradient(rgba(255,252,246,.28),rgba(255,252,246,.28)),url("${c.bgImg}") center/cover no-repeat}`:'';
+    case 'plain':return hide+`${T}{background:${col}!important}`;
+    case 'gingham':return hide+`${T}{background-color:${mix(14)}!important;background-image:linear-gradient(90deg,${mix(40,'transparent')} 50%,transparent 50%),linear-gradient(${mix(40,'transparent')} 50%,transparent 50%)!important;background-size:22px 22px!important}`;
+    case 'dots':return hide+`${T}{background-color:${mix(10)}!important;background-image:radial-gradient(${mix(70,'transparent')} 3px,transparent 3.5px)!important;background-size:24px 24px!important}`;
+    case 'stripes':return hide+`${T}{background:repeating-linear-gradient(90deg,${mix(28)} 0 16px,${mix(8)} 16px 32px)!important}`;
+    case 'wash':return hide+`${T}{background:#fbf5ea var(--wash) 0 0/700px 900px!important}`;
+    case 'stars':return hide+`${T}{background:#17121f var(--bg-stars) 0 0/420px 420px!important}`;
+    case 'forest':return hide+`${T}{background:#0f1f19 var(--bg-forest) 0 0/460px 460px!important}`;
+    case 'photo':return img?pic(img):'';
+    case 'cover':return img?pic(img,'filter:blur(14px) saturate(1.1);'):'';
   }
   return '';
 }
-function applyCustom(){
-  const c=state.custom||{}; let css=bgCSS(c);
+function styleCSS(c,S){
+  let css='';
   ensureFonts([c.head,c.body,c.label]);
-  if(c.accent)css+=`html body .btn:not(.ghost),html body .tab.active,html body .fab,html body .chip.on{background:${c.accent}!important;border-color:${c.accent}!important;color:#fff!important}
-    html body .btn.ghost,html body nav.bottom button.active,html body .back{color:${c.accent}!important}
-    html body .bar div{background:${c.accent}!important} html body .star-input button.on,html body .stars{color:${c.accent}!important}`;
-  if(c.head)css+=`html body{--script:${ff(c.head)}} html body :is(header h1,#welcome h1,.panel h3,.sec-title,.month h2,.diary .date,.diary h3,.hero h2,.dlg-head h2,.empty,.shelf-empty,.dnone,#welcome .preview){font-family:${ff(c.head)}!important;text-transform:none!important;letter-spacing:normal!important}`;
-  if(c.body)css+=`html body{--serif:${ff(c.body)};font-family:${ff(c.body)}!important} html body :is(input,textarea,select,.chip,.hero .author){font-family:${ff(c.body)}!important}`;
-  if(c.label)css+=`html body{--type:${ff(c.label)}} html body :is(.tape,.tab,.btn,label,nav.bottom button,.meta,.dm,.ed-row button,.stat span,.small.art-credits){font-family:${ff(c.label)}!important}`;
+  if(c.accent)css+=`${S} .btn:not(.ghost),${S} .tab.active,${S} .fab,${S} .chip.on{background:${c.accent}!important;border-color:${c.accent}!important;color:#fff!important}
+    ${S} .btn.ghost,${S} nav.bottom button.active,${S} .back{color:${c.accent}!important}
+    ${S} .bar div{background:${c.accent}!important} ${S} .star-input button.on,${S} .stars{color:${c.accent}!important}`;
+  if(c.head)css+=`${S}{--script:${ff(c.head)}} ${S} :is(header h1,#welcome h1,.panel h3,.sec-title,.month h2,.diary .date,.diary h3,.hero h2,.dlg-head h2,.empty,.shelf-empty,.dnone,#welcome .preview){font-family:${ff(c.head)}!important;text-transform:none!important;letter-spacing:normal!important}`;
+  if(c.body)css+=`${S}{--serif:${ff(c.body)};font-family:${ff(c.body)}!important} ${S} :is(input,textarea,select,.chip,.hero .author,.quote,.quote-item){font-family:${ff(c.body)}!important}`;
+  if(c.label)css+=`${S}{--type:${ff(c.label)}} ${S} :is(.tape,.tab,.btn,label,nav.bottom button,.meta,.dm,.ed-row button,.stat span,.small.art-credits){font-family:${ff(c.label)}!important}`;
+  return css;
+}
+function applyCustom(){
+  const c=state.custom||{}; let css=bgCSS(c)+styleCSS(c,'html body');
   if(c.size==='s')css+='html{font-size:14px} html body{font-size:15px!important}';
   if(c.size==='l')css+='html{font-size:18px} html body{font-size:19px!important}';
+  // this book's own page style
+  const b=document.body.classList.contains('in-review')&&reviewId?book(reviewId):null, bs=b?.style||{};
+  if(b&&Object.keys(bs).length){
+    const S='html body.in-review';
+    css+=bgCSS(bs,S,bs.bg==='cover'?b.cover:bs.bgImg)+styleCSS(bs,S);
+    if(bs.bg){const dark=['romantasy','fantasy'].includes(state.theme);
+      css+=`${S} :is(.hero,.topbar){background:${dark?'rgba(20,15,28,.78)':'rgba(255,253,247,.86)'};border-radius:8px;padding:10px 12px}`;}
+  }
   $('customStyle').textContent=css;
 }
 function renderCustom(){
@@ -1397,6 +1431,72 @@ $('cAccent').addEventListener('change',e=>{if(e.target.id==='cAccentPick'){save(
 [['cHead','head'],['cBody','body'],['cLabel','label']].forEach(([id,key])=>$(id).onclick=e=>{const b=e.target.closest('[data-v]');if(b)setCustom(key,b.dataset.v);});
 $('cSize').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setCustom('size',b.dataset.v);};
 $('cReset').onclick=()=>{if(!confirm("Reset the background, colours, fonts and text size to this look's defaults?"))return;state.custom={};save();applyCustom();renderCustom();};
+
+/* ================= BOOK PAGE STYLE ================= */
+function bgTiles(c,opts){
+  return opts.map(([k,n])=>{
+    const img=k==='photo'?c.bgImg:k==='cover'?book(reviewId)?.cover:null;
+    const sw=img?`background-image:url('${img}');background-size:cover`:({plain:`background:${c.bgCol||'#d9a5a0'}`,
+      gingham:`background-color:#fbefed;background-image:linear-gradient(90deg,rgba(217,165,160,.55) 50%,transparent 50%),linear-gradient(rgba(217,165,160,.55) 50%,transparent 50%);background-size:10px 10px`,
+      dots:`background:#fbefed radial-gradient(#d9a5a0 2px,transparent 2.5px) 0 0/10px 10px`,stripes:`background:repeating-linear-gradient(90deg,#efd1cc 0 7px,#fbf1ef 7px 14px)`,
+      wash:`background:#fbf5ea var(--wash) 0 0/220px`,stars:`background:#17121f var(--bg-stars) 0 0/200px`,forest:`background:#0f1f19 var(--bg-forest) 0 0/200px`,
+      photo:`background:#eee;display:flex;align-items:center;justify-content:center;font-size:1.4rem`,'':'background:linear-gradient(135deg,#fbf5ea 50%,#17121f 50%)'}[k]);
+    return `<button data-v="${k}" class="${(c.bg||'')===k?'on':''}"><span class="bgsw" style="${sw}">${k==='photo'&&!c.bgImg?'📷':''}</span>${n}</button>`;}).join('');
+}
+function fontTiles(c,key){
+  return `<button data-v="" class="${!c[key]?'on':''}"><span class="ftsw" style="font-family:inherit">Aa</span>Journal's own</button>`+
+    FONT_SETS[key].map(k=>`<button data-v="${k}" class="${c[key]===k?'on':''}"><span class="ftsw" style="font-family:${ff(k).replace(/"/g,"'")}">${key==='head'?'Journal':'Aa Bb'}</span>${FONTS[k][2]}</button>`).join('');
+}
+function renderStyleDlg(){
+  const b=book(reviewId), c=b.style||{};
+  ensureFonts([...FONT_SETS.head,...FONT_SETS.body]);
+  const opts=[['','Journal’s own'],...(b.cover?[['cover','The cover']]:[]),...BG_OPTS.slice(1)];
+  $('sBg').innerHTML=bgTiles(c,opts);
+  $('sBgCol').value=c.bgCol||'#d9a5a0';
+  $('sAccent').innerHTML=`<button class="def ${!c.accent?'on':''}" data-v="">Journal's own</button>`+ACCENTS.map(a=>`<button data-v="${a}" class="${c.accent===a?'on':''}" style="background:${a}" aria-label="${a}"></button>`).join('')+`<input type="color" id="sAccentPick" value="${c.accent||'#b8746c'}" aria-label="Pick any colour">`;
+  $('sHead').innerHTML=fontTiles(c,'head');$('sBody').innerHTML=fontTiles(c,'body');
+  $('sMatch').hidden=!b.cover;
+}
+function setBookStyle(k,v,live){
+  const b=book(reviewId);b.style=b.style||{};if(v)b.style[k]=v;else delete b.style[k];
+  applyCustom();if(!live&&save())renderStyleDlg();
+}
+$('rStyle').onclick=()=>{$('sMatchMsg').textContent='';renderStyleDlg();$('styleDlg').showModal();};
+$('sBg').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId);
+  if(t.dataset.v==='photo'&&(!(b.style||{}).bgImg||b.style.bg==='photo')){$('sBgImg').click();return;}
+  setBookStyle('bg',t.dataset.v);};
+$('sBgImg').onchange=e=>{const f=e.target.files[0];if(!f)return;shrinkPhoto(f,1000,src=>{const b=book(reviewId);b.style=b.style||{};b.style.bgImg=src;setBookStyle('bg','photo');});e.target.value='';};
+$('sBgCol').oninput=e=>{const b=book(reviewId);b.style=b.style||{};b.style.bgCol=e.target.value;if(!['plain','gingham','dots','stripes'].includes(b.style.bg))b.style.bg='plain';applyCustom();};
+$('sBgCol').onchange=()=>{save();renderStyleDlg();};
+$('sAccent').onclick=e=>{const t=e.target.closest('button[data-v]');if(t)setBookStyle('accent',t.dataset.v);};
+$('sAccent').addEventListener('input',e=>{if(e.target.id==='sAccentPick')setBookStyle('accent',e.target.value,true);});
+$('sAccent').addEventListener('change',e=>{if(e.target.id==='sAccentPick'){save();renderStyleDlg();}});
+$('sHead').onclick=e=>{const t=e.target.closest('[data-v]');if(t)setBookStyle('head',t.dataset.v);};
+$('sBody').onclick=e=>{const t=e.target.closest('[data-v]');if(t)setBookStyle('body',t.dataset.v);};
+$('sReset').onclick=()=>{const b=book(reviewId);delete b.style;save();applyCustom();renderStyleDlg();};
+// Pick a light background tint and a strong accent from the cover picture
+$('sMatch').onclick=()=>{
+  const b=book(reviewId);if(!b.cover)return;
+  const img=new Image();img.crossOrigin='anonymous';
+  img.onload=()=>{
+    try{
+      const c=document.createElement('canvas');c.width=c.height=40;const x=c.getContext('2d');x.drawImage(img,0,0,40,40);
+      const d=x.getImageData(0,0,40,40).data, buckets={};
+      for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],bl=d[i+2],mx=Math.max(r,g,bl),mn=Math.min(r,g,bl);
+        if(mx<35||mn>225)continue;const k=(r>>5)+','+(g>>5)+','+(bl>>5);(buckets[k]=buckets[k]||{n:0,r:0,g:0,b:0,s:(mx-mn)/mx});
+        const o=buckets[k];o.n++;o.r+=r;o.g+=g;o.b+=bl;}
+      const list=Object.values(buckets).map(o=>({n:o.n,s:o.s,c:[o.r/o.n,o.g/o.n,o.b/o.n].map(Math.round)}));
+      if(!list.length)throw 0;
+      const main=list.sort((a,c)=>c.n-a.n)[0], vivid=list.filter(o=>o.n>8).sort((a,c)=>c.s*Math.sqrt(c.n)-a.s*Math.sqrt(a.n))[0]||main;
+      const hex=a=>'#'+a.map(v=>Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');
+      const acc=vivid.c.map(v=>v*.8);
+      b.style=b.style||{};b.style.bg='plain';b.style.bgCol=hex(main.c.map(v=>v*.25+255*.75));b.style.accent=hex(acc);
+      save();applyCustom();renderStyleDlg();$('sMatchMsg').textContent='Done! Tweak anything below.';
+    }catch(err){$('sMatchMsg').textContent="This cover's colours can't be read (covers found online sometimes block it). Pick colours below, or use “The cover” as the background.";}
+  };
+  img.onerror=()=>{$('sMatchMsg').textContent="Couldn't load the cover. Check your internet connection.";};
+  img.src=b.cover;
+};
 
 /* ================= NAME & WELCOME ================= */
 const journalTitle=n=>n?`${n}’s Journal`:'My Journal';
@@ -1450,6 +1550,7 @@ function show(v){
   document.body.classList.toggle('in-review',v==='review');
   $('addBtn').style.display=v==='shelf'?'':'none';
   if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderCustom();}
+  if(typeof applyCustom==='function')applyCustom();
 }
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
 function renderAll(){applyTheme();applyCustom();renderName();show('shelf');}
