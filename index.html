@@ -195,6 +195,8 @@
   .ci.slot-quote{background:rgba(255,253,248,.75)}
   .collage:not(.editing) .ci.slot{opacity:.65}
   .ci.quote-item small{display:block;font-family:var(--type);font-size:.5em;line-height:1.4;margin-top:.5em;color:var(--muted)}
+  .art-credits{font-size:.72rem;margin:8px 2px 0;line-height:1.5}
+  .art-credits a{color:inherit}
   .layout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
   .layout-grid button{border:none;background:none;padding:0;cursor:pointer;font-family:var(--type);font-size:.75rem;color:var(--ink)}
   .layout-grid button .collage{margin-bottom:4px;pointer-events:none}
@@ -746,8 +748,7 @@
     </div>
     <div class="ed-row">
       <button data-add="layout">📐 Layout</button>
-      <label class="btn ghost" for="edPhoto" style="margin:0;padding:9px 11px;font-size:.82rem;color:var(--ink);background:#efe2cc">🖼 Picture</label>
-      <input type="file" id="edPhoto" accept="image/*" hidden>
+      <button data-add="art">🖼 Art</button>
       <button data-add="quote">❝ Quote</button>
       <button data-add="label">🏷 Label</button>
       <button data-add="sticker">✨ Sticker</button>
@@ -1022,11 +1023,13 @@ function collageHTML(c,{editing=false,emptyText='',showSlots=true}={}){
 }
 function renderReviewCollage(){
   const b=book(reviewId), has=b.collage?.items?.length;
-  $('rCollage').innerHTML=collageHTML(b.collage,{emptyText:'A blank page for pictures, quotes and little treasures from this book'});
+  const credits=(b.collage?.items||[]).filter(i=>i.credit);
+  $('rCollage').innerHTML=collageHTML(b.collage,{emptyText:'A blank page for pictures, quotes and little treasures from this book'})+
+    (credits.length?`<p class="small art-credits">Art: ${credits.map(i=>i.link?`<a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.credit)}</a>`:esc(i.credit)).join(' · ')}</p>`:'');
   $('rCollageBtn').textContent=has?'Edit collage':'Create collage';
 }
 $('rCollageBtn').onclick=openEditor;
-$('rCollage').onclick=openEditor;
+$('rCollage').onclick=e=>{if(!e.target.closest('a'))openEditor();};
 
 const LAYOUTS={
   classic:{name:'Classic',items:[
@@ -1081,7 +1084,6 @@ function addItem(it){
   const item={id:uid(),x:50+(Math.random()*16-8),y:45+(Math.random()*16-8),r:Math.round(Math.random()*10-5),z,v:0,...it};
   c.items.push(item);sel=item.id;if(save())renderEditor();else{c.items.pop();sel=null;renderEditor();}
 }
-$('edPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,700,src=>addItem({type:'photo',src,w:55}));e.target.value='';};
 
 function bindDrag(){
   const page=$('edPage').querySelector('.collage');
@@ -1120,14 +1122,44 @@ document.querySelector('#selTools').onclick=e=>{
 function convert(it,props){delete it.kind;delete it.a;Object.assign(it,props);sel=it.id;if(!save()){}renderEditor();}
 function fillSlot(it){
   if(it.kind==='quote'){textPicker('quote','',(t,by)=>convert(it,{type:'quote',text:t,by,v:0}));return;}
-  const covers=state.books.filter(b=>b.cover).sort((a,b)=>(b.finished||'').localeCompare(a.finished||''));
+  artPicker(props=>convert(it,{type:'photo',...props}));
+}
+// Art: from the phone, free-to-use art (Openverse), Pinterest (opens in a new tab), or a cover from the shelf
+function artPicker(done){
+  const b=book(reviewId);
+  const covers=state.books.filter(x=>x.cover).sort((a,c)=>(c.finished||'').localeCompare(a.finished||''));
   picker('Add art',
-    `<label class="btn" for="slotPhoto" style="display:block;color:#f6e7cf;margin:10px 0 0;font-size:.95rem">🖼 A photo or artwork from your phone</label>
-     <input type="file" id="slotPhoto" accept="image/*" hidden>
-     ${covers.length?`<label>Or a cover from your bookshelf</label><div class="cover-grid">${covers.map(b=>`<button data-src="${esc(b.cover)}" aria-label="${esc(b.title)}"><img src="${esc(b.cover)}" alt=""></button>`).join('')}</div>`:''}`,
+    `<label class="btn" for="artPhoto" style="display:block;margin:10px 0 0;font-size:.95rem;text-align:center">🖼 Photo or artwork from your phone</label>
+     <input type="file" id="artPhoto" accept="image/*" hidden>
+     <label for="artQuery">🔎 Find art</label>
+     <input id="artQuery" value="${esc([b.title,'art'].join(' '))}" placeholder="e.g. enchanted forest, roses, dragon">
+     <div class="btn-row" style="margin-top:8px"><button class="btn" id="artFree">Search free art</button><button class="btn ghost" id="artPin">Search Pinterest ↗</button></div>
+     <p class="small" id="artStatus"></p>
+     <div class="cover-grid" id="artResults"></div>
+     ${covers.length?`<label>Or a cover from your bookshelf</label><div class="cover-grid">${covers.map(x=>`<button data-src="${esc(x.cover)}" aria-label="${esc(x.title)}"><img src="${esc(x.cover)}" alt=""></button>`).join('')}</div>`:''}`,
     body=>{
-      $('slotPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;$('pickDlg').close();shrinkPhoto(f,700,src=>convert(it,{type:'photo',src}));};
-      body.querySelectorAll('[data-src]').forEach(n=>n.onclick=()=>{$('pickDlg').close();convert(it,{type:'photo',src:n.dataset.src});});
+      $('artPhoto').onchange=e=>{const f=e.target.files[0];if(!f)return;$('pickDlg').close();shrinkPhoto(f,700,src=>done({src}));};
+      $('artQuery').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('artFree').click();}};
+      $('artPin').onclick=()=>{
+        const q=$('artQuery').value.trim();if(!q)return;
+        open('https://www.pinterest.com/search/pins/?q='+encodeURIComponent(q),'_blank','noopener');
+        $('artStatus').textContent='Pinterest opened in a new tab. Save a picture you love to your phone, then come back and tap “Photo or artwork from your phone”.';
+      };
+      $('artFree').onclick=async()=>{
+        const q=$('artQuery').value.trim();if(!q)return;
+        $('artStatus').textContent='Searching…';$('artResults').innerHTML='';
+        try{
+          const r=await fetch('https://api.openverse.org/v1/images/?page_size=18&mature=false&q='+encodeURIComponent(q));
+          const res=(await r.json()).results||[];
+          if(!res.length){$('artStatus').textContent='Nothing found. Try fewer or different words.';return;}
+          $('artStatus').textContent='Free-to-use art from Openverse. Tap one to add it; the artist is credited for you.';
+          $('artResults').innerHTML=res.map((x,i)=>`<button data-art="${i}" aria-label="${esc(x.title||'art')}"><img src="${esc(x.thumbnail||x.url)}" alt="" loading="lazy"></button>`).join('');
+          $('artResults').onclick=ev=>{const t=ev.target.closest('[data-art]');if(!t)return;const x=res[+t.dataset.art];
+            const lic=(x.license||'').toUpperCase()+(x.license_version?' '+x.license_version:'');
+            $('pickDlg').close();done({src:x.url,credit:`“${x.title||'Untitled'}” by ${x.creator||'unknown artist'} (${lic==='CC0 1.0'||x.license==='pdm'?'public domain':'CC '+lic})`,link:x.foreign_landing_url||''});};
+        }catch(err){$('artStatus').textContent="Couldn't search right now. Check your internet connection.";}
+      };
+      body.querySelectorAll('[data-src]').forEach(n=>n.onclick=()=>{$('pickDlg').close();done({src:n.dataset.src});});
     });
 }
 
@@ -1148,6 +1180,7 @@ function textPicker(type,current,done){
 }
 document.querySelector('.ed-tools').addEventListener('click',e=>{
   const a=e.target.closest('[data-add]')?.dataset.add;if(!a)return;
+  if(a==='art')artPicker(props=>addItem({type:'photo',w:55,...props}));
   if(a==='quote')textPicker('quote','',(t,by)=>addItem({type:'quote',text:t,by,w:58}));
   if(a==='layout')picker('Layout',
     `<div class="layout-grid">${Object.entries(LAYOUTS).map(([k,l])=>`<button data-layout="${k}">${collageHTML({bg:coll().bg,items:l.items.map((it,i)=>({id:'l'+i,z:i+1,...it}))},{emptyText:'blank'})}${l.name}</button>`).join('')}</div>
