@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lydia’s Library — Book Journal</title>
+<meta name="theme-color" content="#3b2418">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Lora:wght@400;600&display=swap">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Lydia’s Library">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.png" type="image/png">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+  :root{
+    --bg:#f5ecdc; --card:#fffaf1; --ink:#2e2117; --muted:#86705a;
+    --leaf:#2f6f73; --leaf-soft:#dcebe7; --bloom:#c2643a; --line:#e6d6bc;
+    --walnut:#3b2418; --gold:#e3a94c; --ivy:#5f7d4a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Lora,Georgia,"Times New Roman",serif;background:var(--bg);color:var(--ink);
+    background-image:radial-gradient(circle at 15% 0%,rgba(227,169,76,.18),transparent 45%),radial-gradient(circle at 100% 100%,rgba(95,125,74,.12),transparent 40%);background-attachment:fixed;
+    padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+  header{position:relative;color:#fff8ea;padding:calc(48px + env(safe-area-inset-top)) 20px 20px;min-height:150px;
+    background:linear-gradient(180deg,rgba(40,22,12,.15) 0%,rgba(40,22,12,.75) 100%),url("header.jpg") center/cover,
+      linear-gradient(135deg,var(--walnut),#6b3f22 60%,var(--gold));
+    border-bottom:3px solid var(--gold);box-shadow:0 4px 18px rgba(59,36,24,.35)}
+  header h1{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:2.2rem;font-weight:700;letter-spacing:.5px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+  header p{margin:2px 0 0;font-size:.9rem;font-style:italic;color:#f6dfae;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+  h2,h3{font-family:"Cormorant Garamond",Georgia,serif}
+  .panel h3{font-size:1.35rem;color:var(--walnut)}
+  main{max-width:720px;margin:0 auto;padding:14px}
+  .tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
+  .tab{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;
+    font:inherit;font-size:.9rem;color:var(--ink);white-space:nowrap;cursor:pointer}
+  .tab.active{background:var(--walnut);color:#fff3dc;border-color:var(--gold)}
+  .search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;
+    background:var(--card);margin-bottom:12px}
+  .book{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:var(--radius);
+    padding:12px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(59,36,24,.08)}
+  .book h3{font-size:1.25rem!important}
+  .cover{width:56px;height:84px;border-radius:4px 8px 8px 4px;background:linear-gradient(135deg,var(--leaf),#1f4d50);color:#fff;box-shadow:2px 2px 6px rgba(0,0,0,.25);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;overflow:hidden}
+  .cover img{width:100%;height:100%;object-fit:cover}
+  .book h3{margin:0 0 2px;font-size:1.05rem}
+  .book .author{color:var(--muted);font-size:.9rem;margin:0 0 6px}
+  .meta{font-size:.8rem;color:var(--muted)}
+  .stars{color:var(--bloom);letter-spacing:1px}
+  .empty{text-align:center;color:var(--muted);padding:40px 10px;font-style:italic;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.25rem}
+  .fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#e9884f,var(--bloom));border:2px solid var(--gold)!important;color:#fff;border:none;font-size:1.8rem;box-shadow:0 4px 12px rgba(0,0,0,.2);cursor:pointer}
+  nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--walnut);border-top:2px solid var(--gold);
+    display:flex;padding-bottom:env(safe-area-inset-bottom)}
+  nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font:inherit;font-size:.85rem;color:#c9b08c;cursor:pointer}
+  nav.bottom button.active{color:var(--gold);font-weight:bold}
+  .view{display:none}.view.active{display:block}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:var(--leaf-soft);border-radius:12px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:1.9rem;color:var(--walnut);font-family:"Cormorant Garamond",Georgia,serif}
+  .stat span{font-size:.8rem;color:var(--muted)}
+  .bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0}
+  .bar div{height:100%;background:linear-gradient(90deg,var(--ivy),var(--gold));transition:width .4s}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:12px 0 4px}
+  input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:90px;resize:vertical}
+  .row{display:flex;gap:10px}.row>*{flex:1}
+  .btn{background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:12px 16px;font:inherit;cursor:pointer}
+  .btn.ghost{background:none;color:var(--leaf);border:1px solid var(--leaf)}
+  .btn.danger{background:none;color:#a33;border:1px solid #a33}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  dialog{border:none;border-radius:18px;padding:0;width:min(560px,94vw);max-height:90vh;background:var(--card);color:var(--ink)}
+  dialog::backdrop{background:rgba(30,30,25,.45)}
+  .dlg-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:var(--card);z-index:1}
+  .dlg-head h2{margin:0;font-size:1.5rem;font-weight:700;color:var(--walnut)}
+  .dlg-body{padding:4px 16px 18px}
+  .x{background:none;border:none;font-size:1.5rem;color:var(--muted);cursor:pointer}
+  .star-input button{background:none;border:none;font-size:1.7rem;color:var(--line);cursor:pointer;padding:0 2px}
+  .star-input button.on{color:var(--bloom)}
+  .spice-input button{background:none;border:none;font-size:1.5rem;cursor:pointer;padding:0 2px;filter:grayscale(1);opacity:.35}
+  .spice-input button.on{filter:none;opacity:1}
+  .spice{font-size:.85rem}
+  .quote{border-left:3px solid var(--gold);padding:6px 10px;margin:8px 0;font-style:italic;background:#fbf1e0;border-radius:0 8px 8px 0;
+    display:flex;justify-content:space-between;gap:8px}
+  .quote button{background:none;border:none;color:var(--muted);cursor:pointer}
+  .note-entry{border-bottom:1px dashed var(--line);padding:8px 0;font-size:.95rem}
+  .note-entry small{color:var(--muted);display:block}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.85rem;background:#fff;cursor:pointer}
+  .chip.on{background:var(--leaf-soft);border-color:var(--leaf)}
+  .small{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>📚 Lydia’s Library</h1>
+  <p>every book, every thought, by lantern light</p>
+</header>
+
+<main>
+  <!-- LIBRARY -->
+  <section id="view-library" class="view active">
+    <div class="tabs" id="shelfTabs"></div>
+    <input class="search" id="search" placeholder="Search title or author…">
+    <div id="bookList"></div>
+  </section>
+
+  <!-- STATS -->
+  <section id="view-stats" class="view">
+    <div class="panel">
+      <h3 style="margin-top:0">This year's goal</h3>
+      <div id="goalText" class="small"></div>
+      <div class="bar"><div id="goalBar" style="width:0"></div></div>
+      <label for="goalInput">Books I want to read in <span id="goalYear"></span></label>
+      <div class="row"><input type="number" id="goalInput" min="1"><button class="btn" id="saveGoal" style="flex:0">Save</button></div>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="panel" style="margin-top:12px">
+      <h3 style="margin-top:0">Favourite genres</h3>
+      <div id="genreList" class="small"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="view-settings" class="view">
+    <div class="panel">
+      <h3 style="margin-top:0">Back up your journal</h3>
+      <p class="small">Your journal is saved on this device only. Export a backup now and then, especially before clearing your browser or changing phones.</p>
+      <div class="btn-row">
+        <button class="btn" id="exportBtn">Export backup</button>
+        <button class="btn ghost" id="importBtn">Import backup</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Add to your home screen</h3>
+      <p class="small"><b>iPhone:</b> open in Safari → Share → "Add to Home Screen".<br>
+      <b>Android:</b> open in Chrome → ⋮ menu → "Add to Home screen" / "Install app".</p>
+    </div>
+    <div class="panel">
+      <h3 style="margin-top:0">Start fresh</h3>
+      <p class="small">Deletes every book on this device. This can't be undone.</p>
+      <button class="btn danger" id="wipeBtn">Delete all books</button>
+    </div>
+  </section>
+</main>
+
+<button class="fab" id="addBtn" aria-label="Add book">+</button>
+
+<nav class="bottom">
+  <button data-view="library" class="active">📚 Library</button>
+  <button data-view="stats">🌱 Stats</button>
+  <button data-view="settings">⚙️ Settings</button>
+</nav>
+
+<!-- EDIT BOOK -->
+<dialog id="editDlg">
+  <form method="dialog" id="editForm">
+    <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" value="cancel" type="submit">×</button></div>
+    <div class="dlg-body">
+      <label>Title *</label><input name="title" required>
+      <label>Author</label><input name="author">
+      <div class="row">
+        <div><label>Shelf</label>
+          <select name="shelf">
+            <option value="want">Want to read</option>
+            <option value="reading">Reading</option>
+            <option value="finished">Finished</option>
+            <option value="dnf">Did not finish</option>
+          </select></div>
+        <div><label>Pages</label><input name="pages" type="number" min="0"></div>
+      </div>
+      <div class="row">
+        <div><label>Started</label><input name="started" type="date"></div>
+        <div><label>Finished</label><input name="finished" type="date"></div>
+      </div>
+      <label>Genre</label><input name="genre" list="genres" placeholder="e.g. Fantasy">
+      <datalist id="genres"></datalist>
+      <label>Format</label>
+      <select name="format"><option>Paperback</option><option>Hardback</option><option>Ebook</option><option>Audiobook</option></select>
+      <label>Rating</label>
+      <div class="star-input" id="starInput"></div>
+      <label>Spice rating</label>
+      <div class="spice-input" id="spiceInput"></div>
+      <label>Cover photo (optional)</label>
+      <input type="file" id="coverFile" accept="image/*">
+      <div class="btn-row">
+        <button class="btn" value="save" type="submit">Save book</button>
+        <button class="btn danger" type="button" id="deleteBtn" hidden>Delete</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<!-- BOOK DETAIL -->
+<dialog id="detailDlg">
+  <div class="dlg-head"><h2 id="dTitle"></h2><button class="x" onclick="detailDlg.close()">×</button></div>
+  <div class="dlg-body">
+    <p class="small" id="dMeta"></p>
+    <div class="btn-row" style="margin-top:4px"><button class="btn ghost" id="dEdit">Edit details</button></div>
+
+    <label>How did this book make you feel?</label>
+    <div class="chips" id="moodChips"></div>
+
+    <label>Reading notes</label>
+    <div id="dNotes"></div>
+    <div class="row" style="margin-top:6px">
+      <input id="noteWhere" placeholder="Chapter / page" style="flex:0 0 34%">
+      <input id="noteText" placeholder="A thought…">
+    </div>
+    <button class="btn ghost" id="addNote" style="margin-top:6px">Add note</button>
+
+    <label>Favourite quotes</label>
+    <div id="dQuotes"></div>
+    <textarea id="quoteText" placeholder="Type a line you loved…" style="min-height:60px"></textarea>
+    <button class="btn ghost" id="addQuote" style="margin-top:6px">Save quote</button>
+
+    <label>My review</label>
+    <textarea id="dReview" placeholder="What stayed with you?"></textarea>
+    <p class="small">Your review saves automatically.</p>
+  </div>
+</dialog>
+
+<script>
+const KEY='lydiasLibrary.v1';
+const SHELVES={all:'All',reading:'Reading',want:'Want to read',finished:'Finished',dnf:'Did not finish'};
+const MOODS=['🌸 Uplifted','😢 Moved','😱 Gripped','😂 Amused','🤔 Thoughtful','😌 Cosy','😴 Bored','😠 Frustrated'];
+let state=load();
+let shelf='reading', editingId=null, detailId=null, tempRating=0, tempSpice=0, tempCover=null;
+
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.books)return s;}catch(e){}
+  return {books:[],goals:{}};
+}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(state));}
+  catch(e){alert('Could not save — your device storage may be full. Try exporting a backup and removing some cover photos.');}
+}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const stars=n=>n?'★'.repeat(n)+'☆'.repeat(5-n):'';
+const chillies=n=>n?'🌶️'.repeat(n):'';
+const fmtDate=d=>d?new Date(d+'T00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
+
+/* ---------- Library ---------- */
+function renderTabs(){
+  $('shelfTabs').innerHTML=Object.entries(SHELVES).map(([k,v])=>{
+    const n=k==='all'?state.books.length:state.books.filter(b=>b.shelf===k).length;
+    return `<button class="tab ${k===shelf?'active':''}" data-shelf="${k}">${v} (${n})</button>`;
+  }).join('');
+}
+function renderBooks(){
+  renderTabs();
+  const q=$('search').value.trim().toLowerCase();
+  let list=state.books.filter(b=>(shelf==='all'||b.shelf===shelf)&&
+    (!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)));
+  list.sort((a,b)=>(b.updated||0)-(a.updated||0));
+  if(!list.length){
+    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'Your shelves are waiting.<br>Tap + to add your first book. 📖'}</div>`;
+    return;
+  }
+  $('bookList').innerHTML=list.map(b=>`
+    <div class="book" data-id="${b.id}">
+      <div class="cover">${b.cover?`<img src="${b.cover}" alt="">`:'📖'}</div>
+      <div>
+        <h3>${esc(b.title)}</h3>
+        <p class="author">${esc(b.author)}</p>
+        <div><span class="stars">${stars(b.rating)}</span>${b.spice?` <span class="spice">${chillies(b.spice)}</span>`:''}</div>
+        <div class="meta">${esc(SHELVES[b.shelf])}${b.finished?' · finished '+fmtDate(b.finished):b.started?' · started '+fmtDate(b.started):''}${b.notes?.length?' · '+b.notes.length+' notes':''}</div>
+      </div>
+    </div>`).join('');
+}
+$('shelfTabs').onclick=e=>{const t=e.target.closest('[data-shelf]');if(t){shelf=t.dataset.shelf;renderBooks();}};
+$('search').oninput=renderBooks;
+$('bookList').onclick=e=>{const c=e.target.closest('.book');if(c)openDetail(c.dataset.id);};
+
+/* ---------- Add / edit ---------- */
+function renderStarInput(){
+  $('starInput').innerHTML=[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" class="${i<=tempRating?'on':''}">★</button>`).join('');
+}
+function renderSpiceInput(){
+  $('spiceInput').innerHTML=[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" class="${i<=tempSpice?'on':''}">🌶️</button>`).join('');
+}
+$('spiceInput').onclick=e=>{const b=e.target.closest('button');if(b){const v=+b.dataset.v;tempSpice=v===tempSpice?0:v;renderSpiceInput();}};
+$('starInput').onclick=e=>{const b=e.target.closest('button');if(b){const v=+b.dataset.v;tempRating=v===tempRating?0:v;renderStarInput();}};
+
+function openEdit(id){
+  editingId=id; tempCover=null;
+  const f=$('editForm'), b=state.books.find(x=>x.id===id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
+  ['title','author','shelf','pages','started','finished','genre','format'].forEach(k=>f.elements[k].value=b[k]??'');
+  tempRating=b.rating||0; renderStarInput();
+  tempSpice=b.spice||0; renderSpiceInput();
+  $('coverFile').value='';
+  $('editTitle').textContent=id?'Edit book':'Add a book';
+  $('deleteBtn').hidden=!id;
+  const genres=[...new Set(state.books.map(x=>x.genre).filter(Boolean))];
+  $('genres').innerHTML=genres.map(g=>`<option value="${esc(g)}">`).join('');
+  $('editDlg').showModal();
+}
+$('addBtn').onclick=()=>openEdit(null);
+
+$('coverFile').onchange=e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const img=new Image(), r=new FileReader();
+  r.onload=()=>{img.src=r.result};
+  img.onload=()=>{ // shrink to keep storage small
+    const c=document.createElement('canvas'), h=240, w=Math.round(img.width*h/img.height);
+    c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+    tempCover=c.toDataURL('image/jpeg',.7);
+  };
+  r.readAsDataURL(file);
+};
+
+$('editDlg').addEventListener('close',()=>{
+  if($('editDlg').returnValue!=='save')return;
+  const f=$('editForm'), data={};
+  ['title','author','shelf','pages','started','finished','genre','format'].forEach(k=>data[k]=f.elements[k].value.trim());
+  if(!data.title)return;
+  data.pages=data.pages?+data.pages:'';
+  data.rating=tempRating;
+  data.spice=tempSpice;
+  if(data.shelf==='finished'&&!data.finished)data.finished=new Date().toISOString().slice(0,10);
+  if(data.shelf==='reading'&&!data.started)data.started=new Date().toISOString().slice(0,10);
+  let b=state.books.find(x=>x.id===editingId);
+  if(b)Object.assign(b,data);
+  else{b={id:uid(),notes:[],quotes:[],moods:[],review:'',...data};state.books.push(b);}
+  if(tempCover)b.cover=tempCover;
+  b.updated=Date.now();
+  save(); renderAll();
+  if(detailId===b.id&&$('detailDlg').open)openDetail(b.id);
+});
+$('deleteBtn').onclick=()=>{
+  if(!confirm('Delete this book and all its notes?'))return;
+  state.books=state.books.filter(b=>b.id!==editingId);
+  save(); $('editDlg').close(); if($('detailDlg').open)$('detailDlg').close(); renderAll();
+};
+
+/* ---------- Detail / journal ---------- */
+function cur(){return state.books.find(b=>b.id===detailId);}
+function openDetail(id){
+  detailId=id; const b=cur(); if(!b)return;
+  $('dTitle').textContent=b.title;
+  $('dMeta').innerHTML=[esc(b.author),b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',SHELVES[b.shelf],
+    b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ')
+    +(b.rating||b.spice?`<br><span class="stars">${stars(b.rating)}</span> ${chillies(b.spice)}`:'');
+  $('moodChips').innerHTML=MOODS.map(m=>`<span class="chip ${b.moods?.includes(m)?'on':''}" data-m="${m}">${m}</span>`).join('');
+  $('dNotes').innerHTML=(b.notes||[]).map((n,i)=>`<div class="note-entry"><small>${esc(n.where)}${n.where?' · ':''}${fmtDate(n.date)} <a href="#" data-del-note="${i}" style="color:var(--muted)">remove</a></small>${esc(n.text)}</div>`).join('')||'<p class="small">No notes yet.</p>';
+  $('dQuotes').innerHTML=(b.quotes||[]).map((q,i)=>`<div class="quote"><span>“${esc(q)}”</span><button data-del-quote="${i}">×</button></div>`).join('');
+  $('dReview').value=b.review||'';
+  if(!$('detailDlg').open)$('detailDlg').showModal();
+}
+$('dEdit').onclick=()=>openEdit(detailId);
+$('moodChips').onclick=e=>{
+  const c=e.target.closest('[data-m]');if(!c)return;const b=cur();b.moods=b.moods||[];
+  const m=c.dataset.m;b.moods=b.moods.includes(m)?b.moods.filter(x=>x!==m):[...b.moods,m];
+  b.updated=Date.now();save();openDetail(b.id);
+};
+$('addNote').onclick=()=>{
+  const t=$('noteText').value.trim();if(!t)return;const b=cur();
+  b.notes=b.notes||[];b.notes.push({where:$('noteWhere').value.trim(),text:t,date:new Date().toISOString().slice(0,10)});
+  $('noteText').value='';$('noteWhere').value='';b.updated=Date.now();save();openDetail(b.id);renderBooks();
+};
+$('addQuote').onclick=()=>{
+  const t=$('quoteText').value.trim();if(!t)return;const b=cur();
+  b.quotes=b.quotes||[];b.quotes.push(t);$('quoteText').value='';b.updated=Date.now();save();openDetail(b.id);
+};
+$('detailDlg').onclick=e=>{
+  const b=cur();if(!b)return;
+  if(e.target.dataset.delNote!==undefined){e.preventDefault();b.notes.splice(+e.target.dataset.delNote,1);save();openDetail(b.id);renderBooks();}
+  if(e.target.dataset.delQuote!==undefined){b.quotes.splice(+e.target.dataset.delQuote,1);save();openDetail(b.id);}
+};
+$('dReview').oninput=()=>{const b=cur();b.review=$('dReview').value;b.updated=Date.now();save();};
+
+/* ---------- Stats ---------- */
+function renderStats(){
+  const y=new Date().getFullYear(), ys=String(y);
+  const fin=state.books.filter(b=>b.shelf==='finished');
+  const finYear=fin.filter(b=>(b.finished||'').startsWith(ys));
+  const pagesYear=finYear.reduce((s,b)=>s+(+b.pages||0),0);
+  const rated=fin.filter(b=>b.rating);
+  const avg=rated.length?(rated.reduce((s,b)=>s+b.rating,0)/rated.length).toFixed(1):'–';
+  const goal=state.goals[ys]||'';
+  $('goalYear').textContent=y; $('goalInput').value=goal;
+  $('goalText').textContent=goal?`${finYear.length} of ${goal} books read`:'Set a goal for the year.';
+  $('goalBar').style.width=goal?Math.min(100,finYear.length/goal*100)+'%':'0';
+  const spiced=fin.filter(b=>b.spice);
+  const avgSpice=spiced.length?(spiced.reduce((s,b)=>s+b.spice,0)/spiced.length).toFixed(1):'–';
+  const quotes=state.books.reduce((s,b)=>s+(b.quotes?.length||0),0);
+  $('statGrid').innerHTML=[
+    [finYear.length,'books finished in '+y],[pagesYear.toLocaleString('en-GB'),'pages read in '+y],
+    [state.books.filter(b=>b.shelf==='reading').length,'reading now'],[avg,'average rating'],
+    [avgSpice+(spiced.length?' 🌶️':''),'average spice'],[fin.filter(b=>b.spice>=4).length,'spicy reads (4+ 🌶️)'],
+    [fin.length,'books finished, all time'],[quotes,'quotes saved']
+  ].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+  const g={};fin.forEach(b=>{if(b.genre)g[b.genre]=(g[b.genre]||0)+1});
+  const top=Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  $('genreList').innerHTML=top.length?top.map(([k,v])=>`${esc(k)} — ${v}`).join('<br>'):'Add genres to finished books to see them here.';
+}
+$('saveGoal').onclick=()=>{const v=+$('goalInput').value;const y=String(new Date().getFullYear());
+  if(v>0)state.goals[y]=v;else delete state.goals[y];save();renderStats();};
+
+/* ---------- Settings ---------- */
+$('exportBtn').onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='lydias-library-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.books))throw 0;
+    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{}};save();renderAll();alert('Backup restored.');}
+  }catch(err){alert("That file doesn't look like a Lydia’s Library backup.");}};
+  r.readAsText(f);e.target.value='';
+};
+$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals};save();renderAll();}};
+
+/* ---------- Navigation ---------- */
+document.querySelector('nav.bottom').onclick=e=>{
+  const b=e.target.closest('[data-view]');if(!b)return;
+  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x===b));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+b.dataset.view));
+  $('addBtn').style.display=b.dataset.view==='library'?'':'none';
+  if(b.dataset.view==='stats')renderStats();
+};
+function renderAll(){renderBooks();renderStats();}
+renderAll();
+
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
