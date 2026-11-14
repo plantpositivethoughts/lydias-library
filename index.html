@@ -124,6 +124,7 @@
   input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:2px;font:inherit;background:#fffdf8;color:var(--ink)}
   textarea{min-height:90px;resize:vertical}
   .row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+  .row>button{flex:0 0 auto!important;white-space:nowrap}
   input[type=date]{min-width:0;-webkit-appearance:none;appearance:none;min-height:44px}
   .btn{background:var(--espresso);color:#f6e7cf;border:none;border-radius:2px;padding:11px 16px;font-family:var(--type);font-size:.9rem;cursor:pointer}
   .btn.ghost{background:#efe2cc;color:var(--ink);box-shadow:1px 1px 2px rgba(74,48,34,.2)}
@@ -1006,7 +1007,7 @@ $('saveGoal').onclick=()=>{const v=+$('goalInput').value, y=String(new Date().ge
 function renderSettings(){
   $('nameInput').value=state.name||'';
   const kb=Math.round((localStorage.getItem(KEY)||'').length/1024);
-  $('storageUse').textContent=`Space used: about ${kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB'} of roughly 5 MB. Pictures take the most room.`;
+  $('storageUse').textContent=`Space used: ${kb<1?'less than 1 KB':'about '+(kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB')} of roughly 5 MB. Pictures take the most room.`;
 }
 $('exportBtn').onclick=()=>{
   const blob=new Blob([JSON.stringify(state)],{type:'application/json'});
