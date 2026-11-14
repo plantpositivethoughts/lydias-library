@@ -11,7 +11,8 @@
 <meta name="apple-mobile-web-app-title" content="Reading Journal">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="icon-180.png" sizes="180x180">
 <style>
   :root{
     --bg:#f3ece1; --paper:#fdf8ef; --ink:#3b2a20; --muted:#8a6f5a; --line:#e2d3bd;
@@ -2563,8 +2564,7 @@ function homeSteps(){
   return `<ol class="hs-steps"><li>On iPhone: in Safari, tap Share, then <b>Add to Home Screen</b>.</li><li>On Android: in Chrome, open the menu, then <b>Add to Home screen</b>.</li><li>Then always open your journal from its icon.</li></ol>`;
 }
 function homeScreenHTML(inTour){
-  if(STANDALONE())return `<p>You've opened your journal from your Home Screen, so your books will be kept safe here.</p><span class="ok">You're all set</span>`+
-    (inTour?'':`<p class="small" style="margin-top:12px"><b>Want the app icon with your initial?</b> It's set when the journal is added to your Home Screen. To change it: tap <b>Export backup</b> below first, because removing the icon also removes the books saved in it. Then delete the icon, add the journal to your Home Screen again from Safari, open it and tap <b>Import backup</b>.</p>`);
+  if(STANDALONE())return `<p>You've opened your journal from your Home Screen, so your books will be kept safe here.</p><span class="ok">You're all set</span>`;
   if(IN_APP)return `<p><b>You've opened this inside another app</b>, which may forget your books when you close it.</p><p>Open the app's menu and choose <b>Open in Safari</b> (or Chrome), then add it to your Home Screen:</p>${homeSteps()}`;
   return `<p>Your journal is saved on your phone. To keep your books safe, use it as an app from your Home Screen${inTour?'':', not from a browser tab'}:</p>${homeSteps()}
     <p class="small">The browser and the Home Screen app keep separate copies. If you've already added books here, tap <b>Export backup</b> in Settings first, then <b>Import backup</b> in the Home Screen app.</p>`;
@@ -2639,7 +2639,7 @@ function svgToPng(svg,size){
 let iconKey='';
 async function personalIcon(){
   const name=(state.name||'').trim(), letter=name?[...name][0].toLocaleUpperCase():'', key=letter+'|'+(state.theme||'scrapbook');
-  document.querySelector('meta[name=apple-mobile-web-app-title]').content=name?journalTitle(name):'Reading Journal';
+  return; // the app icon is the same for everyone, so nobody has to reinstall
   if(!letter||key===iconKey)return;iconKey=key;
   const svg=iconSVG(letter);
   const [p180,p192,p512]=await Promise.all([svgToPng(svg,180),svgToPng(svg,192),svgToPng(svg,512)]);

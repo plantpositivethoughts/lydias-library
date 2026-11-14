@@ -1,14 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#f4e4cb"/>
-      <rect width="20" height="40" fill="#c9925e" fill-opacity=".42"/><rect width="40" height="20" fill="#c9925e" fill-opacity=".42"/></pattern>
-    <filter id="r"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="10"/></filter>
+    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#fbf1ea"/>
+      <rect width="20" height="40" fill="#e2aaa3" fill-opacity=".5"/><rect width="40" height="20" fill="#e2aaa3" fill-opacity=".5"/></pattern>
   </defs>
-  <rect width="512" height="512" rx="110" fill="url(#g)"/>
-  <rect x="96" y="76" width="320" height="360" fill="#fdf8ef" stroke="#4a3022" stroke-width="16"/>
-  <rect x="116" y="96" width="280" height="320" fill="none" stroke="#cfae86" stroke-width="4" stroke-dasharray="10 8"/>
-  <g filter="url(#r)" fill="none"><circle cx="300" cy="320" r="70" stroke="#a8743f" stroke-opacity=".45" stroke-width="9"/></g>
-  <circle cx="190" cy="350" r="5" fill="#7a4b2f" fill-opacity=".5"/><circle cx="350" cy="170" r="4" fill="#7a4b2f" fill-opacity=".45"/>
-  <text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="190" fill="#4a3022">J</text>
-  <g fill="#f1ebe1" stroke="#c9bba6" stroke-width="3"><circle cx="96" cy="76" r="16"/><circle cx="416" cy="76" r="16"/><circle cx="96" cy="436" r="16"/><circle cx="416" cy="436" r="16"/></g>
+  <rect width="512" height="512" fill="url(#g)"/>
+  <rect x="86" y="86" width="340" height="340" fill="#fffdf7" stroke="#8a6248" stroke-width="16"/>
+  <rect x="106" y="106" width="300" height="300" fill="none" stroke="#d9b382" stroke-width="4" stroke-dasharray="10 8"/>
+  <!-- open book -->
+  <g fill="none" stroke="#6b4a38" stroke-width="11" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M256 196 C 222 176, 182 172, 146 180 L 146 326 C 182 318, 222 322, 256 342 Z" fill="#fbf3e8"/>
+    <path d="M256 196 C 290 176, 330 172, 366 180 L 366 326 C 330 318, 290 322, 256 342 Z" fill="#fbf3e8"/>
+    <path d="M256 196 L 256 342"/>
+  </g>
+  <g stroke="#c9b49c" stroke-width="5" stroke-linecap="round">
+    <path d="M172 214 C 196 210, 218 212, 236 220"/><path d="M172 240 C 196 236, 218 238, 236 246"/><path d="M172 266 C 196 262, 218 264, 236 272"/>
+    <path d="M276 220 C 294 212, 316 210, 340 214"/><path d="M276 246 C 294 238, 316 236, 340 240"/>
+  </g>
+  <!-- ribbon bookmark -->
+  <path d="M300 186 L 300 300 L 314 286 L 328 300 L 328 182" fill="#c25b74" stroke="#9a3e55" stroke-width="3" stroke-linejoin="round"/>
+  <!-- pearl corners -->
+  <g fill="#f1ebe1" stroke="#c9bba6" stroke-width="3"><circle cx="86" cy="86" r="17"/><circle cx="426" cy="86" r="17"/><circle cx="86" cy="426" r="17"/><circle cx="426" cy="426" r="17"/></g>
 </svg>
