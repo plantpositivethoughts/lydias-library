@@ -989,7 +989,7 @@
     <div style="margin:4px 4px 24px">
       <div class="rating-row" style="margin-bottom:10px">
         <h3 class="sec-title">My collage page</h3>
-        <button class="btn" id="rCollageBtn">Create collage</button>
+        <span><button class="btn ghost" id="rCollageShare" hidden>Share</button> <button class="btn" id="rCollageBtn">Create collage</button></span>
       </div>
       <div id="rCollage"></div>
     </div>
@@ -1248,12 +1248,12 @@
 
 <!-- SHARE -->
 <dialog id="shareDlg">
-  <div class="dlg-head"><h2>Share your review</h2><button class="x" onclick="shareDlg.close()">Close</button></div>
+  <div class="dlg-head"><h2>Share</h2><button class="x" onclick="shareDlg.close()">Close</button></div>
   <div class="dlg-body">
     <div class="cust-sec"><label>Size</label><div class="opt-grid" id="shFmt" style="grid-template-columns:1fr 1fr">
       <button data-v="post">Post<br><span class="small">Instagram &amp; TikTok, 4:5</span></button><button data-v="story">Story<br><span class="small">Full screen, 9:16</span></button></div></div>
-    <div class="cust-sec" id="shKindRow"><label>Show</label><div class="opt-grid" id="shKind" style="grid-template-columns:1fr 1fr">
-      <button data-v="review">Review card</button><button data-v="collage">My collage</button></div></div>
+    <div class="cust-sec" id="shKindRow"><label>Show</label><div class="opt-grid" id="shKind">
+      <button data-v="review">Review card</button><button data-v="collage">Collage + title</button><button data-v="collageonly">Collage only</button></div></div>
     <img id="shPreview" alt="Preview of your share picture" style="display:block;width:100%;margin:14px 0 6px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);background:#eee;min-height:120px">
     <p class="small" id="shStatus"></p>
     <div class="btn-row"><button class="btn" id="shGo">Share…</button><button class="btn ghost" id="shSave">Save image</button></div>
@@ -1807,6 +1807,7 @@ function renderReviewCollage(){
   $('rCollage').innerHTML=collageHTML(b.collage,{emptyText:'A blank page for pictures, quotes and little treasures from this book'})+
     (credits.length?`<p class="small art-credits">Art: ${credits.map(i=>i.link?`<a href="${esc(i.link)}" target="_blank" rel="noopener">${esc(i.credit)}</a>`:esc(i.credit)).join(' · ')}</p>`:'');
   $('rCollageBtn').textContent=has?'Edit collage':'Create collage';
+  $('rCollageShare').hidden=!b.collage?.items?.some(i=>i.type!=='slot');
 }
 $('rCollageBtn').onclick=openEditor;
 $('rCollage').onclick=e=>{if(!e.target.closest('a'))openEditor();};
@@ -2462,6 +2463,13 @@ async function makeShareCanvas(b,fmt,kind){
   x.fillStyle=bg;x.fillRect(0,0,W,H);
   const g=x.createRadialGradient(W*.25,H*.15,0,W*.25,H*.15,W);g.addColorStop(0,'rgba(255,255,255,.18)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
   if(st.bg==='cover'&&b.cover){const im=await loadImg(b.cover,true);if(im){x.save();x.filter='blur(30px)';x.globalAlpha=.6;x.drawImage(im,-60,-60,W+120,H+120);x.restore();}}
+  if(kind==='collageonly'&&b.collage?.items?.some(i=>i.type!=='slot')){
+    const bgs={paper:'#fdf8ef',gingham:'#f4e4cb',kraft:'#d9bc93',linen:'#f5f1ea',blush:'#f6e3df',night:'#2e2a3a'};
+    x.fillStyle=bgs[b.collage.bg]||'#fdf8ef';x.fillRect(0,0,W,H);
+    const ch=Math.min(H,W*4/3), cw=ch*3/4;
+    await drawCollageOn(x,b.collage,(W-cw)/2,(H-ch)/2,cw,ch);
+    return cv;
+  }
   // paper card
   const M=54;x.save();x.shadowColor='rgba(0,0,0,.28)';x.shadowBlur=40;x.shadowOffsetY=14;x.fillStyle=P.paper;rr(x,M,M,W-M*2,H-M*2,18);x.fill();x.restore();
   if(P.outer){x.strokeStyle=P.outer;x.lineWidth=3;rr(x,M+14,M+14,W-M*2-28,H-M*2-28,10);x.stroke();}
@@ -2533,6 +2541,7 @@ async function renderSharePreview(){
   }catch(e){$('shStatus').textContent="Sorry, this picture couldn't be made. An online cover or picture may be blocking it; try a cover from your phone.";}
 }
 $('rShare').onclick=()=>{$('shareDlg').showModal();renderSharePreview();};
+$('rCollageShare').onclick=()=>{shareKind='collageonly';$('shareDlg').showModal();renderSharePreview();};
 $('shFmt').onclick=e=>{const t=e.target.closest('[data-v]');if(t){shareFmt=t.dataset.v;renderSharePreview();}};
 $('shKind').onclick=e=>{const t=e.target.closest('[data-v]');if(t){shareKind=t.dataset.v;renderSharePreview();}};
 const shareName=()=>(book(reviewId).title.replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-').toLowerCase()||'review')+'-'+shareFmt+'.png';
