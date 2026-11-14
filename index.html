@@ -596,6 +596,11 @@
   .swatches input[type=color]{width:44px;height:38px;padding:2px;border-radius:8px}
   .swatches .def{width:auto;border-radius:16px;padding:0 10px;background:#fffdf8;font-size:.75rem;color:#3b2a20}
   .swatches[hidden]{display:none}
+  .view.slide-l{animation:slideL .28s ease-out} .view.slide-r{animation:slideR .28s ease-out}
+  @keyframes slideL{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}
+  @keyframes slideR{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.view.slide-l,.view.slide-r{animation:none}}
+  html,body{overflow-x:hidden}
   /* ratings: colourable stars & chillies, god-tier star */
   :root{--star:#b88a3e;--chili:#d23b2a} body.t-romantasy{--star:#c9a04a} body.t-fantasy{--star:#b8862e}
   .stars,.star-input button.on{color:var(--star)!important}
@@ -1703,6 +1708,28 @@ function renderDiary(){
       :`<p class="dnone">Your ${y} books will gather here.</p>`}`;
 }
 $('diaryPage').onclick=e=>{const t=e.target.closest('[data-open]');if(t)openReview(t.dataset.open);};
+
+/* ================= SWIPE BETWEEN PAGES ================= */
+const PAGE_ORDER=['shelf','diary','months','settings'];
+let swipe=null;
+document.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1){swipe=null;return;}
+  const t=e.touches[0], v=document.querySelector('.view.active')?.id.replace('view-','');
+  // Only on the four main pages, not while a pop-up, the collage editor or the welcome page is open
+  if(!PAGE_ORDER.includes(v)||document.querySelector('dialog[open]')||$('editor').classList.contains('show')||$('welcome').classList.contains('show')){swipe=null;return;}
+  // Ignore swipes that start on things that scroll sideways or take typing, or right at the screen edge (the phone's own back gesture)
+  if(e.target.closest('input,textarea,select,.tabs,.mcovers,.ed-row,.swatches,.cover-grid')||t.clientX<24||t.clientX>innerWidth-24){swipe=null;return;}
+  swipe={x:t.clientX,y:t.clientY,t:Date.now(),v};
+},{passive:true});
+document.addEventListener('touchend',e=>{
+  if(!swipe)return;
+  const t=e.changedTouches[0], dx=t.clientX-swipe.x, dy=t.clientY-swipe.y, dt=Date.now()-swipe.t, from=swipe.v;swipe=null;
+  if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8||dt>700)return;
+  const i=PAGE_ORDER.indexOf(from), j=dx<0?i+1:i-1;
+  if(j<0||j>=PAGE_ORDER.length)return;
+  show(PAGE_ORDER[j]);scrollTo(0,0);
+  const el=$('view-'+PAGE_ORDER[j]);el.classList.remove('slide-l','slide-r');void el.offsetWidth;el.classList.add(dx<0?'slide-l':'slide-r');
+},{passive:true});
 
 /* ================= NAVIGATION ================= */
 function show(v){
