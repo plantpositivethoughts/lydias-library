@@ -87,7 +87,33 @@
     font-size:1.9rem;box-shadow:0 4px 12px rgba(74,48,34,.45);cursor:pointer;z-index:5}
   nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--espresso);border-top:3px solid var(--caramel);display:flex;
     padding-bottom:env(safe-area-inset-bottom);z-index:6}
-  nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font-family:var(--type);font-size:.85rem;color:#cdb08c;cursor:pointer}
+  /* ---------- diary ---------- */
+  .diary{position:relative;background:#fffdf7;padding:22px 18px 26px 46px;margin:6px 2px 24px;box-shadow:2px 4px 12px rgba(74,48,34,.2);
+    background-image:linear-gradient(90deg,transparent 34px,rgba(196,90,70,.35) 34px 35.5px,transparent 35.5px),
+      repeating-linear-gradient(180deg,transparent 0 33px,rgba(150,120,90,.22) 33px 34px);background-position:0 0,0 14px}
+  .diary::before{content:"";position:absolute;left:8px;top:14px;bottom:14px;width:16px;
+    background:radial-gradient(circle at 8px 8px,#5c3b28 0 4px,#c9bba6 4.5px 6px,transparent 6.5px) 0 0/16px 34px repeat-y}
+  .diary .date{font-family:var(--script);font-weight:700;font-size:1.9rem;line-height:1.1;color:var(--espresso);margin:0 0 6px}
+  .diary h3{font-family:var(--script);font-weight:700;font-size:1.7rem;line-height:1.2;color:var(--cocoa);margin:22px 0 6px}
+  .diary h3 small{font-family:var(--type);font-weight:400;font-size:.75rem;color:var(--muted);margin-left:6px}
+  .dentry{display:flex;gap:12px;align-items:center;width:100%;background:none;border:none;border-bottom:1px dashed #d9c4a5;padding:10px 0;
+    text-align:left;cursor:pointer;font:inherit;color:var(--ink)}
+  .dentry .dc{flex:0 0 52px;aspect-ratio:2/3;background:var(--kraft);border-radius:2px 4px 4px 2px;overflow:hidden;box-shadow:2px 2px 5px rgba(74,48,34,.3);
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+  .dentry .dc img{width:100%;height:100%;object-fit:cover}
+  .dentry .dt{flex:1;min-width:0}
+  .dentry b{display:block;font-family:var(--serif);font-size:1.25rem;line-height:1.1;color:var(--espresso)}
+  .dentry i{display:block;font-size:.85rem;color:var(--cocoa)}
+  .dentry .dm{font-family:var(--type);font-size:.72rem;color:var(--muted);margin-top:3px}
+  .dentry .dcol{flex:0 0 54px}
+  .dentry .go{color:var(--muted);font-size:1.2rem}
+  .dgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:8px}
+  .dgrid button{border:none;padding:0;background:none;cursor:pointer;font-family:var(--type);font-size:.62rem;color:var(--cocoa);text-align:center}
+  .dgrid .dc{aspect-ratio:2/3;background:var(--kraft);border-radius:2px 4px 4px 2px;overflow:hidden;box-shadow:2px 2px 5px rgba(74,48,34,.3);
+    display:flex;align-items:center;justify-content:center;padding:4px;font-family:var(--serif);font-size:.75rem;color:var(--espresso);margin-bottom:4px}
+  .dgrid .dc img{width:100%;height:100%;object-fit:cover;margin:-4px}
+  .dnone{font-family:var(--script);font-size:1.35rem;color:var(--muted);margin:4px 0}
+  nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font-family:var(--type);font-size:.78rem;color:#cdb08c;cursor:pointer}
   nav.bottom button.active{color:#fff3df}
 
   /* ---------- panels & forms ---------- */
@@ -341,6 +367,11 @@
     </div>
   </section>
 
+  <!-- DIARY -->
+  <section id="view-diary" class="view">
+    <div class="diary" id="diaryPage"></div>
+  </section>
+
   <!-- MONTHS -->
   <section id="view-months" class="view">
     <div class="panel">
@@ -385,7 +416,8 @@
 <button class="fab" id="addBtn" aria-label="Add book">+</button>
 
 <nav class="bottom">
-  <button data-view="shelf" class="active">📚 Bookshelf</button>
+  <button data-view="shelf" class="active">📚 Shelf</button>
+  <button data-view="diary">📔 Diary</button>
   <button data-view="months">🗓️ Months</button>
   <button data-view="settings">⚙️ Settings</button>
 </nav>
@@ -573,7 +605,11 @@ $('deleteBtn').onclick=()=>{
 };
 
 /* ================= REVIEW PAGE ================= */
+let cameFrom='shelf';
+const BACK={shelf:'← Bookshelf',diary:'← Diary',months:'← Months'};
 function openReview(id){
+  const cur=document.querySelector('.view.active')?.id.replace('view-','');if(cur&&cur!=='review')cameFrom=cur;
+  $('backBtn').textContent=BACK[cameFrom]||'← Back';
   reviewId=id;const b=book(id);if(!b)return;
   show('review');scrollTo(0,0);
   $('rCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change cover':'Add cover'}</span>`;
@@ -598,7 +634,7 @@ $('rMoods').onclick=e=>{const c=e.target.closest('[data-m]');if(!c)return;const 
   b.moods=(b.moods||[]).includes(m)?b.moods.filter(x=>x!==m):[...(b.moods||[]),m];touch(b);renderRatings();};
 $('rReview').oninput=()=>{const b=book(reviewId);b.review=$('rReview').value;touch(b);};
 $('rEdit').onclick=()=>openEdit(reviewId);
-$('backBtn').onclick=()=>show('shelf');
+$('backBtn').onclick=()=>{show(cameFrom);scrollTo(0,0);};
 
 function renderQuotes(){
   const b=book(reviewId);
@@ -882,13 +918,47 @@ $('welcomeName').oninput=()=>{const n=$('welcomeName').value.trim();$('welcomePr
 $('welcomeForm').onsubmit=e=>{e.preventDefault();const n=$('welcomeName').value.trim();if(!n)return;state.name=n;save();renderName();};
 $('saveName').onclick=()=>{const n=$('nameInput').value.trim();if(!n)return;state.name=n;save();renderName();};
 
+/* ================= DIARY ================= */
+function dentry(b,meta){
+  const hasCol=b.collage?.items?.some(i=>i.type!=='slot');
+  return `<button class="dentry" data-open="${b.id}">
+    <span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖'}</span>
+    <span class="dt"><b>${esc(b.title)}</b>${b.author?`<i>${esc(b.author)}</i>`:''}<span class="dm">${meta}</span></span>
+    ${hasCol?`<span class="dcol">${collageHTML(b.collage,{showSlots:false})}</span>`:''}<span class="go">›</span></button>`;
+}
+function renderDiary(){
+  const now=new Date(), y=now.getFullYear(), ym=today().slice(0,7);
+  const days=d=>Math.max(1,Math.round((now-new Date(d+'T00:00'))/864e5)+1);
+  const reading=state.books.filter(b=>b.shelf==='reading').sort((a,b)=>(b.started||'').localeCompare(a.started||''));
+  const fin=state.books.filter(b=>b.shelf==='finished'&&b.finished).sort((a,b)=>b.finished.localeCompare(a.finished));
+  const month=fin.filter(b=>b.finished.startsWith(ym)), year=fin.filter(b=>b.finished.startsWith(String(y)));
+  const rate=b=>[b.rating?`<span class="stars">${stars(b.rating)}</span>`:'',chillies(b.spice)].filter(Boolean).join(' ');
+  const pages=year.reduce((s,b)=>s+(+b.pages||0),0);
+  $('diaryPage').innerHTML=`
+    <p class="date">${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</p>
+    <span class="tape">dear diary…</span>
+
+    <h3>You're currently reading</h3>
+    ${reading.length?reading.map(b=>dentry(b,b.started?`started ${fmtDate(b.started)} · day ${days(b.started)}`:'reading now')).join('')
+      :'<p class="dnone">Nothing on the go. Time to pick your next book?</p>'}
+
+    <h3>This month you read <small>${MONTHS[now.getMonth()]}</small></h3>
+    ${month.length?month.map(b=>dentry(b,`finished ${fmtDate(b.finished)}${rate(b)?' · '+rate(b):''}`)).join('')
+      :'<p class="dnone">No finished books yet this month.</p>'}
+
+    <h3>This year you read <small>${y} · ${year.length} book${year.length===1?'':'s'}${pages?' · '+pages.toLocaleString('en-GB')+' pages':''}</small></h3>
+    ${year.length?`<div class="dgrid">${year.map(b=>`<button data-open="${b.id}"><span class="dc">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</span>${b.rating?stars(b.rating).replace(/☆/g,''):''}</button>`).join('')}</div>`
+      :`<p class="dnone">Your ${y} books will gather here.</p>`}`;
+}
+$('diaryPage').onclick=e=>{const t=e.target.closest('[data-open]');if(t)openReview(t.dataset.open);};
+
 /* ================= NAVIGATION ================= */
 function show(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));
-  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x.dataset.view===v||(v==='review'&&x.dataset.view==='shelf')));
+  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x.dataset.view===v||(v==='review'&&x.dataset.view===cameFrom)));
   document.body.classList.toggle('in-review',v==='review');
   $('addBtn').style.display=v==='shelf'?'':'none';
-  if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='settings')renderSettings();
+  if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings')renderSettings();
 }
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
 function renderAll(){renderName();show('shelf');}
