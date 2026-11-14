@@ -596,6 +596,14 @@
   .swatches input[type=color]{width:44px;height:38px;padding:2px;border-radius:8px}
   .swatches .def{width:auto;border-radius:16px;padding:0 10px;background:#fffdf8;font-size:.75rem;color:#3b2a20}
   .swatches[hidden]{display:none}
+  nav.bottom .ni{font-style:normal}
+  nav.bottom .nl{margin-left:4px}
+  .nav-stacked nav.bottom button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 9px}
+  .nav-stacked nav.bottom .ni{font-size:1.35rem;line-height:1}.nav-stacked nav.bottom .nl{margin:0;font-size:.72rem}
+  .nav-icons nav.bottom .nl{display:none} .nav-icons nav.bottom .ni{font-size:1.5rem}
+  .nav-words nav.bottom .ni{display:none} .nav-words nav.bottom .nl{margin:0}
+  .nav-noicon nav.bottom .ni{display:none} .nav-noicon nav.bottom .nl{margin:0}
+  .opt-grid .navsw{display:block;font-size:.95rem;white-space:nowrap;margin:6px 0 4px}
   .seg{display:flex;gap:6px} .seg button{flex:1}
 </style>
 <style id="customStyle"></style>
@@ -732,6 +740,15 @@
       <div class="cust-sec"><label>Label font</label><div class="opt-grid" id="cLabel"></div></div>
       <div class="cust-sec"><label>Text size</label><div class="seg" id="cSize">
         <button class="btn ghost" data-v="s">Small</button><button class="btn ghost" data-v="">Normal</button><button class="btn ghost" data-v="l">Large</button></div></div>
+      <div class="cust-sec"><label>Bottom buttons: icons</label><div class="opt-grid" id="nIcons"></div></div>
+      <div class="cust-sec"><label>Bottom buttons: layout</label><div class="opt-grid" id="nLayout"></div></div>
+      <div class="cust-sec"><label>Bottom buttons: names</label>
+        <div class="row" style="flex-wrap:wrap" id="nNames">
+          <input data-k="shelf" maxlength="12" placeholder="Shelf" style="flex:1 1 40%"><input data-k="diary" maxlength="12" placeholder="Diary" style="flex:1 1 40%">
+          <input data-k="months" maxlength="12" placeholder="Months" style="flex:1 1 40%"><input data-k="settings" maxlength="12" placeholder="Settings" style="flex:1 1 40%">
+        </div></div>
+      <div class="cust-sec"><label>Bottom buttons: bar colour</label><div class="swatches" id="nBar"></div></div>
+      <div class="cust-sec"><label>Bottom buttons: shape</label><div class="opt-grid" id="nShape"></div></div>
       <div class="btn-row"><button class="btn ghost" id="cReset">Reset to the look's defaults</button></div>
     </div>
     <div class="panel">
@@ -763,11 +780,11 @@
 
 <button class="fab" id="addBtn" aria-label="Add book">+</button>
 
-<nav class="bottom">
-  <button data-view="shelf" class="active">📚 Shelf</button>
-  <button data-view="diary">📔 Diary</button>
-  <button data-view="months">🗓️ Months</button>
-  <button data-view="settings">⚙️ Settings</button>
+<nav class="bottom" id="navBar">
+  <button data-view="shelf" class="active"><span class="ni">📚</span><span class="nl">Shelf</span></button>
+  <button data-view="diary"><span class="ni">📔</span><span class="nl">Diary</span></button>
+  <button data-view="months"><span class="ni">🗓️</span><span class="nl">Months</span></button>
+  <button data-view="settings"><span class="ni">⚙️</span><span class="nl">Settings</span></button>
 </nav>
 
 <!-- COLLAGE EDITOR -->
@@ -1439,7 +1456,9 @@ function applyCustom(){
     if(bs.bg){const dark=bgTone(bs)==='dark';
       css+=`${S} :is(.hero,.topbar){background:${dark?'rgba(20,15,28,.78)':'rgba(255,253,247,.86)'};border-radius:8px;padding:10px 12px}`;}
   }
+  css+=navCSS(c.nav||{});
   $('customStyle').textContent=css;
+  renderNav();
 }
 
 /* ---- shared option tiles ---- */
@@ -1477,6 +1496,7 @@ function renderCustom(){
   $('cAccent').innerHTML=accentTiles(c,"Look's own",'cAccentPick');
   $('cHead').innerHTML=fontTiles(c,'head',"Look's own");$('cBody').innerHTML=fontTiles(c,'body',"Look's own");$('cLabel').innerHTML=fontTiles(c,'label',"Look's own");
   document.querySelectorAll('#cSize button').forEach(b=>b.style.outline=(c.size||'')===b.dataset.v?'2px solid currentColor':'');
+  renderNavOptions();
 }
 function setCustom(k,v){state.custom=state.custom||{};if(v)state.custom[k]=v;else delete state.custom[k];if(save()){applyCustom();renderCustom();}}
 $('cBg').onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;const c=state.custom||{};
@@ -1491,6 +1511,63 @@ $('cAccent').addEventListener('change',e=>{if(e.target.id==='cAccentPick'){save(
 [['cHead','head'],['cBody','body'],['cLabel','label']].forEach(([id,key])=>$(id).onclick=e=>{const b=e.target.closest('[data-v]');if(b)setCustom(key,b.dataset.v);});
 $('cSize').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setCustom('size',b.dataset.v);};
 $('cReset').onclick=()=>{if(!confirm("Reset the background, colours, fonts and text size to this look's defaults?"))return;state.custom={};save();applyCustom();renderCustom();};
+
+/* ---- bottom buttons ---- */
+const NAV_KEYS=['shelf','diary','months','settings'], NAV_NAMES={shelf:'Shelf',diary:'Diary',months:'Months',settings:'Settings'};
+const NAV_ICONS={
+  classic:['Classic',['📚','📔','🗓️','⚙️']],
+  cosy:['Cosy',['🧸','✏️','🌻','🧶']], cafe:['Café',['☕','📝','🍰','🫖']], garden:['Garden',['🪴','🌸','🍂','✂️']],
+  moonlit:['Moonlit',['📖','🌙','✨','🗝️']], roses:['Roses',['🌹','💌','🥀','🕯️']], dragon:['Dragon',['🐉','📜','🔥','⚔️']],
+  quest:['Quest',['🗺️','📜','🧭','🛠️']], woodland:['Woodland',['🍄','🦉','🌿','🪶']], wizard:['Wizard',['🔮','🧪','📖','🪄']],
+  none:['No icons',['','','','']],
+};
+const NAV_SETS={scrapbook:['classic','cosy','cafe','garden'],romantasy:['classic','moonlit','roses','dragon'],fantasy:['classic','quest','woodland','wizard']};
+const NAV_LAYOUTS=[['','Side by side'],['stacked','Stacked'],['icons','Icons only'],['words','Words only']];
+const NAV_SHAPES=[['','Full bar'],['pill','Floating']];
+function renderNav(){
+  const n=(state.custom||{}).nav||{}, icons=NAV_ICONS[n.icons]?.[1]||NAV_ICONS.classic[1];
+  NAV_KEYS.forEach((k,i)=>{const b=document.querySelector(`nav.bottom [data-view=${k}]`);
+    b.querySelector('.ni').textContent=icons[i];b.querySelector('.nl').textContent=(n.names||{})[k]||NAV_NAMES[k];});
+  document.body.classList.remove('nav-stacked','nav-icons','nav-words','nav-noicon');
+  if(n.layout)document.body.classList.add('nav-'+n.layout);
+  if(n.icons==='none'&&n.layout!=='words')document.body.classList.add('nav-noicon');
+}
+function navCSS(n){
+  let css='';
+  const S='html body nav.bottom';
+  if(n.bar==='clear')css+=`${S}{background:rgba(255,255,255,.18)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top-color:rgba(255,255,255,.35)!important}`;
+  else if(n.bar){const lt=lum(n.bar)>.6, fg=lt?'#3b2a20':'#fff8ee';
+    css+=`${S}{background:${n.bar}!important;border-top-color:${n.bar}!important} ${S} button{color:${fg}!important;opacity:.75;text-shadow:none!important} ${S} button.active{opacity:1;font-weight:bold}`;}
+  if(n.shape==='pill')css+=`${S}{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;border-radius:999px!important;border:1px solid rgba(0,0,0,.08)!important;
+    padding-bottom:0!important;box-shadow:0 6px 22px rgba(0,0,0,.25)!important;overflow:hidden} html body .fab{bottom:calc(96px + env(safe-area-inset-bottom))!important}`;
+  return css;
+}
+function renderNavOptions(){
+  const n=(state.custom||{}).nav||{}, o=tOpts();
+  $('nIcons').innerHTML=[...NAV_SETS[state.theme||'scrapbook'],'none'].map(k=>`<button data-v="${k==='classic'?'':k}" class="${(n.icons||'')===(k==='classic'?'':k)?'on':''}"><span class="navsw">${NAV_ICONS[k][1].join('')||'Aa'}</span>${NAV_ICONS[k][0]}</button>`).join('');
+  $('nLayout').innerHTML=NAV_LAYOUTS.map(([k,l])=>`<button data-v="${k}" class="${(n.layout||'')===k?'on':''}">${l}</button>`).join('');
+  $('nShape').innerHTML=NAV_SHAPES.map(([k,l])=>`<button data-v="${k}" class="${(n.shape||'')===k?'on':''}">${l}</button>`).join('');
+  $('nBar').innerHTML=`<button class="def ${!n.bar?'on':''}" data-v="">Look's own</button><button class="def ${n.bar==='clear'?'on':''}" data-v="clear">See-through</button>`+
+    o.accents.map(a=>`<button data-v="${a}" class="${n.bar===a?'on':''}" style="background:${a}" aria-label="${a}"></button>`).join('')+
+    `<input type="color" id="nBarPick" value="${n.bar&&n.bar!=='clear'?n.bar:o.accents[0]}" aria-label="Pick any colour">`;
+  document.querySelectorAll('#nNames input').forEach(i=>i.value=(n.names||{})[i.dataset.k]||'');
+}
+function setNav(k,v,live){
+  state.custom=state.custom||{};const n=state.custom.nav=state.custom.nav||{};
+  if(v)n[k]=v;else delete n[k];
+  if(!Object.keys(n).length)delete state.custom.nav;
+  applyCustom();if(!live&&save())renderNavOptions();
+}
+$('nIcons').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('icons',b.dataset.v);};
+$('nLayout').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('layout',b.dataset.v);};
+$('nShape').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('shape',b.dataset.v);};
+$('nBar').onclick=e=>{const b=e.target.closest('button[data-v]');if(b)setNav('bar',b.dataset.v);};
+$('nBar').addEventListener('input',e=>{if(e.target.id==='nBarPick')setNav('bar',e.target.value,true);});
+$('nBar').addEventListener('change',e=>{if(e.target.id==='nBarPick'){save();renderNavOptions();}});
+$('nNames').addEventListener('input',e=>{const i=e.target.closest('[data-k]');if(!i)return;
+  state.custom=state.custom||{};const n=state.custom.nav=state.custom.nav||{};n.names=n.names||{};
+  const v=i.value.trim();if(v)n.names[i.dataset.k]=v;else delete n.names[i.dataset.k];renderNav();});
+$('nNames').addEventListener('change',()=>save());
 
 /* ================= BOOK PAGE STYLE ================= */
 function renderStyleDlg(){
