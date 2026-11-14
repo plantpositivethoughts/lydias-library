@@ -76,6 +76,7 @@
   .x{font-size:.82rem!important;font-family:var(--type);padding:6px 4px}
   .crow .ops button{font-size:.72rem;font-family:var(--type);padding:3px 6px}
   .crow .ops button:disabled{opacity:.35}
+  .ed-row.sel-tools{flex-wrap:wrap;overflow:visible} .ed-row.sel-tools button{padding:8px 10px;font-size:.78rem}
   .hs-banner{position:relative;background:var(--paper,#fffdf7);color:var(--ink);border:2px dashed var(--caramel,#d9b382);border-radius:10px;padding:12px 14px 12px;margin:0 2px 14px;font-size:.95rem;line-height:1.45;box-shadow:0 3px 10px rgba(0,0,0,.08)}
   .hs-banner.warn{border-style:solid;border-color:#c0392b;background:#fff4f2;color:#5a1d16}
   .hs-banner b.t{display:block;font-family:var(--script);font-size:1.3rem;margin-bottom:4px}
@@ -1181,7 +1182,7 @@
   <div class="ed-tools">
     <div class="ed-row sel-tools" id="selTools" hidden>
       <button data-act="smaller">Smaller</button><button data-act="bigger">Bigger</button>
-      <button data-act="left">Rotate left</button><button data-act="right">Rotate right</button>
+      <button data-act="straight">Straighten</button><button data-act="turn">Turn 90°</button><button data-act="left">Rotate left</button><button data-act="right">Rotate right</button>
       <button data-act="front">Front</button><button data-act="back">Back</button>
       <button data-act="style">Style</button><button data-act="edit" id="editTextBtn">Edit</button>
       <button data-act="delete">Remove</button>
@@ -1887,7 +1888,10 @@ document.querySelector('#selTools').onclick=e=>{
   const c=coll(), it=c.items.find(i=>i.id===sel);if(!it)return;
   if(a==='bigger')it.w=Math.min(140,it.w*1.15);
   if(a==='smaller')it.w=Math.max(4,it.w/1.15);
-  if(a==='left')it.r-=8; if(a==='right')it.r+=8;
+  const snap=r=>{r=((r%360)+360)%360;const n=Math.round(r/90)*90;return Math.abs(r-n)<3?n%360:r;};
+  if(a==='left')it.r=snap((it.r||0)-5); if(a==='right')it.r=snap((it.r||0)+5);
+  if(a==='straight')it.r=0;
+  if(a==='turn')it.r=snap(Math.round(((it.r||0)+90)/90)*90);
   if(a==='front')it.z=Math.max(...c.items.map(i=>i.z))+1;
   if(a==='back'){c.items.forEach(i=>i.z++);it.z=0;}
   if(a==='style')it.v=((it.v||0)+1)%(it.type==='quote'?3:2);
