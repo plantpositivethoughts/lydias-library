@@ -71,6 +71,14 @@
   .series-link{color:inherit;font-weight:bold}
   .pick-books label{display:flex;gap:10px;align-items:center;margin:8px 0;font-family:var(--serif);font-size:1rem;color:var(--ink)}
   .pick-books input{width:auto}
+  .hs-banner{position:relative;background:var(--paper,#fffdf7);color:var(--ink);border:2px dashed var(--caramel,#d9b382);border-radius:10px;padding:12px 14px 12px;margin:0 2px 14px;font-size:.95rem;line-height:1.45;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+  .hs-banner.warn{border-style:solid;border-color:#c0392b;background:#fff4f2;color:#5a1d16}
+  .hs-banner b.t{display:block;font-family:var(--script);font-size:1.3rem;margin-bottom:4px}
+  .hs-banner .x{position:absolute;top:4px;right:6px;font-size:1.3rem}
+  .hs-steps{margin:6px 0 4px;padding-left:22px}.hs-steps li{margin:4px 0}
+  .hs-key{display:inline-block;border:1px solid currentColor;border-radius:5px;padding:0 5px;font-size:.85em;opacity:.85}
+  .tslide .hs-steps{text-align:left;font-size:.98rem}
+  .tslide .ok{display:inline-block;margin-top:8px;padding:6px 12px;border-radius:20px;background:rgba(80,140,90,.15)}
   #fSuggest{margin:8px 0 2px;min-height:0}
   #fSuggest .found{display:block;padding:8px 10px;border-radius:8px;background:rgba(80,140,90,.12)}
   #fSuggest .busy{display:block;padding:8px 10px;border-radius:8px;background:rgba(0,0,0,.05)}
@@ -889,6 +897,7 @@
 <main>
   <!-- BOOKSHELF -->
   <section id="view-shelf" class="view active">
+    <div id="hsBanner" class="hs-banner" hidden></div>
     <div class="seg shelf-mode" id="shelfMode"><button class="btn ghost on" data-m="books">📚 Books</button><button class="btn ghost" data-m="series">🗂 Collections</button></div>
     <div id="booksMode">
       <div class="tabs" id="shelfTabs"></div>
@@ -1143,8 +1152,7 @@
     </div>
     <div class="panel">
       <h3>Add to your home screen</h3>
-      <p class="small"><b>iPhone:</b> open in Safari → Share → "Add to Home Screen".<br>
-      <b>Android:</b> open in Chrome → ⋮ menu → "Add to Home screen" / "Install app".</p>
+      <div id="hsSettings"></div>
     </div>
     <div class="panel">
       <h3>Start fresh</h3>
@@ -2526,8 +2534,45 @@ $('shGo').onclick=async()=>{
 $('shSave').onclick=()=>{if(!shareBlob)return;const a=document.createElement('a');a.href=URL.createObjectURL(shareBlob);a.download=shareName();document.body.appendChild(a);a.click();a.remove();
   if(!$('shStatus').textContent)$('shStatus').textContent='Saved. On iPhone, if the picture opens instead, press and hold it and choose “Save to Photos”.';};
 
+/* ================= HOME SCREEN & SAVING SAFELY ================= */
+const UA=navigator.userAgent||'';
+const IS_IOS=/iPhone|iPad|iPod/.test(UA)||(/Macintosh/.test(UA)&&navigator.maxTouchPoints>1);
+const IS_ANDROID=/Android/.test(UA);
+const IN_APP=/FBAN|FBAV|Instagram|TikTok|musical_ly|BytedanceWebview|Snapchat|Line\/|Pinterest|Twitter|WhatsApp|GSA\/|; wv\)/i.test(UA);
+const STANDALONE=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+let STORAGE_OK=true;
+try{localStorage.setItem('__t','1');STORAGE_OK=localStorage.getItem('__t')==='1';localStorage.removeItem('__t');}catch(e){STORAGE_OK=false;}
+// Ask the phone to keep this journal's storage (honoured best for home-screen apps)
+try{navigator.storage?.persist?.();}catch(e){}
+function homeSteps(){
+  if(IS_IOS)return `<ol class="hs-steps"><li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button <span class="hs-key">□↑</span> at the bottom of the screen.</li>
+    <li>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</li><li>Close Safari and open your journal from its <b>new icon</b> on your Home Screen.</li></ol>`;
+  if(IS_ANDROID)return `<ol class="hs-steps"><li>Open this page in <b>Chrome</b>.</li><li>Tap the <b>⋮</b> menu in the top corner.</li>
+    <li>Tap <b>Add to Home screen</b> or <b>Install app</b>.</li><li>Open your journal from its <b>new icon</b> from now on.</li></ol>`;
+  return `<ol class="hs-steps"><li>On iPhone: Safari → Share <span class="hs-key">□↑</span> → <b>Add to Home Screen</b>.</li><li>On Android: Chrome → <b>⋮</b> → <b>Add to Home screen</b>.</li><li>Then always open your journal from its icon.</li></ol>`;
+}
+function homeScreenHTML(inTour){
+  if(STANDALONE())return `<p>You've opened your journal from your Home Screen, so your books will be kept safe here.</p><span class="ok">✓ You're all set</span>`;
+  if(IN_APP)return `<p><b>You've opened this inside another app</b>, which may forget your books when you close it.</p><p>Tap the <b>⋯</b> or <b>↗</b> menu and choose <b>Open in Safari</b> (or Chrome), then add it to your Home Screen:</p>${homeSteps()}`;
+  return `<p>Your journal is saved on your phone. To keep your books safe, use it as an app from your Home Screen${inTour?'':', not from a browser tab'}:</p>${homeSteps()}
+    <p class="small">The browser and the Home Screen app keep separate copies. If you've already added books here, tap <b>Export backup</b> in Settings first, then <b>Import backup</b> in the Home Screen app.</p>`;
+}
+function renderHomeBanner(){
+  const el=$('hsBanner');
+  if(!STORAGE_OK){el.className='hs-banner warn';el.hidden=false;
+    el.innerHTML=`<b class="t">⚠️ Your books can't be saved here</b>This browser isn't letting the journal save, which usually happens in <b>Private Browsing</b> or inside another app. Open it in a normal Safari or Chrome tab, then add it to your Home Screen.`;return;}
+  if(STANDALONE()){el.hidden=true;return;}
+  const snoozed=(state.hsSnooze||0)>Date.now();
+  if(snoozed&&!IN_APP){el.hidden=true;return;}
+  el.className='hs-banner'+(IN_APP?' warn':'');el.hidden=false;
+  el.innerHTML=`${IN_APP?'':'<button class="x" id="hsClose" aria-label="Remind me later">×</button>'}<b class="t">📲 Add your journal to your Home Screen</b>${homeScreenHTML(false)}`;
+  const c=$('hsClose');if(c)c.onclick=()=>{state.hsSnooze=Date.now()+3*864e5;save();renderHomeBanner();};
+}
+function renderHomeSettings(){$('hsSettings').innerHTML=homeScreenHTML(false);}
+
 /* ================= WELCOME TOUR & GUIDE ================= */
 const TOUR=[
+  ['📲','First, add me to your Home Screen',()=>homeScreenHTML(true)],
   ['📚','Your bookshelf',`<p>Tap the round <b>+</b> to add a book. Give it a cover with a photo, or find the real one online.</p><p>Tap any book on the shelf to open its page.</p>`],
   ['⭐','Rate &amp; review',`<p>Give each book stars and a <span class="tape">spice rating</span>, pick how it made you feel, and write your thoughts.</p><p>Loved it beyond words? Tap the glowing sixth star: <span class="stars">${GOD}</span> god tier.</p>`],
   ['🖼','Make a collage',`<p>On a book's page, tap <b>Create collage</b>. Fill the <b>＋ art</b> and <b>＋ quote</b> spaces with pictures and favourite lines.</p><p>Drag things around, add lace and stickers, or pick a new layout.</p>`],
@@ -2536,7 +2581,7 @@ const TOUR=[
 ];
 let tourAt=0;
 function renderTour(){
-  const [ic,h,body]=TOUR[tourAt];
+  const [ic,h,b0]=TOUR[tourAt], body=typeof b0==='function'?b0():b0;
   $('tourSlides').innerHTML=`<div class="tslide"><div class="ticon">${ic}</div><h2>${h}</h2>${body}</div>`;
   $('tourDots').innerHTML=TOUR.map((_,i)=>`<span class="${i===tourAt?'on':''}"></span>`).join('');
   $('tourNext').textContent=tourAt===TOUR.length-1?'Start reading':'Next';
@@ -2629,7 +2674,7 @@ function show(v){
   document.body.classList.toggle('in-collection',v==='collection');
   if(v==='shelf')renderShelfMode();
   $('addBtn').style.display=v==='shelf'&&shelfMode==='books'?'':'none';
-  if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderCustom();}
+  if(v==='shelf'){renderShelf();renderHomeBanner();} if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderCustom();renderHomeSettings();}
   if(typeof applyCustom==='function')applyCustom();
 }
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
