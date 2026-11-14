@@ -596,6 +596,26 @@
   .swatches input[type=color]{width:44px;height:38px;padding:2px;border-radius:8px}
   .swatches .def{width:auto;border-radius:16px;padding:0 10px;background:#fffdf8;font-size:.75rem;color:#3b2a20}
   .swatches[hidden]{display:none}
+  /* guide & tour */
+  .guide ul{margin:6px 0 0;padding-left:20px;line-height:1.55}
+  .guide li{margin:6px 0}
+  .guide h3{text-align:left!important}
+  #tour{position:fixed;inset:0;z-index:55;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(40,28,20,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  #tour.show{display:flex}
+  .tour-wrap{width:min(420px,100%)} .tour-wrap::before{display:none} .tour-card{box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .tour-card{text-align:center;padding:30px 22px 22px!important;min-height:420px;display:flex;flex-direction:column}
+  #tourSlides{flex:1;touch-action:pan-y}
+  .tslide .ticon{font-size:3.2rem;line-height:1;margin:6px 0 10px}
+  .tslide h2{font-family:var(--script);font-size:2rem;line-height:1.1;margin:0 0 10px;color:var(--espresso)}
+  .tslide p{margin:8px 0;line-height:1.5;font-size:1.02rem}
+  .tslide .tape{margin:2px}
+  .tour-dots{display:flex;justify-content:center;gap:8px;margin:14px 0 12px}
+  .tour-dots span{width:9px;height:9px;border-radius:50%;background:rgba(120,90,60,.25)}
+  .tour-dots span.on{background:var(--cocoa);transform:scale(1.25)}
+  .tour-btns{display:flex;justify-content:space-between;gap:10px}
+  .tour-btns .btn{flex:1}
+  body.t-romantasy .tslide h2{color:var(--gold)} body.t-fantasy .tslide h2{color:var(--moss)}
+  body.t-romantasy .tour-card{color:var(--moon)}
   .view.slide-l{animation:slideL .28s ease-out} .view.slide-r{animation:slideR .28s ease-out}
   @keyframes slideL{from{transform:translateX(40px);opacity:.3}to{transform:none;opacity:1}}
   @keyframes slideR{from{transform:translateX(-40px);opacity:.3}to{transform:none;opacity:1}}
@@ -730,6 +750,71 @@
     <div class="diary" id="diaryPage"></div>
   </section>
 
+  <!-- GUIDE -->
+  <section id="view-guide" class="view">
+    <div class="topbar"><button class="back" id="guideBack">← Settings</button><button class="btn ghost" id="guideTour">Replay the tour</button></div>
+    <h2 class="sec-title" style="font-size:2rem;margin:4px 4px 16px">How to use your journal</h2>
+
+    <div class="panel guide"><h3>📚 Adding books</h3>
+      <ul>
+        <li>Tap the round <b>+</b> button on your shelf to add a book.</li>
+        <li>Tap the <b>Add cover</b> box to take a photo, choose one from your phone, or search for the real cover online.</li>
+        <li>Pick a shelf: <b>Reading</b>, <b>Want to read</b>, <b>Finished</b> or <b>Did not finish</b>. Adding a finished date puts it on Finished for you.</li>
+        <li>Changed your mind? Tap <b>Cancel</b>, the <b>×</b>, or anywhere outside the box.</li>
+        <li>Use the tabs and search bar above the shelf to find a book.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>⭐ Your book's page</h3>
+      <ul>
+        <li>Tap any book on your shelf to open its page.</li>
+        <li>Tap the stars for your rating. The glowing sixth star is for <b>god tier</b> books.</li>
+        <li>Tap the peppers for the spice rating, and pick how the book made you feel.</li>
+        <li>Your review saves as you type. Add favourite quotes and reading notes further down.</li>
+        <li><b>✓ Mark as finished</b> moves a book to Finished with today's date.</li>
+        <li><b>Edit details</b> changes the title, dates or cover, or deletes the book.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>🖼 Collages</h3>
+      <ul>
+        <li>On a book's page, tap <b>Create collage</b>. It starts with spaces ready to fill.</li>
+        <li>Tap a <b>＋ art</b> space to add a photo or drawing from your phone, a book cover, free-to-use art, or something saved from Pinterest.</li>
+        <li>Tap a <b>＋ quote</b> space to add a quote from any book you've saved quotes for.</li>
+        <li>Drag pieces to move them. Tap a piece for Smaller, Bigger, rotate, Front, Back, Style, Edit or Remove.</li>
+        <li><b>📐 Layout</b> gives a new arrangement, <b>✨ Sticker</b> adds lace, tape, doilies and more, and <b>📄 Page</b> changes the paper.</li>
+        <li>Tap <b>Done</b> when you're finished. Free art is credited under the collage for you.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>📔 Diary &amp; 🗓️ Months</h3>
+      <ul>
+        <li><b>Diary</b> shows what you're reading now, what you read this month and everything you've read this year.</li>
+        <li><b>Months</b> gives each month its own page with your books, favourite, a quote and your collages. The borders change with the seasons.</li>
+        <li>Set a reading goal for the year at the top of Months.</li>
+        <li>Tap any book in either one to jump to its page.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>👆 Getting around</h3>
+      <ul>
+        <li>Swipe left and right to move between Shelf, Diary, Months and Settings, or tap the buttons at the bottom.</li>
+        <li>On a book's page, the button at the top takes you back to where you came from.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>🎨 Make it yours</h3>
+      <ul>
+        <li><b>Journal look</b> in Settings switches between Cosy scrapbook, Romantasy and Fantasy.</li>
+        <li><b>Customise</b> changes the background, colours, fonts, text size, star and pepper colours, and the bottom buttons.</li>
+        <li>On any book's page, <b>🎨 Style</b> gives that book its own look. Try <b>Match the cover colours</b>.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>🔒 Keeping your journal safe</h3>
+      <ul>
+        <li>Your journal is saved <b>only on this phone</b>, in this browser. Nobody else can see it.</li>
+        <li>If you clear Safari's data or change phones, it will be lost unless you have a backup. Tap <b>Export backup</b> in Settings now and then, and keep the file somewhere safe.</li>
+        <li>To bring a backup back, tap <b>Import backup</b> and choose the file.</li>
+        <li>Pictures take the most space. Settings shows how much you've used.</li>
+        <li>Add the journal to your home screen to open it like an app (see Settings).</li>
+      </ul></div>
+  </section>
+
   <!-- MONTHS -->
   <section id="view-months" class="view">
     <div class="panel">
@@ -744,6 +829,11 @@
 
   <!-- SETTINGS -->
   <section id="view-settings" class="view">
+    <div class="panel">
+      <h3>How to use your journal</h3>
+      <p class="small" style="margin-top:0">Tips for everything your journal can do, and how to keep it safe.</p>
+      <div class="btn-row" style="margin-top:6px"><button class="btn" id="openGuide">Open the guide</button><button class="btn ghost" id="openTour">Replay the tour</button></div>
+    </div>
     <div class="panel">
       <h3>Journal look</h3>
       <div class="looks" id="looks">
@@ -836,6 +926,18 @@
   <div class="dlg-head"><h2 id="pickTitle"></h2><button class="x" onclick="pickDlg.close()">×</button></div>
   <div class="dlg-body" id="pickBody"></div>
 </dialog>
+
+<!-- WELCOME TOUR -->
+<section id="tour" aria-label="Welcome tour">
+  <div class="frame-wrap tour-wrap">
+    <span class="washi w1"></span><span class="washi w2"></span>
+    <div class="frame tour-card">
+      <div id="tourSlides"></div>
+      <div class="tour-dots" id="tourDots"></div>
+      <div class="tour-btns"><button class="btn ghost" id="tourSkip">Skip</button><button class="btn" id="tourNext">Next</button></div>
+    </div>
+  </div>
+</section>
 
 <!-- BOOK PAGE STYLE -->
 <dialog id="styleDlg">
@@ -1362,11 +1464,11 @@ $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=e=>{
   const f=e.target.files[0];if(!f)return;const r=new FileReader();
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.books))throw 0;
-    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{},name:d.name||state.name,theme:d.theme||state.theme,custom:d.custom||state.custom};save();renderAll();alert('Backup restored.');}
+    if(confirm(`Replace your journal with this backup (${d.books.length} books)?`)){state={books:d.books,goals:d.goals||{},name:d.name||state.name,theme:d.theme||state.theme,custom:d.custom||state.custom,toured:true};save();renderAll();alert('Backup restored.');}
   }catch(err){alert("That file doesn't look like a Reading Journal backup.");}};
   r.readAsText(f);e.target.value='';
 };
-$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,name:state.name,theme:state.theme,custom:state.custom};save();renderAll();}};
+$('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,name:state.name,theme:state.theme,custom:state.custom,toured:true};save();renderAll();}};
 
 /* ================= JOURNAL LOOK ================= */
 const THEME_COLOUR={scrapbook:'#fbf5ea',romantasy:'#17121f',fantasy:'#0f1f19'};
@@ -1664,6 +1766,34 @@ $('sMatch').onclick=()=>{
   img.src=b.cover;
 };
 
+/* ================= WELCOME TOUR & GUIDE ================= */
+const TOUR=[
+  ['📚','Your bookshelf',`<p>Tap the round <b>+</b> to add a book. Give it a cover with a photo, or find the real one online.</p><p>Tap any book on the shelf to open its page.</p>`],
+  ['⭐','Rate &amp; review',`<p>Give each book stars and a <span class="tape">spice rating</span>, pick how it made you feel, and write your thoughts.</p><p>Loved it beyond words? Tap the glowing sixth star: <span class="stars">${GOD}</span> god tier.</p>`],
+  ['🖼','Make a collage',`<p>On a book's page, tap <b>Create collage</b>. Fill the <b>＋ art</b> and <b>＋ quote</b> spaces with pictures and favourite lines.</p><p>Drag things around, add lace and stickers, or pick a new layout.</p>`],
+  ['👆','Find your way',`<p>Swipe left and right to move between your <b>Shelf</b>, <b>Diary</b>, <b>Months</b> and <b>Settings</b>.</p><p>The Diary and Months pages gather up everything you've read.</p>`],
+  ['🎨','Make it yours',`<p>In <b>Settings</b>, choose a look and customise colours, fonts and backgrounds. Each book can have its own style too.</p><p>Your journal lives only on this phone, so tap <b>Export backup</b> now and then to keep it safe.</p>`],
+];
+let tourAt=0;
+function renderTour(){
+  const [ic,h,body]=TOUR[tourAt];
+  $('tourSlides').innerHTML=`<div class="tslide"><div class="ticon">${ic}</div><h2>${h}</h2>${body}</div>`;
+  $('tourDots').innerHTML=TOUR.map((_,i)=>`<span class="${i===tourAt?'on':''}"></span>`).join('');
+  $('tourNext').textContent=tourAt===TOUR.length-1?'Start reading':'Next';
+  $('tourSkip').textContent=tourAt?'Back':'Skip';
+}
+function openTour(){tourAt=0;renderTour();$('tour').classList.add('show');}
+function closeTour(){$('tour').classList.remove('show');state.toured=true;save();}
+$('tourNext').onclick=()=>{if(tourAt<TOUR.length-1){tourAt++;renderTour();}else closeTour();};
+$('tourSkip').onclick=()=>{if(tourAt){tourAt--;renderTour();}else closeTour();};
+let tx=null;
+$('tour').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+$('tour').addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;tx=null;
+  if(dx<-60&&tourAt<TOUR.length-1){tourAt++;renderTour();} else if(dx>60&&tourAt>0){tourAt--;renderTour();}},{passive:true});
+$('openTour').onclick=openTour; $('guideTour').onclick=openTour;
+$('openGuide').onclick=()=>{show('guide');scrollTo(0,0);};
+$('guideBack').onclick=()=>{show('settings');scrollTo(0,0);};
+
 /* ================= NAME & WELCOME ================= */
 const journalTitle=n=>n?`${n}’s Journal`:'My Journal';
 function renderName(){
@@ -1672,7 +1802,7 @@ function renderName(){
   $('welcome').classList.toggle('show',!state.name);
 }
 $('welcomeName').oninput=()=>{const n=$('welcomeName').value.trim();$('welcomePreview').textContent=n?journalTitle(n):'';};
-$('welcomeForm').onsubmit=e=>{e.preventDefault();const n=$('welcomeName').value.trim();if(!n)return;state.name=n;save();renderName();};
+$('welcomeForm').onsubmit=e=>{e.preventDefault();const n=$('welcomeName').value.trim();if(!n)return;state.name=n;save();renderName();if(!state.toured)openTour();};
 $('saveName').onclick=()=>{const n=$('nameInput').value.trim();if(!n)return;state.name=n;save();renderName();};
 
 /* ================= DIARY ================= */
@@ -1716,7 +1846,7 @@ document.addEventListener('touchstart',e=>{
   if(e.touches.length!==1){swipe=null;return;}
   const t=e.touches[0], v=document.querySelector('.view.active')?.id.replace('view-','');
   // Only on the four main pages, not while a pop-up, the collage editor or the welcome page is open
-  if(!PAGE_ORDER.includes(v)||document.querySelector('dialog[open]')||$('editor').classList.contains('show')||$('welcome').classList.contains('show')){swipe=null;return;}
+  if(!PAGE_ORDER.includes(v)||document.querySelector('dialog[open]')||$('editor').classList.contains('show')||$('welcome').classList.contains('show')||$('tour').classList.contains('show')){swipe=null;return;}
   // Ignore swipes that start on things that scroll sideways or take typing, or right at the screen edge (the phone's own back gesture)
   if(e.target.closest('input,textarea,select,.tabs,.mcovers,.ed-row,.swatches,.cover-grid')||t.clientX<24||t.clientX>innerWidth-24){swipe=null;return;}
   swipe={x:t.clientX,y:t.clientY,t:Date.now(),v};
@@ -1734,14 +1864,14 @@ document.addEventListener('touchend',e=>{
 /* ================= NAVIGATION ================= */
 function show(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));
-  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x.dataset.view===v||(v==='review'&&x.dataset.view===cameFrom)));
+  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x.dataset.view===v||(v==='review'&&x.dataset.view===cameFrom)||(v==='guide'&&x.dataset.view==='settings')));
   document.body.classList.toggle('in-review',v==='review');
   $('addBtn').style.display=v==='shelf'?'':'none';
   if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderCustom();}
   if(typeof applyCustom==='function')applyCustom();
 }
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
-function renderAll(){applyTheme();applyCustom();renderName();show('shelf');}
+function renderAll(){applyTheme();applyCustom();renderName();show('shelf');if(state.name&&!state.toured)openTour();}
 renderAll();
 
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
