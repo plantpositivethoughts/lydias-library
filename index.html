@@ -92,6 +92,15 @@
   .chip{border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.85rem;background:#fff;cursor:pointer}
   .chip.on{background:var(--mint);border-color:#9fd3bb}
   .small{font-size:.85rem;color:var(--muted)}
+  .d-top{display:flex;gap:14px;align-items:flex-start}
+  .cover.big{width:96px;height:144px;font-size:2.4rem;cursor:pointer;position:relative;background:var(--lav)}
+  .cover.big .tap{position:absolute;bottom:0;left:0;right:0;background:rgba(62,58,72,.55);color:#fff;font-size:.7rem;text-align:center;padding:3px 0;font-family:Lora,Georgia,serif}
+  .cover-opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .cover-opts .btn{text-align:left}
+  .cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .cover-grid button{border:2px solid transparent;border-radius:8px;padding:0;background:var(--line);cursor:pointer;overflow:hidden}
+  .cover-grid button:focus,.cover-grid button:hover{border-color:var(--lav-deep)}
+  .cover-grid img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
 </style>
 </head>
 <body>
@@ -195,12 +204,33 @@
   </form>
 </dialog>
 
+<!-- COVER PICKER -->
+<dialog id="coverDlg">
+  <div class="dlg-head"><h2>Book cover</h2><button class="x" onclick="coverDlg.close()">×</button></div>
+  <div class="dlg-body">
+    <div class="cover-opts">
+      <label class="btn" for="coverPhoto" style="color:#fff;margin:0;font-size:1rem">📷 Take a photo or choose from your photos</label>
+      <input type="file" id="coverPhoto" accept="image/*" hidden>
+    </div>
+    <label for="coverQuery">🔎 Find the cover online</label>
+    <div class="row"><input id="coverQuery" placeholder="Title and author"><button class="btn" id="coverSearch" style="flex:0">Search</button></div>
+    <p class="small" id="coverStatus"></p>
+    <div class="cover-grid" id="coverResults"></div>
+    <div class="btn-row"><button class="btn danger" id="coverRemove" hidden>Remove cover</button></div>
+  </div>
+</dialog>
+
 <!-- BOOK DETAIL -->
 <dialog id="detailDlg">
   <div class="dlg-head"><h2 id="dTitle"></h2><button class="x" onclick="detailDlg.close()">×</button></div>
   <div class="dlg-body">
-    <p class="small" id="dMeta"></p>
-    <div class="btn-row" style="margin-top:4px"><button class="btn ghost" id="dEdit">Edit details</button></div>
+    <div class="d-top">
+      <div class="cover big" id="dCover" role="button" aria-label="Add or change cover"></div>
+      <div>
+        <p class="small" id="dMeta" style="margin-top:0"></p>
+        <button class="btn ghost" id="dEdit">Edit details</button>
+      </div>
+    </div>
 
     <label>How did this book make you feel?</label>
     <div class="chips" id="moodChips"></div>
@@ -265,7 +295,7 @@ function renderBooks(){
   }
   $('bookList').innerHTML=list.map(b=>`
     <div class="book" data-id="${b.id}">
-      <div class="cover">${b.cover?`<img src="${b.cover}" alt="">`:'📖'}</div>
+      <div class="cover">${b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖'}</div>
       <div>
         <h3>${esc(b.title)}</h3>
         <p class="author">${esc(b.author)}</p>
@@ -303,17 +333,18 @@ function openEdit(id){
 }
 $('addBtn').onclick=()=>openEdit(null);
 
-$('coverFile').onchange=e=>{
-  const file=e.target.files[0]; if(!file)return;
+// Shrink a photo so lots of covers fit in the phone's storage
+function shrinkPhoto(file,cb){
   const img=new Image(), r=new FileReader();
   r.onload=()=>{img.src=r.result};
-  img.onload=()=>{ // shrink to keep storage small
-    const c=document.createElement('canvas'), h=240, w=Math.round(img.width*h/img.height);
+  img.onload=()=>{
+    const c=document.createElement('canvas'), h=360, w=Math.round(img.width*h/img.height);
     c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
-    tempCover=c.toDataURL('image/jpeg',.7);
+    cb(c.toDataURL('image/jpeg',.75));
   };
   r.readAsDataURL(file);
-};
+}
+$('coverFile').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,d=>tempCover=d);};
 
 $('editDlg').addEventListener('close',()=>{
   if($('editDlg').returnValue!=='save')return;
@@ -344,6 +375,7 @@ function cur(){return state.books.find(b=>b.id===detailId);}
 function openDetail(id){
   detailId=id; const b=cur(); if(!b)return;
   $('dTitle').textContent=b.title;
+  $('dCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change':'Add cover'}</span>`;
   $('dMeta').innerHTML=[esc(b.author),b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',SHELVES[b.shelf],
     b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ')
     +(b.rating||b.spice?`<br><span class="stars">${stars(b.rating)}</span> ${chillies(b.spice)}`:'');
@@ -374,6 +406,36 @@ $('detailDlg').onclick=e=>{
   if(e.target.dataset.delQuote!==undefined){b.quotes.splice(+e.target.dataset.delQuote,1);save();openDetail(b.id);}
 };
 $('dReview').oninput=()=>{const b=cur();b.review=$('dReview').value;b.updated=Date.now();save();};
+
+/* ---------- Cover picker ---------- */
+function setCover(url){
+  const b=cur();if(!b)return;
+  if(url)b.cover=url;else delete b.cover;
+  b.updated=Date.now();save();$('coverDlg').close();openDetail(b.id);renderBooks();
+}
+$('dCover').onclick=()=>{
+  const b=cur();
+  $('coverQuery').value=[b.title,b.author].filter(Boolean).join(' ');
+  $('coverResults').innerHTML='';$('coverStatus').textContent='';
+  $('coverRemove').hidden=!b.cover;
+  $('coverDlg').showModal();
+};
+$('coverPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,setCover);e.target.value='';};
+$('coverRemove').onclick=()=>setCover(null);
+$('coverQuery').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('coverSearch').click();}};
+$('coverSearch').onclick=async()=>{
+  const q=$('coverQuery').value.trim();if(!q)return;
+  $('coverStatus').textContent='Searching…';$('coverResults').innerHTML='';
+  try{
+    const res=await fetch('https://openlibrary.org/search.json?limit=24&fields=cover_i,title,author_name&q='+encodeURIComponent(q));
+    const data=await res.json();
+    const ids=[...new Set((data.docs||[]).map(d=>d.cover_i).filter(Boolean))].slice(0,12);
+    if(!ids.length){$('coverStatus').textContent='No covers found. Try just the title, or take a photo instead.';return;}
+    $('coverStatus').textContent='Tap the cover you want:';
+    $('coverResults').innerHTML=ids.map(id=>`<button data-cover="https://covers.openlibrary.org/b/id/${id}-L.jpg"><img src="https://covers.openlibrary.org/b/id/${id}-M.jpg" alt="" loading="lazy"></button>`).join('');
+  }catch(err){$('coverStatus').textContent="Couldn't search right now. Check your internet connection, or take a photo instead.";}
+};
+$('coverResults').onclick=e=>{const b=e.target.closest('[data-cover]');if(b)setCover(b.dataset.cover);};
 
 /* ---------- Stats ---------- */
 function renderStats(){

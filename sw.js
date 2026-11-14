@@ -1,5 +1,5 @@
 // Lets Lydia’s Library open without an internet connection.
-const CACHE = 'lydias-library-v4';
+const CACHE = 'lydias-library-v5';
 const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', e => {
