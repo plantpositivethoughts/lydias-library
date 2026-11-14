@@ -2373,7 +2373,7 @@ function navCSS(n){
   const S='html body nav.bottom';
   if(n.bar==='clear')css+=`${S}{background:rgba(255,255,255,.18)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top-color:rgba(255,255,255,.35)!important}`;
   else if(n.bar){const lt=lum(n.bar)>.6, fg=lt?'#3b2a20':'#fff8ee';
-    css+=`${S}{background:${n.bar}!important;border-top-color:${n.bar}!important} ${S} button{color:${fg}!important;opacity:.75;text-shadow:none!important} ${S} button.active{opacity:1;font-weight:bold}`;}
+    css+=`${S}{background:${n.bar}!important;border-top-color:${n.bar}!important} ${S} button{color:${fg}!important;opacity:.75;text-shadow:none!important} html body nav.bottom.bottom button.active{color:${fg}!important;opacity:1;font-weight:bold;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}`;}
   if(n.shape==='pill')css+=`${S}{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;border-radius:999px!important;border:1px solid rgba(0,0,0,.08)!important;
     padding-bottom:0!important;box-shadow:0 6px 22px rgba(0,0,0,.25)!important;overflow:hidden} html body .fab{bottom:calc(96px + env(safe-area-inset-bottom))!important}`;
   return css;
