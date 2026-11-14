@@ -14,72 +14,70 @@
 <link rel="apple-touch-icon" href="icon.svg">
 <style>
   :root{
-    --bg:#f3ece1; --paper:#fdf8ef; --card:#fdf8ef; --ink:#3b2a20; --muted:#8a6f5a; --line:#e2d3bd;
+    --bg:#f3ece1; --paper:#fdf8ef; --ink:#3b2a20; --muted:#8a6f5a; --line:#e2d3bd;
     --espresso:#4a3022; --cocoa:#6e4630; --caramel:#c9925e; --kraft:#d8b98f; --gold:#b88a3e; --rust:#a4532f;
-    --radius:4px;
     --type:"Special Elite","Courier New",monospace; --script:"Homemade Apple","Brush Script MT",cursive;
     --serif:"Cormorant Garamond",Georgia,serif;
+    --splat:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22420%22 height=%22620%22%3E%3Ccircle cx=%22136%22 cy=%2294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22225%22 cy=%22227%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2236%22 cy=%22259%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2225%22 cy=%22351%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%22242%22 cy=%22246%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2256%22 cy=%22260%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22235%22 cy=%22423%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2279%22 cy=%2260%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22260%22 cy=%22308%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22196%22 cy=%22573%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2276%22 cy=%22483%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22208%22 cy=%22213%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2231%22 cy=%22317%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22205%22 cy=%2224%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22241%22 cy=%22543%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22250%22 cy=%22360%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22397%22 cy=%22294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22295%22 cy=%22401%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.24%22/%3E%3Ccircle cx=%22162%22 cy=%22415%22 r=%220.8%22 fill=%22#c39a5c%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22257%22 cy=%22306%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22104%22 cy=%22242%22 r=%223.5%22 fill=%22#c39a5c%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22189%22 cy=%22341%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22117%22 cy=%22257%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%2263%22 cy=%22109%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.18%22/%3E%3Ccircle cx=%22349%22 cy=%22113%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22225%22 cy=%22378%22 r=%221.2%22 fill=%22#7a4b2f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22217%22 cy=%22383%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22366%22 cy=%22590%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.27%22/%3E%3Ccircle cx=%22168%22 cy=%2264%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%2228%22 cy=%22129%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%2222%22 cy=%220%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22153%22 cy=%2216%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2262%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%2252%22 cy=%22526%22 r=%221.5%22 fill=%22#c39a5c%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2236%22 cy=%2263%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22291%22 cy=%22320%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22290%22 cy=%22567%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22270%22 cy=%2256%22 r=%223.5%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22381%22 cy=%22221%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22211%22 cy=%22395%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22344%22 cy=%22459%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22149%22 cy=%2218%22 r=%220.8%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%2281%22 cy=%22375%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22304%22 cy=%22217%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2295%22 cy=%22122%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%22378%22 cy=%22521%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2236%22 cy=%22410%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2275%22 cy=%22489%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22408%22 cy=%22245%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.34%22/%3E%3Ccircle cx=%2271%22 cy=%2279%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.38%22/%3E%3Ccircle cx=%22339%22 cy=%2291%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.40%22/%3E%3Ccircle cx=%22276%22 cy=%22217%22 r=%222%22 fill=%22#3e2a1e%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%226%22 cy=%22602%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22392%22 cy=%22269%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2289%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22246%22 cy=%22161%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22311%22 cy=%22557%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22217%22 cy=%22513%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22220%22 cy=%2212%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22326%22 cy=%2293%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2251%22 cy=%2238%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22203%22 cy=%22481%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22116%22 cy=%22479%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22319%22 cy=%22566%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22212%22 cy=%22318%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22224%22 cy=%22296%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22396%22 cy=%22161%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2258%22 cy=%2275%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22101%22 cy=%2245%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22377%22 cy=%2296%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3C/svg%3E"); --ring:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22220%22 height=%22200%22 viewBox=%220 0 220 200%22%3E%3Cdefs%3E%3Cfilter id=%22r%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.035%22 numOctaves=%222%22 seed=%224%22/%3E%3CfeDisplacementMap in=%22SourceGraphic%22 scale=%229%22/%3E%3C/filter%3E%3C/defs%3E%3Cg filter=%22url%28#r%29%22 fill=%22none%22%3E%3Ccircle cx=%2288%22 cy=%2292%22 r=%2262%22 stroke=%22#a8743f%22 stroke-opacity=%22.35%22 stroke-width=%227%22/%3E%3Ccircle cx=%2288%22 cy=%2292%22 r=%2258%22 stroke=%22#c39a5c%22 stroke-opacity=%22.18%22 stroke-width=%2212%22/%3E%3Ccircle cx=%22140%22 cy=%22118%22 r=%2254%22 stroke=%22#8a5a32%22 stroke-opacity=%22.3%22 stroke-width=%225%22/%3E%3Ccircle cx=%22140%22 cy=%22118%22 r=%2250%22 stroke=%22#c39a5c%22 stroke-opacity=%22.15%22 stroke-width=%229%22/%3E%3C/g%3E%3Ccircle cx=%2240%22 cy=%22160%22 r=%224%22 fill=%22#7a4b2f%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%22190%22 cy=%2240%22 r=%223%22 fill=%22#7a4b2f%22 fill-opacity=%22.3%22/%3E%3Ccircle cx=%22175%22 cy=%22182%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%2220%22 cy=%2260%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%22.35%22/%3E%3C/svg%3E");
+    --pearls:radial-gradient(circle at 8px 8px,#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at calc(100% - 8px) 8px,#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at 8px calc(100% - 8px),#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at calc(100% - 8px) calc(100% - 8px),#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px);
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Lora,Georgia,serif;color:var(--ink);background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22420%22 height=%22620%22%3E%3Ccircle cx=%22136%22 cy=%2294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22225%22 cy=%22227%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2236%22 cy=%22259%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2225%22 cy=%22351%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%22242%22 cy=%22246%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2256%22 cy=%22260%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22235%22 cy=%22423%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2279%22 cy=%2260%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22260%22 cy=%22308%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22196%22 cy=%22573%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2276%22 cy=%22483%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22208%22 cy=%22213%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2231%22 cy=%22317%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22205%22 cy=%2224%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22241%22 cy=%22543%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22250%22 cy=%22360%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22397%22 cy=%22294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22295%22 cy=%22401%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.24%22/%3E%3Ccircle cx=%22162%22 cy=%22415%22 r=%220.8%22 fill=%22#c39a5c%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22257%22 cy=%22306%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22104%22 cy=%22242%22 r=%223.5%22 fill=%22#c39a5c%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22189%22 cy=%22341%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22117%22 cy=%22257%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%2263%22 cy=%22109%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.18%22/%3E%3Ccircle cx=%22349%22 cy=%22113%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22225%22 cy=%22378%22 r=%221.2%22 fill=%22#7a4b2f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22217%22 cy=%22383%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22366%22 cy=%22590%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.27%22/%3E%3Ccircle cx=%22168%22 cy=%2264%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%2228%22 cy=%22129%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%2222%22 cy=%220%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22153%22 cy=%2216%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2262%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%2252%22 cy=%22526%22 r=%221.5%22 fill=%22#c39a5c%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2236%22 cy=%2263%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22291%22 cy=%22320%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22290%22 cy=%22567%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22270%22 cy=%2256%22 r=%223.5%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22381%22 cy=%22221%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22211%22 cy=%22395%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22344%22 cy=%22459%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22149%22 cy=%2218%22 r=%220.8%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%2281%22 cy=%22375%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22304%22 cy=%22217%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2295%22 cy=%22122%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%22378%22 cy=%22521%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2236%22 cy=%22410%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2275%22 cy=%22489%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22408%22 cy=%22245%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.34%22/%3E%3Ccircle cx=%2271%22 cy=%2279%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.38%22/%3E%3Ccircle cx=%22339%22 cy=%2291%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.40%22/%3E%3Ccircle cx=%22276%22 cy=%22217%22 r=%222%22 fill=%22#3e2a1e%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%226%22 cy=%22602%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22392%22 cy=%22269%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2289%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22246%22 cy=%22161%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22311%22 cy=%22557%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22217%22 cy=%22513%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22220%22 cy=%2212%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22326%22 cy=%2293%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2251%22 cy=%2238%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22203%22 cy=%22481%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22116%22 cy=%22479%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22319%22 cy=%22566%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22212%22 cy=%22318%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22224%22 cy=%22296%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22396%22 cy=%22161%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2258%22 cy=%2275%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22101%22 cy=%2245%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22377%22 cy=%2296%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3C/svg%3E") 0 0/420px 620px;
+  body{margin:0;font-family:Lora,Georgia,serif;color:var(--ink);background:var(--bg) var(--splat) 0 0/420px 620px;
     padding-bottom:calc(84px + env(safe-area-inset-bottom))}
   h2,h3{font-family:var(--serif)}
+  .gingham{background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.42) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.42) 50%,transparent 50%);background-size:20px 20px}
 
-  /* header: gingham page, framed paper panel, pearls, typewriter tape */
-  header{background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.42) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.42) 50%,transparent 50%);background-size:20px 20px;padding:calc(22px + env(safe-area-inset-top)) 16px 20px;border-bottom:4px solid var(--espresso)}
-  .frame{position:relative;max-width:690px;margin:0 auto;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22220%22 height=%22200%22 viewBox=%220 0 220 200%22%3E %3Cdefs%3E%3Cfilter id=%22r%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.035%22 numOctaves=%222%22 seed=%224%22/%3E%3CfeDisplacementMap in=%22SourceGraphic%22 scale=%229%22/%3E%3C/filter%3E%3C/defs%3E %3Cg filter=%22url%28#r%29%22 fill=%22none%22%3E %3Ccircle cx=%2288%22 cy=%2292%22 r=%2262%22 stroke=%22#a8743f%22 stroke-opacity=%22.35%22 stroke-width=%227%22/%3E %3Ccircle cx=%2288%22 cy=%2292%22 r=%2258%22 stroke=%22#c39a5c%22 stroke-opacity=%22.18%22 stroke-width=%2212%22/%3E %3Ccircle cx=%22140%22 cy=%22118%22 r=%2254%22 stroke=%22#8a5a32%22 stroke-opacity=%22.3%22 stroke-width=%225%22/%3E %3Ccircle cx=%22140%22 cy=%22118%22 r=%2250%22 stroke=%22#c39a5c%22 stroke-opacity=%22.15%22 stroke-width=%229%22/%3E %3C/g%3E %3Ccircle cx=%2240%22 cy=%22160%22 r=%224%22 fill=%22#7a4b2f%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%22190%22 cy=%2240%22 r=%223%22 fill=%22#7a4b2f%22 fill-opacity=%22.3%22/%3E %3Ccircle cx=%22175%22 cy=%22182%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%2220%22 cy=%2260%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%22.35%22/%3E %3C/svg%3E") right -30px top -40px/200px no-repeat;
-    border:5px solid var(--espresso);outline:2px dashed #cfae86;outline-offset:-11px;padding:22px 20px 18px;box-shadow:0 4px 12px rgba(74,48,34,.25)}
-  .frame::after,.panel::after{content:"";position:absolute;inset:-9px;pointer-events:none;background:radial-gradient(circle at 8px 8px,#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at calc(100% - 8px) 8px,#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at 8px calc(100% - 8px),#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px),radial-gradient(circle at calc(100% - 8px) calc(100% - 8px),#fff 0 2px,#f1ebe1 3px,#c9bba6 7px,transparent 8px)}
-  header h1{margin:0;font-family:var(--script);font-weight:400;font-size:1.9rem;line-height:1.6;color:var(--espresso)}
+  /* ---------- header ---------- */
+  header{padding:calc(20px + env(safe-area-inset-top)) 16px 18px;border-bottom:4px solid var(--espresso)}
+  body.in-review header{display:none}
+  .frame{position:relative;max-width:690px;margin:0 auto;background:var(--paper) var(--ring) right -30px top -40px/200px no-repeat;
+    border:5px solid var(--espresso);outline:2px dashed #cfae86;outline-offset:-11px;padding:20px 20px 16px;box-shadow:0 4px 12px rgba(74,48,34,.25)}
+  .frame::after,.panel::after{content:"";position:absolute;inset:-9px;pointer-events:none;background:var(--pearls)}
+  header h1{margin:0;font-family:var(--script);font-weight:400;font-size:1.8rem;line-height:1.6;color:var(--espresso)}
   .tape{display:inline-block;font-family:var(--type);font-size:.85rem;background:#efe2cc;color:var(--ink);padding:3px 9px;
     box-shadow:1px 1px 2px rgba(74,48,34,.2);margin:4px 4px 0 0}
   .tape:nth-child(odd){transform:rotate(-1.5deg)} .tape:nth-child(even){transform:rotate(1deg)}
 
-  main{max-width:720px;margin:0 auto;padding:16px 14px}
-  .tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding:4px 2px}
+  main{max-width:760px;margin:0 auto;padding:16px 14px}
+  .view{display:none}.view.active{display:block}
+  .tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding:4px 2px}
   .tab{border:none;background:#efe2cc;padding:7px 12px;font-family:var(--type);font-size:.85rem;color:var(--ink);white-space:nowrap;
     cursor:pointer;box-shadow:1px 1px 2px rgba(74,48,34,.2)}
   .tab:nth-child(odd){transform:rotate(-1deg)} .tab:nth-child(even){transform:rotate(1deg)}
   .tab.active{background:var(--espresso);color:#f6e7cf}
   .search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:2px;font:inherit;background:var(--paper);margin-bottom:14px}
 
-  /* book cards: paper slips with a strip of washi tape */
-  .book{position:relative;display:flex;gap:12px;background:var(--paper);border:1px solid var(--line);
-    padding:14px 12px 12px;margin:0 4px 16px;cursor:pointer;box-shadow:2px 3px 8px rgba(74,48,34,.13)}
-  .book:nth-child(odd){transform:rotate(-.4deg)} .book:nth-child(even){transform:rotate(.4deg)}
-  .book::before{content:"";position:absolute;top:-8px;left:22px;width:70px;height:18px;transform:rotate(-4deg);
-    background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.42) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.42) 50%,transparent 50%);background-size:10px 10px;opacity:.85}
-  .cover{width:56px;height:84px;border-radius:2px 5px 5px 2px;background:var(--kraft);flex-shrink:0;display:flex;align-items:center;
-    justify-content:center;font-size:1.5rem;overflow:hidden;box-shadow:2px 2px 5px rgba(74,48,34,.3)}
-  .book:nth-child(4n+2) .cover{background:#c9a27a} .book:nth-child(4n+3) .cover{background:#b48a64} .book:nth-child(4n+4) .cover{background:#e3c9a4}
-  .cover img{width:100%;height:100%;object-fit:cover}
-  .book h3{margin:0 0 2px;font-size:1.3rem;color:var(--espresso)}
-  .book .author{color:var(--muted);font-size:.9rem;margin:0 0 6px;font-style:italic}
-  .meta{font-size:.75rem;color:var(--muted);font-family:var(--type)}
-  .stars{color:var(--gold);letter-spacing:1px}
-  .spice{font-size:.85rem}
-  .empty{text-align:center;color:var(--cocoa);padding:50px 10px;font-family:var(--script);font-size:1.15rem;line-height:2;
-    background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22220%22 height=%22200%22 viewBox=%220 0 220 200%22%3E %3Cdefs%3E%3Cfilter id=%22r%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.035%22 numOctaves=%222%22 seed=%224%22/%3E%3CfeDisplacementMap in=%22SourceGraphic%22 scale=%229%22/%3E%3C/filter%3E%3C/defs%3E %3Cg filter=%22url%28#r%29%22 fill=%22none%22%3E %3Ccircle cx=%2288%22 cy=%2292%22 r=%2262%22 stroke=%22#a8743f%22 stroke-opacity=%22.35%22 stroke-width=%227%22/%3E %3Ccircle cx=%2288%22 cy=%2292%22 r=%2258%22 stroke=%22#c39a5c%22 stroke-opacity=%22.18%22 stroke-width=%2212%22/%3E %3Ccircle cx=%22140%22 cy=%22118%22 r=%2254%22 stroke=%22#8a5a32%22 stroke-opacity=%22.3%22 stroke-width=%225%22/%3E %3Ccircle cx=%22140%22 cy=%22118%22 r=%2250%22 stroke=%22#c39a5c%22 stroke-opacity=%22.15%22 stroke-width=%229%22/%3E %3C/g%3E %3Ccircle cx=%2240%22 cy=%22160%22 r=%224%22 fill=%22#7a4b2f%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%22190%22 cy=%2240%22 r=%223%22 fill=%22#7a4b2f%22 fill-opacity=%22.3%22/%3E %3Ccircle cx=%22175%22 cy=%22182%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%22.35%22/%3E%3Ccircle cx=%2220%22 cy=%2260%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%22.35%22/%3E %3C/svg%3E") center 10px/200px no-repeat}
+  /* ---------- bookshelf ---------- */
+  .bookcase{background:linear-gradient(90deg,#4a3022,#5c3b28 50%,#4a3022);padding:10px 10px 4px;border-radius:3px;
+    box-shadow:0 6px 16px rgba(59,38,24,.35),inset 0 0 0 3px #3b2618}
+  .shelf-row{position:relative;display:flex;align-items:flex-end;gap:10px;padding:14px 10px 0;min-height:170px;margin-bottom:16px;
+    background:linear-gradient(180deg,#2f1d12,#3d2617 70%,#4a2e1c)}
+  .shelf-row::after{content:"";position:absolute;left:-10px;right:-10px;bottom:-16px;height:16px;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 3px,transparent 3px 11px),linear-gradient(#9a6a45,#7a4f32 60%,#5c3b28);
+    box-shadow:0 4px 6px rgba(0,0,0,.35)}
+  .sbook{position:relative;flex:0 0 var(--bw);aspect-ratio:2/3;border:none;padding:0;cursor:pointer;border-radius:2px 5px 5px 2px;overflow:hidden;
+    background:var(--kraft);box-shadow:3px 0 6px rgba(0,0,0,.45),inset 4px 0 0 rgba(0,0,0,.12);font:inherit;color:var(--ink);transition:transform .15s}
+  .sbook:active{transform:translateY(-6px)}
+  .sbook img{width:100%;height:100%;object-fit:cover;display:block}
+  .sbook .plain{display:flex;flex-direction:column;justify-content:center;height:100%;padding:8px 8px 8px 12px;text-align:left}
+  .sbook .plain b{font-family:var(--serif);font-size:1rem;line-height:1.1;color:var(--espresso)}
+  .sbook .plain i{font-size:.7rem;color:var(--cocoa);margin-top:4px}
+  .sbook:nth-child(4n+2){background:#c9a27a}.sbook:nth-child(4n+3){background:#e3c9a4}.sbook:nth-child(4n+4){background:#b48a64}
+  .ribbon{position:absolute;top:-2px;right:8px;width:12px;height:30px;background:var(--rust);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
+  .shelf-empty{color:#e9d6b8;font-family:var(--script);font-size:1rem;line-height:2;align-self:center;margin:auto;text-align:center;padding-bottom:20px}
 
   .fab{position:fixed;right:18px;bottom:calc(86px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;
     background:radial-gradient(circle at 35% 30%,#8a5638,var(--espresso));color:#f6e7cf;border:2px solid var(--caramel);
-    font-size:1.9rem;box-shadow:0 4px 12px rgba(74,48,34,.45);cursor:pointer}
-  nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--espresso);border-top:3px solid var(--caramel);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+    font-size:1.9rem;box-shadow:0 4px 12px rgba(74,48,34,.45);cursor:pointer;z-index:5}
+  nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--espresso);border-top:3px solid var(--caramel);display:flex;
+    padding-bottom:env(safe-area-inset-bottom);z-index:6}
   nav.bottom button{flex:1;background:none;border:none;padding:12px 0;font-family:var(--type);font-size:.85rem;color:#cdb08c;cursor:pointer}
   nav.bottom button.active{color:#fff3df}
-  .view{display:none}.view.active{display:block}
 
+  /* ---------- panels & forms ---------- */
   .panel{position:relative;background:var(--paper);border:4px solid var(--espresso);outline:1.5px dashed #cfae86;outline-offset:-9px;
-    padding:20px 18px;margin:8px 4px 20px;box-shadow:2px 3px 8px rgba(74,48,34,.15)}
-  .panel h3{font-family:var(--script);font-weight:400;font-size:1.15rem;line-height:1.8;color:var(--espresso)}
-  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .stat{background:var(--paper);border:1px solid var(--line);padding:14px 8px;text-align:center;box-shadow:1px 2px 5px rgba(74,48,34,.12)}
-  .stat:nth-child(odd){transform:rotate(-.6deg)} .stat:nth-child(even){transform:rotate(.6deg)}
-  .stat b{display:block;font-size:2rem;font-family:var(--serif);color:var(--espresso)}
-  .stat span{font-size:.75rem;color:var(--muted);font-family:var(--type)}
-  .bar{height:12px;background:#efe2cc;overflow:hidden;margin:8px 0}
-  .bar div{height:100%;background:repeating-linear-gradient(45deg,var(--caramel) 0 6px,#b97f4b 6px 12px);transition:width .4s}
-
+    padding:20px 18px;margin:8px 4px 22px;box-shadow:2px 3px 8px rgba(74,48,34,.15)}
+  .panel h3,.sec-title{font-family:var(--script);font-weight:400;font-size:1.1rem;line-height:1.9;color:var(--espresso);margin:0 0 4px}
   label{display:block;font-size:.8rem;color:var(--cocoa);margin:14px 0 5px;font-family:var(--type)}
   input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:2px;font:inherit;background:#fffdf8;color:var(--ink)}
   textarea{min-height:90px;resize:vertical}
@@ -87,58 +85,140 @@
   .btn{background:var(--espresso);color:#f6e7cf;border:none;border-radius:2px;padding:11px 16px;font-family:var(--type);font-size:.9rem;cursor:pointer}
   .btn.ghost{background:#efe2cc;color:var(--ink);box-shadow:1px 1px 2px rgba(74,48,34,.2)}
   .btn.danger{background:none;color:var(--rust);border:1px solid var(--rust)}
-  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-
-  dialog{border:5px solid var(--espresso);border-radius:2px;padding:0;width:min(560px,94vw);max-height:90vh;
-    background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22420%22 height=%22620%22%3E%3Ccircle cx=%22136%22 cy=%2294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22225%22 cy=%22227%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2236%22 cy=%22259%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2225%22 cy=%22351%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%22242%22 cy=%22246%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%2256%22 cy=%22260%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22235%22 cy=%22423%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2279%22 cy=%2260%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22260%22 cy=%22308%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22196%22 cy=%22573%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2276%22 cy=%22483%22 r=%220.8%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22208%22 cy=%22213%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%2231%22 cy=%22317%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22205%22 cy=%2224%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22241%22 cy=%22543%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22250%22 cy=%22360%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22397%22 cy=%22294%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22295%22 cy=%22401%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.24%22/%3E%3Ccircle cx=%22162%22 cy=%22415%22 r=%220.8%22 fill=%22#c39a5c%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22257%22 cy=%22306%22 r=%221%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22104%22 cy=%22242%22 r=%223.5%22 fill=%22#c39a5c%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22189%22 cy=%22341%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22117%22 cy=%22257%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.39%22/%3E%3Ccircle cx=%2263%22 cy=%22109%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.18%22/%3E%3Ccircle cx=%22349%22 cy=%22113%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%22225%22 cy=%22378%22 r=%221.2%22 fill=%22#7a4b2f%22 fill-opacity=%220.33%22/%3E%3Ccircle cx=%22217%22 cy=%22383%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22366%22 cy=%22590%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.27%22/%3E%3Ccircle cx=%22168%22 cy=%2264%22 r=%222.5%22 fill=%22#c39a5c%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%2228%22 cy=%22129%22 r=%221%22 fill=%22#5a3a26%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%2222%22 cy=%220%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22153%22 cy=%2216%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2262%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%2252%22 cy=%22526%22 r=%221.5%22 fill=%22#c39a5c%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2236%22 cy=%2263%22 r=%221.2%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22291%22 cy=%22320%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.26%22/%3E%3Ccircle cx=%22290%22 cy=%22567%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.25%22/%3E%3Ccircle cx=%22270%22 cy=%2256%22 r=%223.5%22 fill=%22#a8743f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22381%22 cy=%22221%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22211%22 cy=%22395%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22344%22 cy=%22459%22 r=%221%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%22149%22 cy=%2218%22 r=%220.8%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%2281%22 cy=%22375%22 r=%221.2%22 fill=%22#c39a5c%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22304%22 cy=%22217%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%2295%22 cy=%22122%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%22378%22 cy=%22521%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2236%22 cy=%22410%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.29%22/%3E%3Ccircle cx=%2275%22 cy=%22489%22 r=%221.2%22 fill=%22#5a3a26%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22408%22 cy=%22245%22 r=%221.5%22 fill=%22#5a3a26%22 fill-opacity=%220.34%22/%3E%3Ccircle cx=%2271%22 cy=%2279%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.38%22/%3E%3Ccircle cx=%22339%22 cy=%2291%22 r=%223.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.40%22/%3E%3Ccircle cx=%22276%22 cy=%22217%22 r=%222%22 fill=%22#3e2a1e%22 fill-opacity=%220.21%22/%3E%3Ccircle cx=%226%22 cy=%22602%22 r=%222.5%22 fill=%22#5a3a26%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22392%22 cy=%22269%22 r=%223.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2289%22 cy=%22156%22 r=%221.2%22 fill=%22#3e2a1e%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22246%22 cy=%22161%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.19%22/%3E%3Ccircle cx=%22311%22 cy=%22557%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%22217%22 cy=%22513%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22220%22 cy=%2212%22 r=%221.5%22 fill=%22#7a4b2f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22326%22 cy=%2293%22 r=%221%22 fill=%22#c39a5c%22 fill-opacity=%220.32%22/%3E%3Ccircle cx=%2251%22 cy=%2238%22 r=%222.5%22 fill=%22#3e2a1e%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22203%22 cy=%22481%22 r=%222%22 fill=%22#5a3a26%22 fill-opacity=%220.23%22/%3E%3Ccircle cx=%22116%22 cy=%22479%22 r=%222%22 fill=%22#c39a5c%22 fill-opacity=%220.30%22/%3E%3Ccircle cx=%22319%22 cy=%22566%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.31%22/%3E%3Ccircle cx=%22212%22 cy=%22318%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.28%22/%3E%3Ccircle cx=%22224%22 cy=%22296%22 r=%221%22 fill=%22#3e2a1e%22 fill-opacity=%220.37%22/%3E%3Ccircle cx=%22396%22 cy=%22161%22 r=%222%22 fill=%22#7a4b2f%22 fill-opacity=%220.36%22/%3E%3Ccircle cx=%2258%22 cy=%2275%22 r=%221.5%22 fill=%22#a8743f%22 fill-opacity=%220.20%22/%3E%3Ccircle cx=%22101%22 cy=%2245%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.35%22/%3E%3Ccircle cx=%22377%22 cy=%2296%22 r=%222.5%22 fill=%22#a8743f%22 fill-opacity=%220.21%22/%3E%3C/svg%3E") 0 0/420px 620px;color:var(--ink)}
-  dialog::backdrop{background:rgba(59,42,32,.5)}
-  .dlg-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1.5px dashed #cfae86;
-    position:sticky;top:0;background:var(--paper);z-index:1}
-  .dlg-head h2{margin:0;font-size:1.6rem;font-weight:700;color:var(--espresso)}
-  .dlg-body{padding:6px 16px 18px}
-  .x{background:none;border:none;font-size:1.6rem;color:var(--muted);cursor:pointer}
-  .star-input button{background:none;border:none;font-size:1.7rem;color:#e2d3bd;cursor:pointer;padding:0 2px}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .small{font-size:.85rem;color:var(--muted)}
+  .star-input button,.spice-input button{background:none;border:none;cursor:pointer;padding:0 3px}
+  .star-input button{font-size:1.6rem;color:#e2d3bd}
   .star-input button.on{color:var(--gold)}
-  .spice-input button{background:none;border:none;font-size:1.5rem;cursor:pointer;padding:0 2px;filter:grayscale(1);opacity:.35}
+  .spice-input button{font-size:1.3rem;filter:grayscale(1);opacity:.35}
   .spice-input button.on{filter:none;opacity:1}
-  .quote{position:relative;padding:10px 12px;margin:12px 0;font-family:var(--script);font-size:.95rem;line-height:1.9;background:#fffdf8;
-    border:1px solid var(--line);box-shadow:1px 2px 4px rgba(74,48,34,.12);display:flex;justify-content:space-between;gap:8px}
-  .quote button{background:none;border:none;color:var(--muted);cursor:pointer}
-  .note-entry{border-bottom:1px dashed #d9c4a5;padding:8px 0;font-size:.95rem}
-  .note-entry small{color:var(--muted);display:block;font-family:var(--type);font-size:.72rem}
+  .stars{color:var(--gold);letter-spacing:1px}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
   .chip{background:#efe2cc;padding:6px 10px;font-size:.85rem;cursor:pointer;box-shadow:1px 1px 2px rgba(74,48,34,.18)}
   .chip.on{background:var(--cocoa);color:#fff3df}
-  .small{font-size:.85rem;color:var(--muted)}
-  #welcome{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;
-    background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.42) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.42) 50%,transparent 50%);background-size:20px 20px}
+
+  /* ---------- review page ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 10px}
+  .back{background:none;border:none;font-family:var(--type);font-size:.95rem;color:var(--cocoa);cursor:pointer;padding:8px 0}
+  .hero{display:flex;gap:16px;align-items:flex-start;margin-bottom:18px}
+  .cover-big{position:relative;flex:0 0 120px;aspect-ratio:2/3;background:var(--kraft);border-radius:2px 6px 6px 2px;overflow:hidden;cursor:pointer;
+    box-shadow:4px 4px 10px rgba(74,48,34,.35);display:flex;align-items:center;justify-content:center;font-size:2.6rem;border:none;padding:0}
+  .cover-big img{width:100%;height:100%;object-fit:cover}
+  .cover-big .tap{position:absolute;bottom:0;left:0;right:0;background:rgba(59,42,32,.65);color:#fff3df;font-size:.68rem;text-align:center;padding:3px 0;font-family:var(--type)}
+  .hero h2{margin:0;font-size:1.9rem;line-height:1.1;color:var(--espresso)}
+  .hero .author{font-style:italic;color:var(--cocoa);margin:4px 0 8px}
+  .meta{font-size:.75rem;color:var(--muted);font-family:var(--type);line-height:1.6}
+  .rating-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .rating-row .tape{margin:0}
+  .quote{position:relative;padding:10px 12px;margin:10px 0;font-family:var(--script);font-size:.92rem;line-height:1.9;background:#fffdf8;
+    border:1px solid var(--line);box-shadow:1px 2px 4px rgba(74,48,34,.12);display:flex;justify-content:space-between;gap:8px}
+  .quote button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.1rem}
+  .note-entry{border-bottom:1px dashed #d9c4a5;padding:8px 0;font-size:.95rem}
+  .note-entry small{color:var(--muted);display:block;font-family:var(--type);font-size:.72rem}
+
+  /* ---------- collage (no borders) ---------- */
+  .collage{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;container-type:inline-size;background:var(--paper);
+    box-shadow:0 3px 12px rgba(74,48,34,.18)}
+  .collage.bg-paper{background:#fdf8ef var(--splat) 0 0/60% auto}
+  .collage.bg-gingham{background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.42) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.42) 50%,transparent 50%);background-size:6cqw 6cqw}
+  .collage.bg-kraft{background:#d9bc93 var(--splat) 0 0/60% auto}
+  .collage.bg-linen{background:#f5f1ea repeating-linear-gradient(0deg,rgba(120,100,80,.05) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(120,100,80,.05) 0 1px,transparent 1px 3px)}
+  .collage.bg-night{background:#2e2a3a var(--splat) 0 0/60% auto}
+  .collage.bg-blush{background:#f6e3df var(--splat) 0 0/60% auto}
+  .ci{position:absolute;transform:translate(-50%,-50%) rotate(var(--r));width:calc(var(--w) * 1%);touch-action:none;user-select:none;-webkit-user-select:none}
+  .ci img{display:block;width:100%;box-shadow:0 1.2cqw 2.5cqw rgba(0,0,0,.25);pointer-events:none}
+  .ci.quote-item{background:#fffdf8;padding:4cqw 3.5cqw;font-family:var(--script);font-size:calc(var(--w) * .075cqw);line-height:1.9;
+    color:var(--ink);box-shadow:0 1cqw 2cqw rgba(0,0,0,.18);text-align:center}
+  .ci.quote-item.v1{background:#e8d5b5}
+  .ci.quote-item.v2{background:#fffdf8 var(--ring) right -20% top -30%/55% no-repeat}
+  .ci.label-item{background:#efe2cc;padding:1.2cqw 2.4cqw;font-family:var(--type);font-size:calc(var(--w) * .1cqw);color:var(--ink);
+    box-shadow:.4cqw .4cqw .8cqw rgba(0,0,0,.2);text-align:center}
+  .ci.label-item.v1{background:var(--espresso);color:#f6e7cf}
+  .ci.sticker{font-size:calc(var(--w) * .8cqw);line-height:1;text-align:center}
+  .ci.sp{aspect-ratio:1}
+  .ci.sp-ring{background:var(--ring) center/contain no-repeat;filter:brightness(.55) saturate(1.6) contrast(1.4)}
+  .ci.sp-splat{background:var(--splat) center/cover no-repeat;aspect-ratio:2/3}
+  .ci.sp-washi{aspect-ratio:5/1;opacity:.88;background-color:#f4e4cb;background-image:linear-gradient(90deg,rgba(201,146,94,.5) 50%,transparent 50%),linear-gradient(rgba(201,146,94,.5) 50%,transparent 50%);background-size:2.4cqw 2.4cqw}
+  .ci.sp-washi2{aspect-ratio:5/1;opacity:.85;background:repeating-linear-gradient(45deg,#e9c9c0 0 1.5cqw,#f6e3df 1.5cqw 3cqw)}
+  .ci.sp-kraft{aspect-ratio:5/1;opacity:.9;background:#c9a77c}
+  .ci.sp-pearl{border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 12%,#f1ebe1 30%,#c9bba6 70%);box-shadow:0 .5cqw 1cqw rgba(0,0,0,.25)}
+  .ci.sp-lace{aspect-ratio:4/1;background:radial-gradient(circle at 50% 0,transparent 35%,#fdf8ef 37%) 0 0/12% 100%,repeating-linear-gradient(90deg,#fdf8ef 0 1cqw,transparent 1cqw 2cqw);opacity:.95}
+  .collage.editing .ci.sel{outline:2px dashed var(--rust);outline-offset:4px}
+  .collage-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12%;
+    font-family:var(--script);color:var(--muted);font-size:4.2cqw;line-height:2}
+
+  /* collage editor */
+  #editor{position:fixed;inset:0;z-index:40;display:none;flex-direction:column;background:#3a2a20 var(--splat) 0 0/420px 620px}
+  #editor.show{display:flex}
+  .ed-top{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;color:#f6e7cf}
+  .ed-top b{font-family:var(--type);font-weight:400}
+  .ed-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 12px;min-height:0}
+  .ed-stage .collage{width:min(92vw,calc((100dvh - 230px) * .75));box-shadow:0 6px 24px rgba(0,0,0,.5)}
+  .ed-tools{background:var(--espresso);padding:8px 8px calc(10px + env(safe-area-inset-bottom));border-top:3px solid var(--caramel)}
+  .ed-row{display:flex;gap:6px;overflow-x:auto;padding:4px 2px}
+  .ed-row button{flex:0 0 auto;background:#efe2cc;border:none;padding:9px 11px;font-family:var(--type);font-size:.82rem;color:var(--ink);cursor:pointer;border-radius:2px}
+  .ed-row.sel-tools button{background:#6e4630;color:#fff3df}
+  .ed-row.sel-tools[hidden]{display:none}
+  .pick-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .pick-grid button{aspect-ratio:1;border:1px solid var(--line);background:#fffdf8;font-size:1.7rem;cursor:pointer;padding:4px;position:relative}
+  .pick-grid .swatch{display:block;width:100%;height:100%}
+  .bg-grid{grid-template-columns:repeat(3,1fr)}
+  .bg-grid button{aspect-ratio:3/4;padding:0;font-size:.75rem;font-family:var(--type);display:flex;align-items:flex-end;justify-content:center}
+  .bg-grid button span{background:rgba(253,248,239,.85);width:100%;padding:3px 0}
+
+  /* ---------- monthly summary: seasonal borders ---------- */
+  .month{position:relative;padding:18px;margin:6px 2px 26px;box-shadow:2px 4px 12px rgba(74,48,34,.2)}
+  .month::before,.month::after{position:absolute;font-size:1.6rem;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.2))}
+  .month::before{content:var(--c1);top:-10px;left:-8px}
+  .month::after{content:var(--c2);bottom:-10px;right:-8px}
+  .month.winter{--c1:"❄️";--c2:"❄️";background-color:#fbfdff;background-image:linear-gradient(90deg,rgba(176,196,214,.38) 50%,transparent 50%),linear-gradient(rgba(176,196,214,.38) 50%,transparent 50%);background-size:16px 16px;border:3px solid #dfe8ef}
+  .month.spring{--c1:"🌱";--c2:"🌷";background-color:#eef6e4;background-image:linear-gradient(90deg,rgba(134,176,104,.42) 50%,transparent 50%),linear-gradient(rgba(134,176,104,.42) 50%,transparent 50%);background-size:16px 16px;border:3px solid #a9c98e}
+  .month.summer{--c1:"🍓";--c2:"🌻";background:repeating-linear-gradient(45deg,#e8473f 0 10px,#fbd34d 10px 20px,#f58bb4 20px 30px,#3fae4f 30px 40px);border:3px solid #2f8f3e}
+  .month.autumn{--c1:"🍂";--c2:"🍁";background-color:#fbe6b8;background-image:linear-gradient(90deg,rgba(232,138,40,.45) 50%,transparent 50%),linear-gradient(rgba(232,138,40,.45) 50%,transparent 50%);background-size:16px 16px;border:3px solid #d9822b}
+  .month-inner{background:var(--paper);padding:18px 16px}
+  .month.winter .month-inner{background:#fff}
+  .month h2{margin:0;font-family:var(--script);font-weight:400;font-size:1.35rem;line-height:1.9;color:var(--espresso)}
+  .month .tapes{margin:2px 0 12px}
+  .mcovers{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 10px}
+  .mcovers button{flex:0 0 64px;aspect-ratio:2/3;border:none;padding:0;background:var(--kraft);border-radius:2px 4px 4px 2px;overflow:hidden;cursor:pointer;
+    box-shadow:2px 2px 5px rgba(74,48,34,.3);font-family:var(--serif);font-size:.72rem;color:var(--espresso)}
+  .mcovers img{width:100%;height:100%;object-fit:cover}
+  .mfav{font-size:.9rem;margin:6px 0}
+  .mcollages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .mcollages button{border:none;padding:0;background:none;cursor:pointer}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .stat{background:var(--paper);border:1px solid var(--line);padding:10px 4px;text-align:center;box-shadow:1px 2px 5px rgba(74,48,34,.12)}
+  .stat b{display:block;font-size:1.6rem;font-family:var(--serif);color:var(--espresso)}
+  .stat span{font-size:.68rem;color:var(--muted);font-family:var(--type)}
+  .bar{height:12px;background:#efe2cc;overflow:hidden;margin:8px 0}
+  .bar div{height:100%;background:repeating-linear-gradient(45deg,var(--caramel) 0 6px,#b97f4b 6px 12px);transition:width .4s}
+  .empty{text-align:center;color:var(--cocoa);padding:40px 10px;font-family:var(--script);font-size:1.05rem;line-height:2}
+
+  /* ---------- dialogs ---------- */
+  dialog{border:5px solid var(--espresso);border-radius:2px;padding:0;width:min(560px,94vw);max-height:88vh;background:var(--paper);color:var(--ink)}
+  dialog::backdrop{background:rgba(59,42,32,.5)}
+  .dlg-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1.5px dashed #cfae86;position:sticky;top:0;background:var(--paper);z-index:1}
+  .dlg-head h2{margin:0;font-size:1.5rem;font-weight:700;color:var(--espresso)}
+  .dlg-body{padding:6px 16px 18px}
+  .x{background:none;border:none;font-size:1.6rem;color:var(--muted);cursor:pointer}
+  .cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .cover-grid button{border:2px solid transparent;padding:0;background:var(--line);cursor:pointer;overflow:hidden}
+  .cover-grid img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
+
+  /* ---------- welcome ---------- */
+  #welcome{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
   #welcome.show{display:flex}
   #welcome .frame{width:min(420px,100%);text-align:center;padding:34px 24px 28px}
-  #welcome h1{font-size:1.7rem;margin:0 0 6px}
+  #welcome h1{font-family:var(--script);font-weight:400;font-size:1.7rem;margin:0 0 6px;color:var(--espresso)}
   #welcome p.lead{font-family:var(--type);font-size:.9rem;color:var(--cocoa);margin:14px 0 8px}
   #welcome input{text-align:center;font-family:var(--serif);font-size:1.4rem;padding:10px}
   #welcome .preview{font-family:var(--script);color:var(--espresso);min-height:2.4em;line-height:2;margin:10px 0 4px}
-  .d-top{display:flex;gap:14px;align-items:flex-start}
-  .cover.big{width:96px;height:144px;font-size:2.4rem;cursor:pointer;position:relative}
-  .cover.big .tap{position:absolute;bottom:0;left:0;right:0;background:rgba(59,42,32,.65);color:#fff3df;font-size:.68rem;text-align:center;padding:3px 0;font-family:var(--type)}
-  .cover-opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-  .cover-opts .btn{text-align:left}
-  .cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-  .cover-grid button{border:2px solid transparent;padding:0;background:var(--line);cursor:pointer;overflow:hidden}
-  .cover-grid button:focus,.cover-grid button:hover{border-color:var(--espresso)}
-  .cover-grid img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
 </style>
 </head>
 <body>
-<header id="appHeader">
-  <div class="frame">
-    <h1 id="jTitle">My Journal</h1>
-    <p style="margin:0"><span class="tape">collect</span><span class="tape">beautiful stories</span></p>
-  </div>
-</header>
 
 <!-- WELCOME -->
-<section id="welcome" aria-label="Welcome">
+<section id="welcome" class="gingham" aria-label="Welcome">
   <div class="frame">
     <h1>Welcome</h1>
     <span class="tape">collect</span><span class="tape">beautiful stories</span>
@@ -151,39 +231,98 @@
   </div>
 </section>
 
+<header class="gingham">
+  <div class="frame">
+    <h1 id="jTitle">My Journal</h1>
+    <p style="margin:0"><span class="tape">collect</span><span class="tape">beautiful stories</span></p>
+  </div>
+</header>
+
 <main>
-  <!-- LIBRARY -->
-  <section id="view-library" class="view active">
+  <!-- BOOKSHELF -->
+  <section id="view-shelf" class="view active">
     <div class="tabs" id="shelfTabs"></div>
     <input class="search" id="search" placeholder="Search title or author…">
-    <div id="bookList"></div>
+    <div class="bookcase" id="bookcase"></div>
   </section>
 
-  <!-- STATS -->
-  <section id="view-stats" class="view">
+  <!-- REVIEW -->
+  <section id="view-review" class="view">
+    <div class="topbar">
+      <button class="back" id="backBtn">← Bookshelf</button>
+      <button class="btn ghost" id="rEdit">Edit details</button>
+    </div>
+    <div class="hero">
+      <button class="cover-big" id="rCover" aria-label="Add or change cover"></button>
+      <div>
+        <h2 id="rTitle"></h2>
+        <div class="author" id="rAuthor"></div>
+        <div class="meta" id="rMeta"></div>
+      </div>
+    </div>
+
     <div class="panel">
-      <h3 style="margin-top:0">This year's goal</h3>
+      <h3>My ratings</h3>
+      <div class="rating-row"><span class="tape">read rating</span><div class="star-input" id="rStars"></div></div>
+      <div class="rating-row" style="margin-top:10px"><span class="tape">spice rating</span><div class="spice-input" id="rSpice"></div></div>
+      <label>How did this book make you feel?</label>
+      <div class="chips" id="rMoods"></div>
+    </div>
+
+    <div class="panel">
+      <h3>My review</h3>
+      <textarea id="rReview" placeholder="What stayed with you?"></textarea>
+      <p class="small" style="margin:6px 0 0">Saves as you type.</p>
+    </div>
+
+    <div style="margin:4px 4px 24px">
+      <div class="rating-row" style="margin-bottom:10px">
+        <h3 class="sec-title">My collage page</h3>
+        <button class="btn" id="rCollageBtn">Create collage</button>
+      </div>
+      <div id="rCollage"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Favourite quotes</h3>
+      <div id="rQuotes"></div>
+      <textarea id="quoteText" placeholder="Type a line you loved…" style="min-height:60px"></textarea>
+      <button class="btn ghost" id="addQuote" style="margin-top:8px">Save quote</button>
+    </div>
+
+    <div class="panel">
+      <h3>Reading notes</h3>
+      <div id="rNotes"></div>
+      <div class="row" style="margin-top:6px">
+        <input id="noteWhere" placeholder="Chapter / page" style="flex:0 0 34%">
+        <input id="noteText" placeholder="A thought…">
+      </div>
+      <button class="btn ghost" id="addNote" style="margin-top:8px">Add note</button>
+    </div>
+  </section>
+
+  <!-- MONTHS -->
+  <section id="view-months" class="view">
+    <div class="panel">
+      <h3>This year's goal</h3>
       <div id="goalText" class="small"></div>
       <div class="bar"><div id="goalBar" style="width:0"></div></div>
-      <label for="goalInput">Books I want to read in <span id="goalYear"></span></label>
-      <div class="row"><input type="number" id="goalInput" min="1"><button class="btn" id="saveGoal" style="flex:0">Save</button></div>
+      <div class="row"><input type="number" id="goalInput" min="1" placeholder="Books this year"><button class="btn" id="saveGoal" style="flex:0">Save</button></div>
+      <div class="stat-grid" id="statGrid" style="margin-top:14px"></div>
     </div>
-    <div class="stat-grid" id="statGrid"></div>
-    <div class="panel" style="margin-top:12px">
-      <h3 style="margin-top:0">Favourite genres</h3>
-      <div id="genreList" class="small"></div>
-    </div>
+    <div id="monthList"></div>
   </section>
 
   <!-- SETTINGS -->
   <section id="view-settings" class="view">
     <div class="panel">
-      <h3 style="margin-top:0">Your name</h3>
+      <h3>Your name</h3>
       <div class="row"><input id="nameInput" maxlength="30"><button class="btn" id="saveName" style="flex:0">Save</button></div>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">Back up your journal</h3>
+      <h3>Back up your journal</h3>
       <p class="small">Your journal is saved on this device only. Export a backup now and then, especially before clearing your browser or changing phones.</p>
+      <p class="small" id="storageUse"></p>
       <div class="btn-row">
         <button class="btn" id="exportBtn">Export backup</button>
         <button class="btn ghost" id="importBtn">Import backup</button>
@@ -191,12 +330,12 @@
       </div>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">Add to your home screen</h3>
+      <h3>Add to your home screen</h3>
       <p class="small"><b>iPhone:</b> open in Safari → Share → "Add to Home Screen".<br>
       <b>Android:</b> open in Chrome → ⋮ menu → "Add to Home screen" / "Install app".</p>
     </div>
     <div class="panel">
-      <h3 style="margin-top:0">Start fresh</h3>
+      <h3>Start fresh</h3>
       <p class="small">Deletes every book on this device. This can't be undone.</p>
       <button class="btn danger" id="wipeBtn">Delete all books</button>
     </div>
@@ -206,12 +345,55 @@
 <button class="fab" id="addBtn" aria-label="Add book">+</button>
 
 <nav class="bottom">
-  <button data-view="library" class="active">📚 Library</button>
-  <button data-view="stats">🌱 Stats</button>
+  <button data-view="shelf" class="active">📚 Bookshelf</button>
+  <button data-view="months">🗓️ Months</button>
   <button data-view="settings">⚙️ Settings</button>
 </nav>
 
-<!-- EDIT BOOK -->
+<!-- COLLAGE EDITOR -->
+<section id="editor" aria-label="Collage editor">
+  <div class="ed-top"><b id="edTitle">Collage</b><button class="btn ghost" id="edDone">Done</button></div>
+  <div class="ed-stage"><div id="edPage"></div></div>
+  <div class="ed-tools">
+    <div class="ed-row sel-tools" id="selTools" hidden>
+      <button data-act="smaller">− Smaller</button><button data-act="bigger">+ Bigger</button>
+      <button data-act="left">⟲</button><button data-act="right">⟳</button>
+      <button data-act="front">⬆ Front</button><button data-act="back">⬇ Back</button>
+      <button data-act="style">🎨 Style</button><button data-act="edit" id="editTextBtn">✏️ Edit</button>
+      <button data-act="delete">🗑 Remove</button>
+    </div>
+    <div class="ed-row">
+      <label class="btn ghost" for="edPhoto" style="margin:0;padding:9px 11px;font-size:.82rem;color:var(--ink);background:#efe2cc">🖼 Picture</label>
+      <input type="file" id="edPhoto" accept="image/*" hidden>
+      <button data-add="quote">❝ Quote</button>
+      <button data-add="label">🏷 Label</button>
+      <button data-add="sticker">✨ Sticker</button>
+      <button data-add="bg">📄 Page</button>
+    </div>
+  </div>
+</section>
+
+<!-- PICKER (stickers, quotes, labels, page backgrounds) -->
+<dialog id="pickDlg">
+  <div class="dlg-head"><h2 id="pickTitle"></h2><button class="x" onclick="pickDlg.close()">×</button></div>
+  <div class="dlg-body" id="pickBody"></div>
+</dialog>
+
+<!-- COVER PICKER -->
+<dialog id="coverDlg">
+  <div class="dlg-head"><h2>Book cover</h2><button class="x" onclick="coverDlg.close()">×</button></div>
+  <div class="dlg-body">
+    <label class="btn" for="coverPhoto" style="display:block;color:#f6e7cf;margin:10px 0 0;font-size:.95rem">📷 Take a photo or choose from your photos</label>
+    <input type="file" id="coverPhoto" accept="image/*" hidden>
+    <label for="coverQuery">🔎 Find the cover online</label>
+    <div class="row"><input id="coverQuery" placeholder="Title and author"><button class="btn" id="coverSearch" style="flex:0">Search</button></div>
+    <p class="small" id="coverStatus"></p>
+    <div class="cover-grid" id="coverResults"></div>
+    <div class="btn-row"><button class="btn danger" id="coverRemove" hidden>Remove cover</button></div>
+  </div>
+</dialog>
+
+<!-- ADD / EDIT BOOK -->
 <dialog id="editDlg">
   <form method="dialog" id="editForm">
     <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" value="cancel" type="submit">×</button></div>
@@ -236,84 +418,33 @@
       <datalist id="genres"></datalist>
       <label>Format</label>
       <select name="format"><option>Paperback</option><option>Hardback</option><option>Ebook</option><option>Audiobook</option></select>
-      <label>Rating</label>
-      <div class="star-input" id="starInput"></div>
-      <label>Spice rating</label>
-      <div class="spice-input" id="spiceInput"></div>
-      <label>Cover photo (optional)</label>
-      <input type="file" id="coverFile" accept="image/*">
       <div class="btn-row">
         <button class="btn" value="save" type="submit">Save book</button>
-        <button class="btn danger" type="button" id="deleteBtn" hidden>Delete</button>
+        <button class="btn danger" type="button" id="deleteBtn" hidden>Delete book</button>
       </div>
     </div>
   </form>
-</dialog>
-
-<!-- COVER PICKER -->
-<dialog id="coverDlg">
-  <div class="dlg-head"><h2>Book cover</h2><button class="x" onclick="coverDlg.close()">×</button></div>
-  <div class="dlg-body">
-    <div class="cover-opts">
-      <label class="btn" for="coverPhoto" style="color:#fff;margin:0;font-size:1rem">📷 Take a photo or choose from your photos</label>
-      <input type="file" id="coverPhoto" accept="image/*" hidden>
-    </div>
-    <label for="coverQuery">🔎 Find the cover online</label>
-    <div class="row"><input id="coverQuery" placeholder="Title and author"><button class="btn" id="coverSearch" style="flex:0">Search</button></div>
-    <p class="small" id="coverStatus"></p>
-    <div class="cover-grid" id="coverResults"></div>
-    <div class="btn-row"><button class="btn danger" id="coverRemove" hidden>Remove cover</button></div>
-  </div>
-</dialog>
-
-<!-- BOOK DETAIL -->
-<dialog id="detailDlg">
-  <div class="dlg-head"><h2 id="dTitle"></h2><button class="x" onclick="detailDlg.close()">×</button></div>
-  <div class="dlg-body">
-    <div class="d-top">
-      <div class="cover big" id="dCover" role="button" aria-label="Add or change cover"></div>
-      <div>
-        <p class="small" id="dMeta" style="margin-top:0"></p>
-        <button class="btn ghost" id="dEdit">Edit details</button>
-      </div>
-    </div>
-
-    <label>How did this book make you feel?</label>
-    <div class="chips" id="moodChips"></div>
-
-    <label>Reading notes</label>
-    <div id="dNotes"></div>
-    <div class="row" style="margin-top:6px">
-      <input id="noteWhere" placeholder="Chapter / page" style="flex:0 0 34%">
-      <input id="noteText" placeholder="A thought…">
-    </div>
-    <button class="btn ghost" id="addNote" style="margin-top:6px">Add note</button>
-
-    <label>Favourite quotes</label>
-    <div id="dQuotes"></div>
-    <textarea id="quoteText" placeholder="Type a line you loved…" style="min-height:60px"></textarea>
-    <button class="btn ghost" id="addQuote" style="margin-top:6px">Save quote</button>
-
-    <label>My review</label>
-    <textarea id="dReview" placeholder="What stayed with you?"></textarea>
-    <p class="small">Your review saves automatically.</p>
-  </div>
 </dialog>
 
 <script>
 const KEY='lydiasLibrary.v1';
 const SHELVES={all:'All',reading:'Reading',want:'Want to read',finished:'Finished',dnf:'Did not finish'};
 const MOODS=['🌸 Uplifted','😢 Moved','😱 Gripped','😂 Amused','🤔 Thoughtful','😌 Cosy','😴 Bored','😠 Frustrated'];
+const STICKERS=['🍂','🍁','🌿','🌸','🌷','🌼','🍓','❄️','☕','🕯️','🥧','🍰','🎀','⭐','🌙','✉️','🗝️','📜','🦋','🕊️','🍄','🌹','💌','✨'];
+const SPECIALS=[['ring','Coffee ring'],['splat','Ink splatter'],['washi','Gingham tape'],['washi2','Striped tape'],['kraft','Kraft tape'],['pearl','Pearl'],['lace','Lace']];
+const BGS=[['paper','Cream paper'],['gingham','Gingham'],['kraft','Kraft'],['linen','Linen'],['blush','Blush'],['night','Night']];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
 let state=load();
-let shelf='reading', editingId=null, detailId=null, tempRating=0, tempSpice=0, tempCover=null;
+let shelf='all', editingId=null, reviewId=null, sel=null;
 
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.books)return s;}catch(e){}
   return {books:[],goals:{}};
 }
 function save(){
-  try{localStorage.setItem(KEY,JSON.stringify(state));}
-  catch(e){alert('Could not save — your device storage may be full. Try exporting a backup and removing some cover photos.');}
+  try{localStorage.setItem(KEY,JSON.stringify(state));return true;}
+  catch(e){alert("Couldn't save: your phone's storage for this journal is full. Export a backup, then remove some large pictures from collages.");return false;}
 }
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -321,161 +452,145 @@ const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const stars=n=>n?'★'.repeat(n)+'☆'.repeat(5-n):'';
 const chillies=n=>n?'🌶️'.repeat(n):'';
 const fmtDate=d=>d?new Date(d+'T00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'';
+const today=()=>new Date().toISOString().slice(0,10);
+const book=id=>state.books.find(b=>b.id===id);
 
-/* ---------- Library ---------- */
+// Shrink a photo so lots of pictures fit in the phone's storage
+function shrinkPhoto(file,max,cb){
+  const img=new Image(), r=new FileReader();
+  r.onload=()=>{img.src=r.result};
+  img.onload=()=>{
+    const k=Math.min(1,max/Math.max(img.width,img.height)), c=document.createElement('canvas');
+    c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    cb(c.toDataURL('image/jpeg',.72));
+  };
+  r.readAsDataURL(file);
+}
+
+/* ================= BOOKSHELF ================= */
 function renderTabs(){
   $('shelfTabs').innerHTML=Object.entries(SHELVES).map(([k,v])=>{
     const n=k==='all'?state.books.length:state.books.filter(b=>b.shelf===k).length;
     return `<button class="tab ${k===shelf?'active':''}" data-shelf="${k}">${v} (${n})</button>`;
   }).join('');
 }
-function renderBooks(){
+function spine(b){
+  return `<button class="sbook" data-id="${b.id}" aria-label="${esc(b.title)}">
+    ${b.cover?`<img src="${esc(b.cover)}" alt="">`:`<span class="plain"><b>${esc(b.title)}</b><i>${esc(b.author)}</i></span>`}
+    ${b.shelf==='reading'?'<span class="ribbon" title="Reading"></span>':''}</button>`;
+}
+function renderShelf(){
   renderTabs();
   const q=$('search').value.trim().toLowerCase();
-  let list=state.books.filter(b=>(shelf==='all'||b.shelf===shelf)&&
-    (!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)));
-  list.sort((a,b)=>(b.updated||0)-(a.updated||0));
-  if(!list.length){
-    $('bookList').innerHTML=`<div class="empty">${state.books.length?'No books here yet.':'Your shelves are waiting…<br>tap + to add your first book'}</div>`;
-    return;
-  }
-  $('bookList').innerHTML=list.map(b=>`
-    <div class="book" data-id="${b.id}">
-      <div class="cover">${b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖'}</div>
-      <div>
-        <h3>${esc(b.title)}</h3>
-        <p class="author">${esc(b.author)}</p>
-        <div><span class="stars">${stars(b.rating)}</span>${b.spice?` <span class="spice">${chillies(b.spice)}</span>`:''}</div>
-        <div class="meta">${esc(SHELVES[b.shelf])}${b.finished?' · finished '+fmtDate(b.finished):b.started?' · started '+fmtDate(b.started):''}${b.notes?.length?' · '+b.notes.length+(b.notes.length===1?' note':' notes'):''}</div>
-      </div>
-    </div>`).join('');
+  const list=state.books.filter(b=>(shelf==='all'||b.shelf===shelf)&&(!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)))
+    .sort((a,b)=>(b.updated||0)-(a.updated||0));
+  const width=$('bookcase').clientWidth||360, cols=Math.max(3,Math.floor((width-20)/118));
+  const bw=`calc((100% - ${(cols-1)*10}px) / ${cols})`;
+  let rows=[];
+  for(let i=0;i<list.length;i+=cols)rows.push(list.slice(i,i+cols));
+  while(rows.length<3)rows.push([]);
+  $('bookcase').innerHTML=rows.map((r,i)=>`<div class="shelf-row" style="--bw:${bw}">${
+    r.length?r.map(spine).join(''):(i===0?`<div class="shelf-empty">${state.books.length?'No books on this shelf':'Your shelves are waiting…<br>tap + to add a book'}</div>`:'')
+  }</div>`).join('');
 }
-$('shelfTabs').onclick=e=>{const t=e.target.closest('[data-shelf]');if(t){shelf=t.dataset.shelf;renderBooks();}};
-$('search').oninput=renderBooks;
-$('bookList').onclick=e=>{const c=e.target.closest('.book');if(c)openDetail(c.dataset.id);};
+$('shelfTabs').onclick=e=>{const t=e.target.closest('[data-shelf]');if(t){shelf=t.dataset.shelf;renderShelf();}};
+$('search').oninput=renderShelf;
+$('bookcase').onclick=e=>{const c=e.target.closest('.sbook');if(c)openReview(c.dataset.id);};
+addEventListener('resize',()=>{if($('view-shelf').classList.contains('active'))renderShelf();});
 
-/* ---------- Add / edit ---------- */
-function renderStarInput(){
-  $('starInput').innerHTML=[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" class="${i<=tempRating?'on':''}">★</button>`).join('');
-}
-function renderSpiceInput(){
-  $('spiceInput').innerHTML=[1,2,3,4,5].map(i=>`<button type="button" data-v="${i}" class="${i<=tempSpice?'on':''}">🌶️</button>`).join('');
-}
-$('spiceInput').onclick=e=>{const b=e.target.closest('button');if(b){const v=+b.dataset.v;tempSpice=v===tempSpice?0:v;renderSpiceInput();}};
-$('starInput').onclick=e=>{const b=e.target.closest('button');if(b){const v=+b.dataset.v;tempRating=v===tempRating?0:v;renderStarInput();}};
-
+/* ================= ADD / EDIT BOOK ================= */
+const FIELDS=['title','author','shelf','pages','started','finished','genre','format'];
 function openEdit(id){
-  editingId=id; tempCover=null;
-  const f=$('editForm'), b=state.books.find(x=>x.id===id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
-  ['title','author','shelf','pages','started','finished','genre','format'].forEach(k=>f.elements[k].value=b[k]??'');
-  tempRating=b.rating||0; renderStarInput();
-  tempSpice=b.spice||0; renderSpiceInput();
-  $('coverFile').value='';
-  $('editTitle').textContent=id?'Edit book':'Add a book';
+  editingId=id;
+  const f=$('editForm'), b=book(id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
+  FIELDS.forEach(k=>f.elements[k].value=b[k]??'');
+  $('editTitle').textContent=id?'Edit details':'Add a book';
   $('deleteBtn').hidden=!id;
-  const genres=[...new Set(state.books.map(x=>x.genre).filter(Boolean))];
-  $('genres').innerHTML=genres.map(g=>`<option value="${esc(g)}">`).join('');
+  $('genres').innerHTML=[...new Set(state.books.map(x=>x.genre).filter(Boolean))].map(g=>`<option value="${esc(g)}">`).join('');
   $('editDlg').showModal();
 }
 $('addBtn').onclick=()=>openEdit(null);
-
-// Shrink a photo so lots of covers fit in the phone's storage
-function shrinkPhoto(file,cb){
-  const img=new Image(), r=new FileReader();
-  r.onload=()=>{img.src=r.result};
-  img.onload=()=>{
-    const c=document.createElement('canvas'), h=360, w=Math.round(img.width*h/img.height);
-    c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
-    cb(c.toDataURL('image/jpeg',.75));
-  };
-  r.readAsDataURL(file);
-}
-$('coverFile').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,d=>tempCover=d);};
-
 $('editDlg').addEventListener('close',()=>{
   if($('editDlg').returnValue!=='save')return;
   const f=$('editForm'), data={};
-  ['title','author','shelf','pages','started','finished','genre','format'].forEach(k=>data[k]=f.elements[k].value.trim());
+  FIELDS.forEach(k=>data[k]=f.elements[k].value.trim());
   if(!data.title)return;
   data.pages=data.pages?+data.pages:'';
-  data.rating=tempRating;
-  data.spice=tempSpice;
-  if(data.shelf==='finished'&&!data.finished)data.finished=new Date().toISOString().slice(0,10);
-  if(data.shelf==='reading'&&!data.started)data.started=new Date().toISOString().slice(0,10);
-  let b=state.books.find(x=>x.id===editingId);
+  if(data.shelf==='finished'&&!data.finished)data.finished=today();
+  if(data.shelf==='reading'&&!data.started)data.started=today();
+  let b=book(editingId);
   if(b)Object.assign(b,data);
-  else{b={id:uid(),notes:[],quotes:[],moods:[],review:'',...data};state.books.push(b);}
-  if(tempCover)b.cover=tempCover;
-  b.updated=Date.now();
-  save(); renderAll();
-  if(detailId===b.id&&$('detailDlg').open)openDetail(b.id);
+  else{b={id:uid(),rating:0,spice:0,notes:[],quotes:[],moods:[],review:'',...data};state.books.push(b);}
+  b.updated=Date.now();save();
+  if(editingId)openReview(b.id);else{renderShelf();openReview(b.id);}
 });
 $('deleteBtn').onclick=()=>{
-  if(!confirm('Delete this book and all its notes?'))return;
-  state.books=state.books.filter(b=>b.id!==editingId);
-  save(); $('editDlg').close(); if($('detailDlg').open)$('detailDlg').close(); renderAll();
+  if(!confirm('Delete this book, its review and its collage?'))return;
+  state.books=state.books.filter(b=>b.id!==editingId);save();
+  $('editDlg').close();show('shelf');
 };
 
-/* ---------- Detail / journal ---------- */
-function cur(){return state.books.find(b=>b.id===detailId);}
-function openDetail(id){
-  detailId=id; const b=cur(); if(!b)return;
-  $('dTitle').textContent=b.title;
-  $('dCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change':'Add cover'}</span>`;
-  $('dMeta').innerHTML=[esc(b.author),b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',SHELVES[b.shelf],
-    b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ')
-    +(b.rating||b.spice?`<br><span class="stars">${stars(b.rating)}</span> ${chillies(b.spice)}`:'');
-  $('moodChips').innerHTML=MOODS.map(m=>`<span class="chip ${b.moods?.includes(m)?'on':''}" data-m="${m}">${m}</span>`).join('');
-  $('dNotes').innerHTML=(b.notes||[]).map((n,i)=>`<div class="note-entry"><small>${esc(n.where)}${n.where?' · ':''}${fmtDate(n.date)} <a href="#" data-del-note="${i}" style="color:var(--muted)">remove</a></small>${esc(n.text)}</div>`).join('')||'<p class="small">No notes yet.</p>';
-  $('dQuotes').innerHTML=(b.quotes||[]).map((q,i)=>`<div class="quote"><span>“${esc(q)}”</span><button data-del-quote="${i}">×</button></div>`).join('');
-  $('dReview').value=b.review||'';
-  if(!$('detailDlg').open)$('detailDlg').showModal();
+/* ================= REVIEW PAGE ================= */
+function openReview(id){
+  reviewId=id;const b=book(id);if(!b)return;
+  show('review');scrollTo(0,0);
+  $('rCover').innerHTML=(b.cover?`<img src="${esc(b.cover)}" alt="">`:'📖')+`<span class="tap">${b.cover?'Change cover':'Add cover'}</span>`;
+  $('rTitle').textContent=b.title;
+  $('rAuthor').textContent=b.author||'';
+  $('rMeta').innerHTML=[SHELVES[b.shelf],b.genre&&esc(b.genre),b.format,b.pages&&b.pages+' pages',
+    b.started&&'started '+fmtDate(b.started),b.finished&&'finished '+fmtDate(b.finished)].filter(Boolean).join(' · ');
+  renderRatings();
+  $('rReview').value=b.review||'';
+  renderQuotes();renderNotes();renderReviewCollage();
 }
-$('dEdit').onclick=()=>openEdit(detailId);
-$('moodChips').onclick=e=>{
-  const c=e.target.closest('[data-m]');if(!c)return;const b=cur();b.moods=b.moods||[];
-  const m=c.dataset.m;b.moods=b.moods.includes(m)?b.moods.filter(x=>x!==m):[...b.moods,m];
-  b.updated=Date.now();save();openDetail(b.id);
-};
-$('addNote').onclick=()=>{
-  const t=$('noteText').value.trim();if(!t)return;const b=cur();
-  b.notes=b.notes||[];b.notes.push({where:$('noteWhere').value.trim(),text:t,date:new Date().toISOString().slice(0,10)});
-  $('noteText').value='';$('noteWhere').value='';b.updated=Date.now();save();openDetail(b.id);renderBooks();
-};
-$('addQuote').onclick=()=>{
-  const t=$('quoteText').value.trim();if(!t)return;const b=cur();
-  b.quotes=b.quotes||[];b.quotes.push(t);$('quoteText').value='';b.updated=Date.now();save();openDetail(b.id);
-};
-$('detailDlg').onclick=e=>{
-  const b=cur();if(!b)return;
-  if(e.target.dataset.delNote!==undefined){e.preventDefault();b.notes.splice(+e.target.dataset.delNote,1);save();openDetail(b.id);renderBooks();}
-  if(e.target.dataset.delQuote!==undefined){b.quotes.splice(+e.target.dataset.delQuote,1);save();openDetail(b.id);}
-};
-$('dReview').oninput=()=>{const b=cur();b.review=$('dReview').value;b.updated=Date.now();save();};
+function renderRatings(){
+  const b=book(reviewId);
+  $('rStars').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.rating?'on':''}" aria-label="${i} stars">★</button>`).join('');
+  $('rSpice').innerHTML=[1,2,3,4,5].map(i=>`<button data-v="${i}" class="${i<=b.spice?'on':''}" aria-label="spice ${i}">🌶️</button>`).join('');
+  $('rMoods').innerHTML=MOODS.map(m=>`<span class="chip ${b.moods?.includes(m)?'on':''}" data-m="${m}">${m}</span>`).join('');
+}
+function touch(b){b.updated=Date.now();save();}
+$('rStars').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId),v=+t.dataset.v;b.rating=b.rating===v?0:v;touch(b);renderRatings();};
+$('rSpice').onclick=e=>{const t=e.target.closest('[data-v]');if(!t)return;const b=book(reviewId),v=+t.dataset.v;b.spice=b.spice===v?0:v;touch(b);renderRatings();};
+$('rMoods').onclick=e=>{const c=e.target.closest('[data-m]');if(!c)return;const b=book(reviewId),m=c.dataset.m;
+  b.moods=(b.moods||[]).includes(m)?b.moods.filter(x=>x!==m):[...(b.moods||[]),m];touch(b);renderRatings();};
+$('rReview').oninput=()=>{const b=book(reviewId);b.review=$('rReview').value;touch(b);};
+$('rEdit').onclick=()=>openEdit(reviewId);
+$('backBtn').onclick=()=>show('shelf');
 
-/* ---------- Cover picker ---------- */
-function setCover(url){
-  const b=cur();if(!b)return;
-  if(url)b.cover=url;else delete b.cover;
-  b.updated=Date.now();save();$('coverDlg').close();openDetail(b.id);renderBooks();
+function renderQuotes(){
+  const b=book(reviewId);
+  $('rQuotes').innerHTML=(b.quotes||[]).map((q,i)=>`<div class="quote"><span>“${esc(q)}”</span><button data-dq="${i}" aria-label="Remove quote">×</button></div>`).join('')||'<p class="small">No quotes yet.</p>';
 }
-$('dCover').onclick=()=>{
-  const b=cur();
+$('addQuote').onclick=()=>{const t=$('quoteText').value.trim();if(!t)return;const b=book(reviewId);(b.quotes=b.quotes||[]).push(t);$('quoteText').value='';touch(b);renderQuotes();};
+$('rQuotes').onclick=e=>{const t=e.target.closest('[data-dq]');if(!t)return;const b=book(reviewId);b.quotes.splice(+t.dataset.dq,1);touch(b);renderQuotes();};
+
+function renderNotes(){
+  const b=book(reviewId);
+  $('rNotes').innerHTML=(b.notes||[]).map((n,i)=>`<div class="note-entry"><small>${esc(n.where)}${n.where?' · ':''}${fmtDate(n.date)} · <a href="#" data-dn="${i}" style="color:var(--muted)">remove</a></small>${esc(n.text)}</div>`).join('')||'<p class="small">No notes yet.</p>';
+}
+$('addNote').onclick=()=>{const t=$('noteText').value.trim();if(!t)return;const b=book(reviewId);
+  (b.notes=b.notes||[]).push({where:$('noteWhere').value.trim(),text:t,date:today()});$('noteText').value='';$('noteWhere').value='';touch(b);renderNotes();};
+$('rNotes').onclick=e=>{const t=e.target.closest('[data-dn]');if(!t)return;e.preventDefault();const b=book(reviewId);b.notes.splice(+t.dataset.dn,1);touch(b);renderNotes();};
+
+/* ---- cover picker ---- */
+function setCover(url){const b=book(reviewId);if(url)b.cover=url;else delete b.cover;touch(b);$('coverDlg').close();openReview(b.id);}
+$('rCover').onclick=()=>{
+  const b=book(reviewId);
   $('coverQuery').value=[b.title,b.author].filter(Boolean).join(' ');
-  $('coverResults').innerHTML='';$('coverStatus').textContent='';
-  $('coverRemove').hidden=!b.cover;
+  $('coverResults').innerHTML='';$('coverStatus').textContent='';$('coverRemove').hidden=!b.cover;
   $('coverDlg').showModal();
 };
-$('coverPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,setCover);e.target.value='';};
+$('coverPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,420,setCover);e.target.value='';};
 $('coverRemove').onclick=()=>setCover(null);
 $('coverQuery').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('coverSearch').click();}};
 $('coverSearch').onclick=async()=>{
   const q=$('coverQuery').value.trim();if(!q)return;
   $('coverStatus').textContent='Searching…';$('coverResults').innerHTML='';
   try{
-    const res=await fetch('https://openlibrary.org/search.json?limit=24&fields=cover_i,title,author_name&q='+encodeURIComponent(q));
-    const data=await res.json();
-    const ids=[...new Set((data.docs||[]).map(d=>d.cover_i).filter(Boolean))].slice(0,12);
+    const res=await fetch('https://openlibrary.org/search.json?limit=24&fields=cover_i&q='+encodeURIComponent(q));
+    const ids=[...new Set(((await res.json()).docs||[]).map(d=>d.cover_i).filter(Boolean))].slice(0,12);
     if(!ids.length){$('coverStatus').textContent='No covers found. Try just the title, or take a photo instead.';return;}
     $('coverStatus').textContent='Tap the cover you want:';
     $('coverResults').innerHTML=ids.map(id=>`<button data-cover="https://covers.openlibrary.org/b/id/${id}-L.jpg"><img src="https://covers.openlibrary.org/b/id/${id}-M.jpg" alt="" loading="lazy"></button>`).join('');
@@ -483,39 +598,163 @@ $('coverSearch').onclick=async()=>{
 };
 $('coverResults').onclick=e=>{const b=e.target.closest('[data-cover]');if(b)setCover(b.dataset.cover);};
 
-/* ---------- Stats ---------- */
-function renderStats(){
-  const y=new Date().getFullYear(), ys=String(y);
-  const fin=state.books.filter(b=>b.shelf==='finished');
-  const finYear=fin.filter(b=>(b.finished||'').startsWith(ys));
-  const pagesYear=finYear.reduce((s,b)=>s+(+b.pages||0),0);
-  const rated=fin.filter(b=>b.rating);
-  const avg=rated.length?(rated.reduce((s,b)=>s+b.rating,0)/rated.length).toFixed(1):'–';
-  const goal=state.goals[ys]||'';
-  $('goalYear').textContent=y; $('goalInput').value=goal;
-  $('goalText').textContent=goal?`${finYear.length} of ${goal} books read`:'Set a goal for the year.';
-  $('goalBar').style.width=goal?Math.min(100,finYear.length/goal*100)+'%':'0';
-  const spiced=fin.filter(b=>b.spice);
-  const avgSpice=spiced.length?(spiced.reduce((s,b)=>s+b.spice,0)/spiced.length).toFixed(1):'–';
-  const quotes=state.books.reduce((s,b)=>s+(b.quotes?.length||0),0);
-  $('statGrid').innerHTML=[
-    [finYear.length,'books finished in '+y],[pagesYear.toLocaleString('en-GB'),'pages read in '+y],
-    [state.books.filter(b=>b.shelf==='reading').length,'reading now'],[avg,'average rating'],
-    [avgSpice+(spiced.length?' 🌶️':''),'average spice'],[fin.filter(b=>b.spice>=4).length,'spicy reads (4+ 🌶️)'],
-    [fin.length,'books finished, all time'],[quotes,'quotes saved']
-  ].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
-  const g={};fin.forEach(b=>{if(b.genre)g[b.genre]=(g[b.genre]||0)+1});
-  const top=Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  $('genreList').innerHTML=top.length?top.map(([k,v])=>`${esc(k)} — ${v}`).join('<br>'):'Add genres to finished books to see them here.';
+/* ================= COLLAGE ================= */
+function collageHTML(c,{editing=false,emptyText=''}={}){
+  const items=(c?.items||[]).slice().sort((a,b)=>a.z-b.z).map(it=>{
+    const st=`left:${it.x}%;top:${it.y}%;--w:${it.w};--r:${it.r}deg;z-index:${it.z}`;
+    const cls=['ci',it.id===sel&&editing?'sel':''];
+    let inner='';
+    if(it.type==='photo'){inner=`<img src="${esc(it.src)}" alt="">`;}
+    else if(it.type==='quote'){cls.push('quote-item','v'+(it.v||0));inner=`“${esc(it.text)}”`;}
+    else if(it.type==='label'){cls.push('label-item','v'+(it.v||0));inner=esc(it.text);}
+    else if(it.type==='sticker'){cls.push('sticker');inner=esc(it.text);}
+    else if(it.type==='special'){cls.push('sp','sp-'+it.text);}
+    return `<div class="${cls.join(' ')}" data-ci="${it.id}" style="${st}">${inner}</div>`;
+  }).join('');
+  const empty=!(c?.items||[]).length&&emptyText?`<div class="collage-empty">${emptyText}</div>`:'';
+  return `<div class="collage bg-${c?.bg||'paper'}${editing?' editing':''}">${items}${empty}</div>`;
 }
-$('saveGoal').onclick=()=>{const v=+$('goalInput').value;const y=String(new Date().getFullYear());
-  if(v>0)state.goals[y]=v;else delete state.goals[y];save();renderStats();};
+function renderReviewCollage(){
+  const b=book(reviewId), has=b.collage?.items?.length;
+  $('rCollage').innerHTML=collageHTML(b.collage,{emptyText:'A blank page for pictures, quotes and little treasures from this book'});
+  $('rCollageBtn').textContent=has?'Edit collage':'Create collage';
+}
+$('rCollageBtn').onclick=openEditor;
+$('rCollage').onclick=openEditor;
 
-/* ---------- Settings ---------- */
+function coll(){const b=book(reviewId);return b.collage||(b.collage={bg:'paper',items:[]});}
+function openEditor(){
+  sel=null;coll();$('edTitle').textContent=book(reviewId).title;
+  $('editor').classList.add('show');document.body.style.overflow='hidden';renderEditor();
+}
+$('edDone').onclick=()=>{$('editor').classList.remove('show');document.body.style.overflow='';sel=null;save();renderReviewCollage();};
+function renderEditor(){
+  $('edPage').innerHTML=collageHTML(coll(),{editing:true,emptyText:'Add pictures, quotes, labels and stickers below'});
+  const it=coll().items.find(i=>i.id===sel);
+  $('selTools').hidden=!it;
+  if(it){$('editTextBtn').hidden=!['quote','label'].includes(it.type);
+    document.querySelector('[data-act=style]').hidden=!['quote','label'].includes(it.type);}
+  bindDrag();
+}
+function addItem(it){
+  const c=coll(), z=Math.max(0,...c.items.map(i=>i.z))+1;
+  const item={id:uid(),x:50+(Math.random()*16-8),y:45+(Math.random()*16-8),r:Math.round(Math.random()*10-5),z,v:0,...it};
+  c.items.push(item);sel=item.id;if(save())renderEditor();else{c.items.pop();sel=null;renderEditor();}
+}
+$('edPhoto').onchange=e=>{const f=e.target.files[0];if(f)shrinkPhoto(f,700,src=>addItem({type:'photo',src,w:55}));e.target.value='';};
+
+function bindDrag(){
+  const page=$('edPage').querySelector('.collage');
+  page.onpointerdown=e=>{
+    const el=e.target.closest('.ci');
+    if(!el){sel=null;renderEditor();return;}
+    const it=coll().items.find(i=>i.id===el.dataset.ci);
+    if(sel!==it.id){sel=it.id;page.querySelectorAll('.ci').forEach(n=>n.classList.toggle('sel',n===el));
+      $('selTools').hidden=false;$('editTextBtn').hidden=!['quote','label'].includes(it.type);
+      document.querySelector('[data-act=style]').hidden=!['quote','label'].includes(it.type);}
+    const rect=page.getBoundingClientRect(), sx=e.clientX, sy=e.clientY, ox=it.x, oy=it.y;
+    el.setPointerCapture(e.pointerId);e.preventDefault();
+    el.onpointermove=m=>{
+      it.x=Math.min(100,Math.max(0,ox+(m.clientX-sx)/rect.width*100));
+      it.y=Math.min(100,Math.max(0,oy+(m.clientY-sy)/rect.height*100));
+      el.style.left=it.x+'%';el.style.top=it.y+'%';
+    };
+    el.onpointerup=()=>{el.onpointermove=null;el.onpointerup=null;save();};
+  };
+}
+document.querySelector('#selTools').onclick=e=>{
+  const a=e.target.closest('[data-act]')?.dataset.act;if(!a)return;
+  const c=coll(), it=c.items.find(i=>i.id===sel);if(!it)return;
+  if(a==='bigger')it.w=Math.min(140,it.w*1.15);
+  if(a==='smaller')it.w=Math.max(4,it.w/1.15);
+  if(a==='left')it.r-=8; if(a==='right')it.r+=8;
+  if(a==='front')it.z=Math.max(...c.items.map(i=>i.z))+1;
+  if(a==='back'){c.items.forEach(i=>i.z++);it.z=0;}
+  if(a==='style')it.v=((it.v||0)+1)%(it.type==='quote'?3:2);
+  if(a==='delete'){c.items=c.items.filter(i=>i!==it);sel=null;}
+  if(a==='edit'){textPicker(it.type,it.text,t=>{it.text=t;save();renderEditor();});return;}
+  save();renderEditor();
+};
+
+/* ---- pickers ---- */
+function picker(title,html,bind){$('pickTitle').textContent=title;$('pickBody').innerHTML=html;bind($('pickBody'));$('pickDlg').showModal();}
+function textPicker(type,current,done){
+  const q=type==='quote', b=book(reviewId);
+  const saved=q&&!current&&(b.quotes||[]).length?`<label>Choose one of your saved quotes</label>${b.quotes.map((t,i)=>`<div class="quote" data-pq="${i}" style="cursor:pointer"><span>“${esc(t)}”</span></div>`).join('')}<label>…or write a new one</label>`:'';
+  picker(q?(current?'Edit quote':'Add a quote'):(current?'Edit label':'Add a label'),
+    `${saved}<textarea id="pickText" style="min-height:${q?90:50}px" placeholder="${q?'A line you loved…':'e.g. beautiful moments'}">${esc(current||'')}</textarea>
+     <div class="btn-row"><button class="btn" id="pickOk">${current?'Save':'Add to page'}</button></div>`,
+    body=>{
+      body.querySelectorAll('[data-pq]').forEach(n=>n.onclick=()=>{$('pickDlg').close();done(b.quotes[+n.dataset.pq]);});
+      $('pickOk').onclick=()=>{const t=$('pickText').value.trim();if(!t)return;$('pickDlg').close();done(t);};
+    });
+}
+document.querySelector('.ed-tools').addEventListener('click',e=>{
+  const a=e.target.closest('[data-add]')?.dataset.add;if(!a)return;
+  if(a==='quote')textPicker('quote','',t=>addItem({type:'quote',text:t,w:58}));
+  if(a==='label')textPicker('label','',t=>addItem({type:'label',text:t,w:50,r:0}));
+  if(a==='sticker')picker('Stickers',
+    `<div class="pick-grid">${SPECIALS.map(([k,n])=>`<button data-sp="${k}" title="${n}" aria-label="${n}"><span class="swatch ci sp sp-${k}" style="position:static;transform:none;width:100%;--w:100"></span></button>`).join('')}
+     ${STICKERS.map(s=>`<button data-st="${s}">${s}</button>`).join('')}</div>`,
+    body=>body.onclick=ev=>{
+      const sp=ev.target.closest('[data-sp]'), st=ev.target.closest('[data-st]');
+      if(sp){$('pickDlg').close();const k=sp.dataset.sp;addItem({type:'special',text:k,w:{ring:45,splat:40,pearl:6,lace:60}[k]||40,r:k.startsWith('washi')||k==='kraft'?Math.round(Math.random()*30-15):0});}
+      if(st){$('pickDlg').close();addItem({type:'sticker',text:st.dataset.st,w:14});}
+    });
+  if(a==='bg')picker('Page',
+    `<div class="pick-grid bg-grid">${BGS.map(([k,n])=>`<button data-bg="${k}" class="collage bg-${k}" style="box-shadow:none"><span>${n}</span></button>`).join('')}</div>`,
+    body=>body.onclick=ev=>{const t=ev.target.closest('[data-bg]');if(!t)return;coll().bg=t.dataset.bg;save();$('pickDlg').close();renderEditor();});
+});
+
+/* ================= MONTHLY SUMMARY ================= */
+const season=m=>[12,1,2].includes(m)?'winter':m<=5?'spring':m<=8?'summer':'autumn';
+function renderMonths(){
+  const y=new Date().getFullYear(), ys=String(y);
+  const fin=state.books.filter(b=>b.shelf==='finished'&&b.finished);
+  const finYear=fin.filter(b=>b.finished.startsWith(ys));
+  const goal=state.goals[ys]||'';
+  $('goalInput').value=goal;
+  $('goalText').textContent=goal?`${finYear.length} of ${goal} books read in ${y}`:`Set a goal for ${y} and watch it fill up.`;
+  $('goalBar').style.width=goal?Math.min(100,finYear.length/goal*100)+'%':'0';
+  const avg=(arr,k)=>{const r=arr.filter(b=>b[k]);return r.length?(r.reduce((s,b)=>s+b[k],0)/r.length).toFixed(1):'–';};
+  $('statGrid').innerHTML=[[finYear.length,'books in '+y],[finYear.reduce((s,b)=>s+(+b.pages||0),0).toLocaleString('en-GB'),'pages'],
+    [state.books.filter(b=>b.shelf==='reading').length,'reading now'],[avg(finYear,'rating'),'avg ★'],[avg(finYear,'spice'),'avg 🌶️'],
+    [finYear.filter(b=>b.collage?.items?.length).length,'collages']].map(([n,l])=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+
+  const groups={};
+  fin.forEach(b=>{const k=b.finished.slice(0,7);(groups[k]=groups[k]||[]).push(b);});
+  const keys=Object.keys(groups).sort().reverse();
+  if(!keys.length){$('monthList').innerHTML='<div class="empty">When you finish a book, it will appear here<br>in a page for its month</div>';return;}
+  $('monthList').innerHTML=keys.map(k=>{
+    const list=groups[k].sort((a,b)=>a.finished.localeCompare(b.finished)), [yy,mm]=k.split('-').map(Number);
+    const pages=list.reduce((s,b)=>s+(+b.pages||0),0);
+    const fav=list.slice().sort((a,b)=>(b.rating||0)-(a.rating||0)||(b.spice||0)-(a.spice||0))[0];
+    const quotes=list.flatMap(b=>(b.quotes||[]).map(q=>[q,b]));
+    const qm=quotes.length?quotes[(yy*12+mm)%quotes.length]:null;
+    const collages=list.filter(b=>b.collage?.items?.length);
+    return `<article class="month ${season(mm)}"><div class="month-inner">
+      <h2>${MONTHS[mm-1]} ${yy}</h2>
+      <div class="tapes"><span class="tape">${list.length} book${list.length>1?'s':''}</span>${pages?`<span class="tape">${pages.toLocaleString('en-GB')} pages</span>`:''}${avg(list,'rating')!=='–'?`<span class="tape">★ ${avg(list,'rating')}</span>`:''}${avg(list,'spice')!=='–'?`<span class="tape">🌶️ ${avg(list,'spice')}</span>`:''}</div>
+      <div class="mcovers">${list.map(b=>`<button data-open="${b.id}" aria-label="${esc(b.title)}">${b.cover?`<img src="${esc(b.cover)}" alt="">`:esc(b.title)}</button>`).join('')}</div>
+      ${fav&&fav.rating?`<p class="mfav"><span class="small" style="font-family:var(--type)">favourite:</span> <b>${esc(fav.title)}</b> <span class="stars">${stars(fav.rating)}</span> ${chillies(fav.spice)}</p>`:''}
+      ${qm?`<div class="quote"><span>“${esc(qm[0])}”<br><small style="font-family:var(--type);font-size:.7rem;color:var(--muted)">— ${esc(qm[1].title)}</small></span></div>`:''}
+      ${collages.length?`<div class="mcollages">${collages.map(b=>`<button data-open="${b.id}" aria-label="Collage for ${esc(b.title)}">${collageHTML(b.collage)}</button>`).join('')}</div>`:''}
+    </div></article>`;
+  }).join('');
+}
+$('monthList').onclick=e=>{const t=e.target.closest('[data-open]');if(t)openReview(t.dataset.open);};
+$('saveGoal').onclick=()=>{const v=+$('goalInput').value, y=String(new Date().getFullYear());if(v>0)state.goals[y]=v;else delete state.goals[y];save();renderMonths();};
+
+/* ================= SETTINGS ================= */
+function renderSettings(){
+  $('nameInput').value=state.name||'';
+  const kb=Math.round((localStorage.getItem(KEY)||'').length/1024);
+  $('storageUse').textContent=`Space used: about ${kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB'} of roughly 5 MB. Pictures take the most room.`;
+}
 $('exportBtn').onclick=()=>{
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify(state)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download='reading-journal-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  a.download='reading-journal-backup-'+today()+'.json';a.click();
 };
 $('importBtn').onclick=()=>$('importFile').click();
 $('importFile').onchange=e=>{
@@ -527,26 +766,27 @@ $('importFile').onchange=e=>{
 };
 $('wipeBtn').onclick=()=>{if(confirm('Delete every book? Export a backup first if you might want them.')){state={books:[],goals:state.goals,name:state.name};save();renderAll();}};
 
-/* ---------- Navigation ---------- */
-document.querySelector('nav.bottom').onclick=e=>{
-  const b=e.target.closest('[data-view]');if(!b)return;
-  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x===b));
-  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+b.dataset.view));
-  $('addBtn').style.display=b.dataset.view==='library'?'':'none';
-  if(b.dataset.view==='stats')renderStats();
-};
-/* ---------- Name & welcome ---------- */
+/* ================= NAME & WELCOME ================= */
 const journalTitle=n=>n?`${n}’s Journal`:'My Journal';
 function renderName(){
   const t=journalTitle(state.name);
-  $('jTitle').textContent=t; document.title=t; $('nameInput').value=state.name||'';
+  $('jTitle').textContent=t;document.title=t;
   $('welcome').classList.toggle('show',!state.name);
 }
 $('welcomeName').oninput=()=>{const n=$('welcomeName').value.trim();$('welcomePreview').textContent=n?journalTitle(n):'';};
 $('welcomeForm').onsubmit=e=>{e.preventDefault();const n=$('welcomeName').value.trim();if(!n)return;state.name=n;save();renderName();};
 $('saveName').onclick=()=>{const n=$('nameInput').value.trim();if(!n)return;state.name=n;save();renderName();};
 
-function renderAll(){renderBooks();renderStats();renderName();}
+/* ================= NAVIGATION ================= */
+function show(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));
+  document.querySelectorAll('nav.bottom button').forEach(x=>x.classList.toggle('active',x.dataset.view===v||(v==='review'&&x.dataset.view==='shelf')));
+  document.body.classList.toggle('in-review',v==='review');
+  $('addBtn').style.display=v==='shelf'?'':'none';
+  if(v==='shelf')renderShelf(); if(v==='months')renderMonths(); if(v==='settings')renderSettings();
+}
+document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
+function renderAll(){renderName();show('shelf');}
 renderAll();
 
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
