@@ -9,6 +9,6 @@
   <rect x="116" y="96" width="280" height="320" fill="none" stroke="#cfae86" stroke-width="4" stroke-dasharray="10 8"/>
   <g filter="url(#r)" fill="none"><circle cx="300" cy="320" r="70" stroke="#a8743f" stroke-opacity=".45" stroke-width="9"/></g>
   <circle cx="190" cy="350" r="5" fill="#7a4b2f" fill-opacity=".5"/><circle cx="350" cy="170" r="4" fill="#7a4b2f" fill-opacity=".45"/>
-  <text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="190" fill="#4a3022">L</text>
+  <text x="256" y="300" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="190" fill="#4a3022">J</text>
   <g fill="#f1ebe1" stroke="#c9bba6" stroke-width="3"><circle cx="96" cy="76" r="16"/><circle cx="416" cy="76" r="16"/><circle cx="96" cy="436" r="16"/><circle cx="416" cy="436" r="16"/></g>
 </svg>
