@@ -270,7 +270,7 @@ function renderBooks(){
         <h3>${esc(b.title)}</h3>
         <p class="author">${esc(b.author)}</p>
         <div><span class="stars">${stars(b.rating)}</span>${b.spice?` <span class="spice">${chillies(b.spice)}</span>`:''}</div>
-        <div class="meta">${esc(SHELVES[b.shelf])}${b.finished?' · finished '+fmtDate(b.finished):b.started?' · started '+fmtDate(b.started):''}${b.notes?.length?' · '+b.notes.length+' notes':''}</div>
+        <div class="meta">${esc(SHELVES[b.shelf])}${b.finished?' · finished '+fmtDate(b.finished):b.started?' · started '+fmtDate(b.started):''}${b.notes?.length?' · '+b.notes.length+(b.notes.length===1?' note':' notes'):''}</div>
       </div>
     </div>`).join('');
 }
