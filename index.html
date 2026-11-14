@@ -233,6 +233,16 @@
   .ci.label-item{background:#efe2cc;padding:1.2cqw 2.4cqw;font-family:var(--type);font-size:calc(var(--w) * .065cqw);color:var(--ink);
     box-shadow:.4cqw .4cqw .8cqw rgba(0,0,0,.2);text-align:center}
   .ci.label-item.v1{background:var(--espresso);color:#f6e7cf}
+  .ci.text-item{font-size:calc(var(--w) * .1cqw);line-height:1.2;white-space:pre-wrap;word-break:break-word;text-shadow:0 .2cqw .5cqw rgba(255,255,255,.55)}
+  .tf-script{font-family:var(--script);font-weight:600}
+  .tf-serif{font-family:var(--serif)}
+  .tf-type{font-family:var(--type)}
+  .tf-bold{font-family:Lora,Georgia,serif;font-weight:700;letter-spacing:-.01em}
+  .tf-italic{font-family:var(--serif);font-style:italic}
+  .collage.editing .ci.text-item:empty::before{content:"Text"}
+  .tx-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+  .tx-row button.on{outline:2px solid var(--espresso);outline-offset:2px}
+  .tx-col{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;padding:0}
   .ci.sticker{font-size:calc(var(--w) * .8cqw);line-height:1;text-align:center}
   .ci.sp{aspect-ratio:1}
   .ci.sp-ring{background:var(--ring) center/contain no-repeat;filter:brightness(.55) saturate(1.6) contrast(1.4)}
@@ -1221,6 +1231,7 @@
       <button data-add="layout">Layout</button>
       <button data-add="art">Art</button>
       <button data-add="quote">Quote</button>
+      <button data-add="text">Text</button>
       <button data-add="label">Label</button>
       <button data-add="sticker">Sticker</button>
       <button data-add="bg">Page</button>
@@ -1823,6 +1834,7 @@ function collageHTML(c,{editing=false,emptyText='',showSlots=true}={}){
     else if(it.type==='quote'){cls.push('quote-item','v'+(it.v||0));inner=`“${esc(it.text)}”${it.by?`<small>— ${esc(it.by)}</small>`:''}`;}
     else if(it.type==='slot'){cls.push('slot','slot-'+it.kind);st+=`;aspect-ratio:${(1/it.a).toFixed(3)}`;inner=it.kind==='art'?'Add art':'Add quote';}
     else if(it.type==='label'){cls.push('label-item','v'+(it.v||0));inner=esc(it.text);}
+    else if(it.type==='text'){cls.push('text-item','tf-'+(it.f||'script'));st+=`;color:${it.col||'#3b2a20'};text-align:${it.al||'center'}`;inner=esc(it.text);}
     else if(it.type==='sticker'){cls.push('sticker');inner=esc(it.text);}
     else if(it.type==='special'){cls.push('sp','sp-'+it.text);}
     return `<div class="${cls.join(' ')}" data-ci="${it.id}" style="${st}">${inner}</div>`;
@@ -1878,7 +1890,7 @@ function openEditor(){
 }
 $('edDone').onclick=()=>{$('editor').classList.remove('show');document.body.style.overflow='';sel=null;save();renderReviewCollage();};
 function renderEditor(){
-  $('edPage').innerHTML=collageHTML(coll(),{editing:true,emptyText:'Add pictures, quotes, labels and stickers below'});
+  $('edPage').innerHTML=collageHTML(coll(),{editing:true,emptyText:'Add pictures, quotes, text, labels and stickers below'});
   const it=coll().items.find(i=>i.id===sel);
   updateSel(it);
   bindDrag();
@@ -1886,7 +1898,7 @@ function renderEditor(){
 function updateSel(it){
   $('selTools').hidden=!it;if(!it)return;
   const txt=['quote','label'].includes(it.type);
-  $('editTextBtn').hidden=!(txt||it.type==='slot');$('editTextBtn').textContent=it.type==='slot'?'Fill':'Edit';
+  $('editTextBtn').hidden=!(txt||it.type==='slot'||it.type==='text');$('editTextBtn').textContent=it.type==='slot'?'Fill':'Edit';
   document.querySelector('[data-act=style]').hidden=!txt;
 }
 function addItem(it){
@@ -1927,6 +1939,7 @@ document.querySelector('#selTools').onclick=e=>{
   if(a==='back'){c.items.forEach(i=>i.z++);it.z=0;}
   if(a==='style')it.v=((it.v||0)+1)%(it.type==='quote'?3:2);
   if(a==='delete'){c.items=c.items.filter(i=>i!==it);sel=null;}
+  if(a==='edit'&&it.type==='text'){freeTextPicker(it,p=>{Object.assign(it,p);save();renderEditor();});return;}
   if(a==='edit'){if(it.type==='slot')fillSlot(it);else textPicker(it.type,it.text,t=>{it.text=t;save();renderEditor();});return;}
   save();renderEditor();
 };
@@ -1978,6 +1991,25 @@ function artPicker(done){
 
 /* ---- pickers ---- */
 function picker(title,html,bind){$('pickTitle').textContent=title;$('pickBody').innerHTML=html;bind($('pickBody'));if(!$('pickDlg').open)$('pickDlg').showModal();}
+const TX_FONTS=[['script','Handwriting'],['serif','Serif'],['italic','Italic'],['bold','Bold'],['type','Typewriter']];
+const TX_COLS=['#3b2a20','#6b4a38','#b04a5a','#d98a9a','#8a6bb0','#4f7a5a','#2f5f8a','#c98a2e','#ffffff','#111111'];
+function freeTextPicker(cur,done){
+  const st={text:cur?.text||'',f:cur?.f||'script',col:cur?.col||'#3b2a20',al:cur?.al||'center'};
+  const draw=()=>picker(cur?'Edit text':'Add text',
+    `<textarea id="pickText" style="min-height:80px" placeholder="Write anything…">${esc(st.text)}</textarea>
+     <label>Font</label><div class="tx-row">${TX_FONTS.map(([k,n])=>`<button class="btn ghost tf-${k}${k===st.f?' on':''}" style="font-size:1.05rem" data-tf="${k}">${n}</button>`).join('')}</div>
+     <label>Colour</label><div class="tx-row">${TX_COLS.map(c=>`<button class="tx-col${c===st.col?' on':''}" style="background:${c}" data-tc="${c}" aria-label="Colour ${c}"></button>`).join('')}</div>
+     <label>Line up</label><div class="tx-row">${[['center','Centre'],['left','Left'],['right','Right']].map(([k,n])=>`<button class="btn ghost${k===st.al?' on':''}" data-ta="${k}">${n}</button>`).join('')}</div>
+     <div class="btn-row"><button class="btn" id="pickOk">${cur?'Save':'Add to page'}</button></div>`,
+    body=>{
+      $('pickText').oninput=e=>st.text=e.target.value;
+      body.onclick=e=>{const t=e.target.closest('[data-tf],[data-tc],[data-ta]');if(!t)return;
+        if(t.dataset.tf)st.f=t.dataset.tf;if(t.dataset.tc)st.col=t.dataset.tc;if(t.dataset.ta)st.al=t.dataset.ta;
+        const y=$('pickDlg').scrollTop;draw();$('pickDlg').scrollTop=y;};
+      $('pickOk').onclick=()=>{const t=st.text.trim();if(!t)return;$('pickDlg').close();done({...st,text:t});};
+    });
+  draw();
+}
 function textPicker(type,current,done){
   const q=type==='quote', b=book(reviewId);
   const others=state.books.filter(x=>x!==b&&(x.quotes||[]).length).sort((x,y)=>(y.finished||'').localeCompare(x.finished||''));
@@ -2006,6 +2038,7 @@ document.querySelector('.ed-tools').addEventListener('click',e=>{
       $('addArtSpace').onclick=()=>{$('pickDlg').close();addItem({type:'slot',kind:'art',w:42,a:1});};
       $('addQuoteSpace').onclick=()=>{$('pickDlg').close();addItem({type:'slot',kind:'quote',w:50,a:.5});};
     });
+  if(a==='text')freeTextPicker(null,p=>addItem({type:'text',w:60,r:0,...p}));
   if(a==='label')textPicker('label','',t=>addItem({type:'label',text:t,w:50,r:0}));
   if(a==='sticker')picker('Stickers',
     `<div class="pick-grid">${SPECIALS.map(([k,n])=>`<button data-sp="${k}" title="${n}" aria-label="${n}"><span class="sw sw-${k}"></span></button>`).join('')}
@@ -2484,6 +2517,11 @@ async function drawCollageOn(x,c,X,Y,W,H){
       drawLines(x,lines,0,-h/2+pad,lh,0,'center');
       if(byH){x.font=`${fs*.5}px ${type}`;x.fillStyle='#8a6f5a';x.textAlign='center';x.fillText('— '+it.by,0,-h/2+pad+lines.length*lh+fs*.15);x.textAlign='left';}
       x.textBaseline='alphabetic';}
+    else if(it.type==='text'){
+      const fs=it.w*.1*W/100, ff={script:`600 ${fs}px ${script}`,serif:`${fs}px ${cssVar('--serif')||'serif'}`,italic:`italic ${fs}px ${cssVar('--serif')||'serif'}`,bold:`700 ${fs}px Lora, Georgia, serif`,type:`${fs}px ${type}`}[it.f||'script'];
+      x.font=ff;const lines=String(it.text).split('\n').flatMap(l=>wrap(x,l,w)), lh=fs*1.2, h=lines.length*lh;
+      x.fillStyle=it.col||'#3b2a20';x.textBaseline='top';const al=it.al||'center';
+      drawLines(x,lines,al==='left'?-w/2:al==='right'?w/2:0,-h/2,lh,0,al==='center'?'center':al);x.textBaseline='alphabetic';}
     else if(it.type==='sticker'){const fs=it.w*.8*W/100;x.font=`${fs}px serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(it.text,0,0);x.textAlign='left';x.textBaseline='alphabetic';}
     else if(it.type==='special'){
       const k=it.text;
