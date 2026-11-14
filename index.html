@@ -762,11 +762,6 @@
       <div class="cust-sec"><label>Pepper colour</label><div class="swatches" id="cChili"></div></div>
       <div class="cust-sec"><label>Bottom buttons: icons</label><div class="opt-grid" id="nIcons"></div></div>
       <div class="cust-sec"><label>Bottom buttons: layout</label><div class="opt-grid" id="nLayout"></div></div>
-      <div class="cust-sec"><label>Bottom buttons: names</label>
-        <div class="row" style="flex-wrap:wrap" id="nNames">
-          <input data-k="shelf" maxlength="12" placeholder="Shelf" style="flex:1 1 40%"><input data-k="diary" maxlength="12" placeholder="Diary" style="flex:1 1 40%">
-          <input data-k="months" maxlength="12" placeholder="Months" style="flex:1 1 40%"><input data-k="settings" maxlength="12" placeholder="Settings" style="flex:1 1 40%">
-        </div></div>
       <div class="cust-sec"><label>Bottom buttons: bar colour</label><div class="swatches" id="nBar"></div></div>
       <div class="cust-sec"><label>Bottom buttons: shape</label><div class="opt-grid" id="nShape"></div></div>
       <div class="btn-row"><button class="btn ghost" id="cReset">Reset to the look's defaults</button></div>
@@ -915,6 +910,7 @@ const BGS=[['paper','Cream paper'],['gingham','Gingham'],['kraft','Kraft'],['lin
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 let state=load();
+if(state.custom?.nav?.names){delete state.custom.nav.names;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
 let shelf='all', editingId=null, reviewId=null, sel=null;
 
 function load(){
@@ -1565,7 +1561,7 @@ const NAV_SHAPES=[['','Full bar'],['pill','Floating']];
 function renderNav(){
   const n=(state.custom||{}).nav||{}, icons=NAV_ICONS[n.icons]?.[1]||NAV_ICONS.classic[1];
   NAV_KEYS.forEach((k,i)=>{const b=document.querySelector(`nav.bottom [data-view=${k}]`);
-    b.querySelector('.ni').textContent=icons[i];b.querySelector('.nl').textContent=(n.names||{})[k]||NAV_NAMES[k];});
+    b.querySelector('.ni').textContent=icons[i];b.querySelector('.nl').textContent=NAV_NAMES[k];});
   document.body.classList.remove('nav-stacked','nav-icons','nav-words','nav-noicon');
   if(n.layout)document.body.classList.add('nav-'+n.layout);
   if(n.icons==='none'&&n.layout!=='words')document.body.classList.add('nav-noicon');
@@ -1588,7 +1584,6 @@ function renderNavOptions(){
   $('nBar').innerHTML=`<button class="def ${!n.bar?'on':''}" data-v="">Look's own</button><button class="def ${n.bar==='clear'?'on':''}" data-v="clear">See-through</button>`+
     o.accents.map(a=>`<button data-v="${a}" class="${n.bar===a?'on':''}" style="background:${a}" aria-label="${a}"></button>`).join('')+
     `<input type="color" id="nBarPick" value="${n.bar&&n.bar!=='clear'?n.bar:o.accents[0]}" aria-label="Pick any colour">`;
-  document.querySelectorAll('#nNames input').forEach(i=>i.value=(n.names||{})[i.dataset.k]||'');
 }
 function setNav(k,v,live){
   state.custom=state.custom||{};const n=state.custom.nav=state.custom.nav||{};
@@ -1602,10 +1597,6 @@ $('nShape').onclick=e=>{const b=e.target.closest('[data-v]');if(b)setNav('shape'
 $('nBar').onclick=e=>{const b=e.target.closest('button[data-v]');if(b)setNav('bar',b.dataset.v);};
 $('nBar').addEventListener('input',e=>{if(e.target.id==='nBarPick')setNav('bar',e.target.value,true);});
 $('nBar').addEventListener('change',e=>{if(e.target.id==='nBarPick'){save();renderNavOptions();}});
-$('nNames').addEventListener('input',e=>{const i=e.target.closest('[data-k]');if(!i)return;
-  state.custom=state.custom||{};const n=state.custom.nav=state.custom.nav||{};n.names=n.names||{};
-  const v=i.value.trim();if(v)n.names[i.dataset.k]=v;else delete n.names[i.dataset.k];renderNav();});
-$('nNames').addEventListener('change',()=>save());
 
 /* ================= BOOK PAGE STYLE ================= */
 function renderStyleDlg(){
