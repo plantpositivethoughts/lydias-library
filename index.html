@@ -470,7 +470,7 @@
 <!-- ADD / EDIT BOOK -->
 <dialog id="editDlg">
   <form method="dialog" id="editForm">
-    <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" value="cancel" type="submit">×</button></div>
+    <div class="dlg-head"><h2 id="editTitle">Add a book</h2><button class="x" type="button" data-cancel aria-label="Close">×</button></div>
     <div class="dlg-body">
       <div class="row" style="align-items:flex-end;gap:14px">
         <div style="flex:0 0 96px"><label>Cover</label>
@@ -498,6 +498,7 @@
       <select name="format"><option>Paperback</option><option>Hardback</option><option>Ebook</option><option>Audiobook</option></select>
       <div class="btn-row">
         <button class="btn" value="save" type="submit">Save book</button>
+        <button class="btn ghost" type="button" data-cancel>Cancel</button>
         <button class="btn danger" type="button" id="deleteBtn" hidden>Delete book</button>
       </div>
     </div>
@@ -582,7 +583,7 @@ const FIELDS=['title','author','shelf','pages','started','finished','genre','for
 let tempCover, coverTarget='book';
 function renderFormCover(){$('fCover').innerHTML=(tempCover?`<img src="${esc(tempCover)}" alt="">`:'📖')+`<span class="tap">${tempCover?'Change':'Add cover'}</span>`;}
 function openEdit(id){
-  editingId=id;tempCover=book(id)?.cover||null;renderFormCover();
+  editingId=id;tempCover=book(id)?.cover||null;renderFormCover();$('editDlg').returnValue='';
   const f=$('editForm'), b=book(id)||{shelf:shelf==='all'?'reading':shelf,format:'Paperback'};
   FIELDS.forEach(k=>f.elements[k].value=b[k]??'');
   $('editTitle').textContent=id?'Edit details':'Add a book';
@@ -591,6 +592,12 @@ function openEdit(id){
   $('editDlg').showModal();
 }
 $('addBtn').onclick=()=>openEdit(null);
+document.querySelectorAll('#editDlg [data-cancel]').forEach(n=>n.onclick=()=>$('editDlg').close('cancel'));
+// Tapping outside a pop-up (on the dimmed background) closes it
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{
+  if(e.target!==d)return;const r=d.getBoundingClientRect();
+  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close('cancel');
+}));
 $('editDlg').addEventListener('close',()=>{
   if($('editDlg').returnValue!=='save')return;
   const f=$('editForm'), data={};
