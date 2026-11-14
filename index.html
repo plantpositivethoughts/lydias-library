@@ -195,6 +195,7 @@
   .ci.slot-quote{background:rgba(255,253,248,.75)}
   .collage:not(.editing) .ci.slot{opacity:.65}
   .ci.quote-item small{display:block;font-family:var(--type);font-size:.5em;line-height:1.4;margin-top:.5em;color:var(--muted)}
+  .pin-ico{width:18px;height:18px;vertical-align:-4px;margin-right:7px}
   .art-credits{font-size:.72rem;margin:8px 2px 0;line-height:1.5}
   .art-credits a{color:inherit}
   .layout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -1133,7 +1134,7 @@ function artPicker(done){
      <input type="file" id="artPhoto" accept="image/*" hidden>
      <label for="artQuery">🔎 Find art</label>
      <input id="artQuery" value="${esc([b.title,'art'].join(' '))}" placeholder="e.g. enchanted forest, roses, dragon">
-     <div class="btn-row" style="margin-top:8px"><button class="btn" id="artFree">Search free art</button><button class="btn ghost" id="artPin">Search Pinterest ↗</button></div>
+     <div class="btn-row" style="margin-top:8px"><button class="btn" id="artFree">Search free art</button><button class="btn ghost" id="artPin"><img src="pinterest-badge.svg" alt="" class="pin-ico">Search Pinterest ↗</button></div>
      <p class="small" id="artStatus"></p>
      <div class="cover-grid" id="artResults"></div>
      ${covers.length?`<label>Or a cover from your bookshelf</label><div class="cover-grid">${covers.map(x=>`<button data-src="${esc(x.cover)}" aria-label="${esc(x.title)}"><img src="${esc(x.cover)}" alt=""></button>`).join('')}</div>`:''}`,

@@ -1,6 +1,6 @@
 // Lets the journal open without an internet connection.
-const CACHE = 'lydias-library-v19';
-const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg'];
+const CACHE = 'lydias-library-v20';
+const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg', 'pinterest-badge.svg'];
 
 self.addEventListener('install', e => {
   // Cache each file on its own so one missing picture doesn't stop the rest.
