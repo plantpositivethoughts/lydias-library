@@ -1,5 +1,5 @@
 // Lets the journal open without an internet connection.
-const CACHE = 'lydias-library-v37';
+const CACHE = 'lydias-library-v38';
 const FILES = ['./', 'index.html', 'manifest.json', 'icon.svg', 'pinterest-badge.svg'];
 
 self.addEventListener('install', e => {

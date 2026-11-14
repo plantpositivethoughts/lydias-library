@@ -1318,7 +1318,7 @@
 <script>
 const KEY='lydiasLibrary.v1';
 const SHELVES={all:'All',reading:'Reading',want:'Want to read',finished:'Finished',dnf:'Did not finish'};
-const MOODS=['🌸 Uplifted','😢 Moved','😱 Gripped','😂 Amused','🤔 Thoughtful','😌 Cosy','😴 Bored','😠 Frustrated'];
+const MOODS=['Uplifted','Moved','Gripped','Amused','Thoughtful','Cosy','Bored','Frustrated'];
 const STICKERS=['🍂','🍁','🌿','🌸','🌷','🌼','🍓','❄️','☕','🕯️','🥧','🍰','🎀','⭐','🌙','✉️','🗝️','📜','🦋','🕊️','🍄','🌹','💌','✨'];
 const SPECIALS=[['ring','Coffee ring'],['splat','Ink splatter'],['washi','Gingham tape'],['washi2','Striped tape'],['kraft','Kraft tape'],['pearl','Pearl'],['lace','Cream lace'],['lacebrown','Brown lace'],['doily','Lace doily'],['doilybrown','Brown doily']];
 const BGS=[['paper','Cream paper'],['gingham','Gingham'],['kraft','Kraft'],['linen','Linen'],['blush','Blush'],['night','Night']];
@@ -1326,6 +1326,10 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 
 let state=load();
 state.series=state.series||[];
+// Feelings used to start with an emoji; keep just the word
+const plainMood=m=>String(m).replace(/^[^A-Za-z]+/,'');
+state.books.forEach(b=>{if(b.moods)b.moods=b.moods.map(plainMood);});
+state.series.forEach(x=>{if(x.moods)x.moods=x.moods.map(plainMood);});
 // Fix books saved with a finished date but left on Reading / Want to read
 state.books.forEach(b=>{if(b.finished&&['reading','want'].includes(b.shelf))b.shelf='finished';});
 if(state.custom?.nav?.names){delete state.custom.nav.names;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
