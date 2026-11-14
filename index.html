@@ -666,7 +666,7 @@ function renderShelf(){
   let rows=[];
   for(let i=0;i<list.length;i+=cols)rows.push(list.slice(i,i+cols));
   while(rows.length<3)rows.push([]);
-  const ORN=['🪴','🕯️','🍄','🫖','🌿','🧸','🍂','🌷'];
+  const ORN=window.THEME_ORN||['🪴','🕯️','🍄','🫖','🌿','🧸','🍂','🌷'];
   $('bookcase').innerHTML=rows.map((r,i)=>`<div class="shelf-row" style="--bw:${bw}">${
     r.length?r.map(spine).join('')+(r.length<cols?`<span class="orn">${ORN[i%ORN.length]}</span>`:'')
       :(i===0?`<div class="shelf-empty">${state.books.length?'No books on this shelf':'Your shelves are waiting…<br>tap + to add a book'}</div>`:`<span class="orn">${ORN[(i+3)%ORN.length]}</span><span class="orn" style="margin-left:auto">${ORN[(i+5)%ORN.length]}</span>`)
