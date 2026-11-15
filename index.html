@@ -243,6 +243,30 @@
   .tx-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
   .tx-row button.on{outline:2px solid var(--espresso);outline-offset:2px}
   .tx-col{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;padding:0}
+
+  /* handwriting */
+  .ci.ink img{box-shadow:none}
+  #handEd{position:fixed;inset:0;z-index:45;display:none;flex-direction:column;background:#3a2a20 var(--splat) 0 0/420px 620px;-webkit-user-select:none;user-select:none}
+  #handEd.show{display:flex}
+  #handEd .ed-top{gap:8px;flex-wrap:wrap}
+  #handEd .ed-top .pg{display:flex;gap:6px;align-items:center;font-family:var(--type);font-size:.85rem}
+  .hand-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 10px;position:relative}
+  .hand-wrap{position:relative;box-shadow:0 6px 24px rgba(0,0,0,.5);background:#fffdf8;touch-action:none}
+  .hand-wrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+  .hand-wrap.inkmode{background:#fffdf8}
+  .hand-under{position:absolute;inset:0;opacity:.55;pointer-events:none}
+  .hand-under .collage{width:100%;height:100%}
+  .hand-tools{background:var(--espresso);padding:8px 8px calc(10px + env(safe-area-inset-bottom));border-top:3px solid var(--caramel)}
+  .hand-tools .ed-row{align-items:center}
+  .hand-tools .ed-row button.on{background:var(--caramel);color:#fff}
+  .hand-tools .sw{width:34px;height:34px;min-width:34px;border-radius:50%;padding:0;border:2px solid rgba(255,255,255,.5)}
+  .hand-tools .sw.on{outline:3px solid #fff;outline-offset:1px}
+  .hand-tools .sep{width:1px;align-self:stretch;background:rgba(255,255,255,.25);margin:0 4px;flex:none}
+  .hand-hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:rgba(40,28,20,.8);color:#f6e7cf;font-family:var(--type);font-size:.78rem;padding:6px 12px;border-radius:20px;pointer-events:none;transition:opacity .4s}
+  .hand-thumbs{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px}
+  .hand-thumbs button{flex:0 0 auto;width:130px;padding:0;border:0;background:none;cursor:pointer;font-family:var(--type);font-size:.75rem;color:var(--ink)}
+  .hand-thumbs canvas{display:block;width:130px;height:184px;box-shadow:0 3px 10px rgba(80,50,30,.25);margin-bottom:5px;background:#fffdf8}
+  @media(min-width:900px){.hand-thumbs button,.hand-thumbs canvas{width:170px}.hand-thumbs canvas{height:240px}}
   .ci.sticker{font-size:calc(var(--w) * .8cqw);line-height:1;text-align:center}
   .ci.sp{aspect-ratio:1}
   .ci.sp-ring{background:var(--ring) center/contain no-repeat;filter:brightness(.55) saturate(1.6) contrast(1.4)}
@@ -1032,6 +1056,15 @@
       <div id="rCollage"></div>
     </div>
 
+
+    <div class="panel">
+      <div class="rating-row" style="margin-bottom:6px">
+        <h3 style="margin:0">Handwritten notes</h3>
+        <button class="btn" id="rHandBtn">Write by hand</button>
+      </div>
+      <div id="rHand"></div>
+    </div>
+
     <div class="panel">
       <h3>Favourite quotes</h3>
       <div id="rQuotes"></div>
@@ -1097,7 +1130,17 @@
         <li>Tap an <b>Add quote</b> space to add a quote from any book you've saved quotes for.</li>
         <li>Drag pieces to move them. Tap a piece for Smaller, Bigger, rotate, Front, Back, Style, Edit or Remove.</li>
         <li><b>Layout</b> gives a new arrangement, <b>Sticker</b> adds lace, tape, doilies and more, and <b>Page</b> changes the paper.</li>
+        <li><b>Draw</b> lets you write or draw straight onto the collage with an Apple Pencil or your finger.</li>
         <li>Tap <b>Done</b> when you're finished. Free art is credited under the collage for you.</li>
+      </ul></div>
+
+    <div class="panel guide"><h3>Writing by hand</h3>
+      <ul>
+        <li>On a book's page, tap <b>Write by hand</b> for lined, dotted, grid or plain pages.</li>
+        <li>Choose Pen or Highlighter, a size and a colour. Pencil pressure makes lines thicker or thinner.</li>
+        <li>Once you use an Apple Pencil, finger drawing turns off so your hand can rest on the page. Turn it back on with <b>Finger drawing</b>.</li>
+        <li><b>Eraser</b> removes whole lines. <b>Undo</b> and <b>Redo</b> fix mistakes, and <b>New page</b> adds another page.</li>
+        <li>Your pages show on the book's page. Tap one to carry on writing.</li>
       </ul></div>
 
     <div class="panel guide"><h3>Diary &amp; Calendar</h3>
@@ -1232,9 +1275,34 @@
       <button data-add="art">Art</button>
       <button data-add="quote">Quote</button>
       <button data-add="text">Text</button>
+      <button data-add="draw">Draw</button>
       <button data-add="label">Label</button>
       <button data-add="sticker">Sticker</button>
       <button data-add="bg">Page</button>
+    </div>
+  </div>
+</section>
+
+<section id="handEd" aria-label="Write by hand">
+  <div class="ed-top"><b id="handTitle">Handwritten notes</b>
+    <span class="pg"><button class="btn ghost" id="hPrev">Previous</button><span id="hPage">Page 1 of 1</span><button class="btn ghost" id="hNext">Next</button><button class="btn ghost" id="hAdd">New page</button></span>
+    <button class="btn" id="hDone">Done</button></div>
+  <div class="hand-stage" id="hStage"><div class="hand-wrap" id="hWrap"><canvas id="hCanvas"></canvas><canvas id="hLive"></canvas></div><div class="hand-hint" id="hHint"></div></div>
+  <div class="hand-tools">
+    <div class="ed-row" id="hTools1">
+      <button data-tool="pen" class="on">Pen</button><button data-tool="hl">Highlighter</button><button data-tool="eraser">Eraser</button>
+      <span class="sep"></span>
+      <button data-size="1">Fine</button><button data-size="2" class="on">Medium</button><button data-size="4">Thick</button>
+      <span class="sep"></span>
+      <span id="hCols" style="display:flex;gap:6px"></span>
+    </div>
+    <div class="ed-row" id="hTools2">
+      <button id="hUndo">Undo</button><button id="hRedo">Redo</button>
+      <span class="sep"></span>
+      <button data-paper="lined">Lined</button><button data-paper="dots">Dotted</button><button data-paper="grid">Grid</button><button data-paper="plain">Plain</button>
+      <span class="sep"></span>
+      <button id="hFinger">Finger drawing: on</button>
+      <button id="hClear">Clear page</button><button id="hDel">Delete page</button>
     </div>
   </div>
 </section>
@@ -1762,7 +1830,7 @@ function openReview(id){
     (seriesOf(b)?`<br><a href="#" class="series-link" data-series="${seriesOf(b).id}">Part of: ${esc(seriesOf(b).name)}${b.seriesNum!==''&&b.seriesNum!=null?' #'+b.seriesNum:''}</a>`:'');
   renderRatings();
   $('rReview').value=b.review||'';
-  renderQuotes();renderNotes();renderReviewCollage();
+  renderQuotes();renderNotes();renderReviewCollage();renderHandThumbs();
 }
 function renderRatings(){
   const b=book(reviewId);
@@ -1831,6 +1899,7 @@ function collageHTML(c,{editing=false,emptyText='',showSlots=true}={}){
     const cls=['ci',it.id===sel&&editing?'sel':''];
     let inner='';
     if(it.type==='photo'){inner=`<img src="${esc(it.src)}" alt="">`;}
+    else if(it.type==='ink'){cls.push('ink');inner=`<img src="${esc(it.src)}" alt="Handwriting">`;}
     else if(it.type==='quote'){cls.push('quote-item','v'+(it.v||0));inner=`“${esc(it.text)}”${it.by?`<small>— ${esc(it.by)}</small>`:''}`;}
     else if(it.type==='slot'){cls.push('slot','slot-'+it.kind);st+=`;aspect-ratio:${(1/it.a).toFixed(3)}`;inner=it.kind==='art'?'Add art':'Add quote';}
     else if(it.type==='label'){cls.push('label-item','v'+(it.v||0));inner=esc(it.text);}
@@ -1851,6 +1920,181 @@ function renderReviewCollage(){
   $('rCollageShare').hidden=!b.collage?.items?.some(i=>i.type!=='slot');
 }
 $('rCollageBtn').onclick=openEditor;
+/* ================= HANDWRITING ================= */
+const HW=1000, HH=1414, IH=1333, HCOLS=['#2b1d16','#5a3a2e','#b04a5a','#e07a95','#7a5aa8','#2f5f8a','#3f7a52','#c98a2e','#ffffff'];
+let hand=null; // {ink,item,pages,pi,tool,size,col,undo,redo,penSeen,finger}
+const encPts=pts=>pts.map(p=>p.join(',')).join(';');
+const decPts=s=>s?s.split(';').map(t=>t.split(',').map(Number)):[];
+function handPagesOf(b){return b.hand||(b.hand={pages:[]});}
+function drawPaper(x,paper,W,H,ink){
+  if(ink){x.clearRect(0,0,W,H);return;}
+  x.fillStyle='#fffdf8';x.fillRect(0,0,W,H);const k=W/HW;
+  if(paper==='lined'){x.strokeStyle='#e4d4c2';x.lineWidth=Math.max(1,1.6*k);for(let y=150;y<HH-40;y+=52){x.beginPath();x.moveTo(0,y*k);x.lineTo(W,y*k);x.stroke();}
+    x.strokeStyle='rgba(224,122,149,.55)';x.beginPath();x.moveTo(90*k,0);x.lineTo(90*k,H);x.stroke();}
+  else if(paper==='dots'){x.fillStyle='#d9c6b2';for(let y=50;y<HH;y+=50)for(let xx=50;xx<HW;xx+=50){x.beginPath();x.arc(xx*k,y*k,Math.max(1,2.6*k),0,7);x.fill();}}
+  else if(paper==='grid'){x.strokeStyle='#ece0d2';x.lineWidth=Math.max(1,1.3*k);for(let y=50;y<HH;y+=50){x.beginPath();x.moveTo(0,y*k);x.lineTo(W,y*k);x.stroke();}for(let xx=50;xx<HW;xx+=50){x.beginPath();x.moveTo(xx*k,0);x.lineTo(xx*k,H);x.stroke();}}
+}
+function drawStroke(x,st,k){
+  const p=st.pts||decPts(st.p);if(!p.length)return;
+  x.save();x.lineCap='round';x.lineJoin='round';x.strokeStyle=st.c;x.fillStyle=st.c;
+  if(st.t==='hl'){x.globalAlpha=.35;x.lineWidth=st.w*k*6;x.lineCap='butt';x.beginPath();x.moveTo(p[0][0]*k,p[0][1]*k);
+    for(let i=1;i<p.length;i++)x.lineTo(p[i][0]*k,p[i][1]*k);x.stroke();x.restore();return;}
+  const wid=pr=>Math.max(.6,st.w*k*(0.45+pr/9*1.1));
+  if(p.length===1){x.beginPath();x.arc(p[0][0]*k,p[0][1]*k,wid(p[0][2])/2,0,7);x.fill();x.restore();return;}
+  for(let i=1;i<p.length;i++){
+    const a=p[i-1],b=p[i],m0=i>1?[(p[i-2][0]+a[0])/2,(p[i-2][1]+a[1])/2]:a,m1=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+    x.lineWidth=wid((a[2]+b[2])/2);x.beginPath();x.moveTo(m0[0]*k,m0[1]*k);x.quadraticCurveTo(a[0]*k,a[1]*k,m1[0]*k,m1[1]*k);x.stroke();}
+  const l=p[p.length-1],q=p[p.length-2];x.lineWidth=wid(l[2]);x.beginPath();x.moveTo((q[0]+l[0])/2*k,(q[1]+l[1])/2*k);x.lineTo(l[0]*k,l[1]*k);x.stroke();
+  x.restore();
+}
+function renderHandPage(cv,page,ink){
+  const x=cv.getContext('2d');drawPaper(x,page.paper||'lined',cv.width,cv.height,ink);
+  const k=cv.width/HW;(page.strokes||[]).forEach(st=>drawStroke(x,st,k));
+}
+function renderHandThumbs(){
+  const b=book(reviewId);if(!b)return;const pages=b.hand?.pages||[];
+  $('rHandBtn').textContent=pages.length?'Add a page':'Write by hand';
+  if(!pages.length){$('rHand').innerHTML='<p class="small" style="margin:4px 0">Write or draw your thoughts with an Apple Pencil or your finger. Works best on an iPad.</p>';return;}
+  $('rHand').innerHTML=`<div class="hand-thumbs">${pages.map((pg,i)=>`<button data-hp="${i}"><canvas width="340" height="481"></canvas>Page ${i+1}</button>`).join('')}</div>`;
+  $('rHand').querySelectorAll('canvas').forEach((cv,i)=>renderHandPage(cv,pages[i]));
+}
+$('rHandBtn').onclick=()=>{const b=book(reviewId),pg=handPagesOf(b).pages;
+  if(pg.length&&!(pg[pg.length-1].strokes||[]).length)openHand({pi:pg.length-1});else openHand({newPage:true});};
+$('rHand').onclick=e=>{const t=e.target.closest('[data-hp]');if(t)openHand({pi:+t.dataset.hp});};
+
+function openHand(o={}){
+  const b=book(reviewId);
+  let pages;
+  if(o.ink){pages=[{paper:'plain',strokes:[]}];
+    const it=o.item;
+    if(it?.strokes&&it.bb){ // move the saved strokes to wherever the drawing sits now
+      const [bx0,by0,bx1,by1]=it.bb, f=(it.w/100*HW)/Math.max(1,bx1-bx0), cx=it.x/100*HW, cy=it.y/100*IH, ox=(bx0+bx1)/2, oy=(by0+by1)/2;
+      pages[0].strokes=it.strokes.map(st=>({...st,w:st.w*f,p:encPts(decPts(st.p).map(q=>[Math.round((q[0]-ox)*f+cx),Math.round((q[1]-oy)*f+cy),q[2]]))}));}}
+  else{pages=handPagesOf(b).pages;if(o.newPage||!pages.length)pages.push({paper:state.handPaper||'lined',strokes:[]});}
+  const prev=hand;
+  hand={ink:!!o.ink,item:o.item||null,pages,pi:o.ink?0:(o.newPage?pages.length-1:Math.min(o.pi||0,pages.length-1)),
+    tool:'pen',size:2,col:prev?.col||'#2b1d16',undo:[],redo:[],penSeen:!!state.handPen,finger:!state.handPen};
+  $('handTitle').textContent=o.ink?'Draw on your collage':'Handwritten notes · '+b.title;
+  $('hTools2').querySelectorAll('[data-paper],#hDel').forEach(el=>el.hidden=hand.ink);
+  $('hPrev').parentNode.style.display=hand.ink?'none':'flex';
+  $('hWrap').classList.toggle('inkmode',hand.ink);
+  $('hUnder')?.remove();
+  if(hand.ink){const c=coll(),u=document.createElement('div');u.id='hUnder';u.className='hand-under';
+    u.innerHTML=collageHTML({...c,items:c.items.filter(i=>i.id!==o.item?.id&&i.type!=='slot')},{});$('hWrap').prepend(u);}
+  $('hCols').innerHTML=HCOLS.map(c=>`<button class="sw" data-col="${c}" style="background:${c}" aria-label="Colour ${c}"></button>`).join('');
+  $('handEd').classList.add('show');document.body.style.overflow='hidden';
+  if(!o.ink)$('editor').classList.remove('show');
+  syncHandTools();sizeHand();hint(hand.penSeen?'':'Write with an Apple Pencil or your finger');
+}
+function hint(t){const h=$('hHint');h.textContent=t;h.style.opacity=t?1:0;clearTimeout(hint.t);if(t)hint.t=setTimeout(()=>h.style.opacity=0,2600);}
+function curPage(){return hand.pages[hand.pi];}
+function syncHandTools(){
+  document.querySelectorAll('#handEd [data-tool]').forEach(b=>b.classList.toggle('on',b.dataset.tool===hand.tool));
+  document.querySelectorAll('#handEd [data-size]').forEach(b=>b.classList.toggle('on',+b.dataset.size===hand.size));
+  document.querySelectorAll('#handEd [data-col]').forEach(b=>b.classList.toggle('on',b.dataset.col===hand.col));
+  document.querySelectorAll('#handEd [data-paper]').forEach(b=>b.classList.toggle('on',b.dataset.paper===(curPage().paper||'lined')));
+  $('hFinger').textContent='Finger drawing: '+(hand.finger?'on':'off');
+  $('hPage').textContent=`Page ${hand.pi+1} of ${hand.pages.length}`;
+  $('hPrev').disabled=hand.pi===0;$('hNext').disabled=hand.pi>=hand.pages.length-1;
+  $('hUndo').disabled=!hand.undo.length;$('hRedo').disabled=!hand.redo.length;
+}
+function sizeHand(){
+  if(!hand)return;const st=$('hStage'),r=st.getBoundingClientRect();
+  const ratio=hand.ink?IH/HW:HH/HW, aw=r.width-20, ah=r.height-12;
+  let w=aw,h=w*ratio;if(h>ah){h=ah;w=h/ratio;}
+  const wr=$('hWrap');wr.style.width=w+'px';wr.style.height=h+'px';
+  const d=Math.min(window.devicePixelRatio||1,2.5);
+  ['hCanvas','hLive'].forEach(id=>{const c=$(id);c.width=Math.round(w*d);c.height=Math.round(h*d);});
+  hand.scale=w/HW;hand.dpr=d;redrawHand();
+}
+window.addEventListener('resize',()=>{if($('handEd').classList.contains('show'))sizeHand();});
+function redrawHand(){
+  const cv=$('hCanvas'),x=cv.getContext('2d'),pg=curPage();
+  drawPaper(x,pg.paper||'lined',cv.width,cv.height,hand.ink);
+  const k=cv.width/HW;(pg.strokes||[]).forEach(s=>drawStroke(x,s,k));
+  $('hLive').getContext('2d').clearRect(0,0,cv.width,cv.height);syncHandTools();
+}
+function pushUndo(){hand.undo.push(curPage().strokes.slice());if(hand.undo.length>60)hand.undo.shift();hand.redo=[];}
+let handSaveT;function handSave(){if(hand.ink)return;clearTimeout(handSaveT);handSaveT=setTimeout(save,400);}
+
+// drawing input: Apple Pencil, finger or mouse. Once a pencil is used, palm and finger touches are ignored.
+let drawing=null;
+function toPage(e){const r=$('hWrap').getBoundingClientRect();return [Math.round((e.clientX-r.left)/r.width*HW),Math.round((e.clientY-r.top)/r.height*(hand.ink?IH:HH))];}
+function prs(e){return e.pointerType==='pen'?Math.max(0,Math.min(9,Math.round(e.pressure*9))):5;}
+$('hWrap').addEventListener('pointerdown',e=>{
+  if(!hand)return;
+  if(e.pointerType==='pen'&&!hand.penSeen){hand.penSeen=true;hand.finger=false;state.handPen=true;save();syncHandTools();hint('Apple Pencil found. Finger drawing is off, so your hand can rest on the page.');}
+  if(e.pointerType==='touch'&&!hand.finger)return;
+  if(drawing)return;
+  e.preventDefault();$('hWrap').setPointerCapture(e.pointerId);
+  const pt=[...toPage(e),prs(e)];
+  if(hand.tool==='eraser'){pushUndo();drawing={id:e.pointerId,erase:true,hit:false};eraseAt(pt);return;}
+  drawing={id:e.pointerId,st:{t:hand.tool==='hl'?'hl':'pen',c:hand.col,w:hand.size*(hand.tool==='hl'?1.4:2.2),pts:[pt]}};
+  liveDraw();
+});
+$('hWrap').addEventListener('pointermove',e=>{
+  if(!drawing||e.pointerId!==drawing.id)return;e.preventDefault();
+  const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+  for(const ev of (evs.length?evs:[e])){const pt=[...toPage(ev),prs(ev)];
+    if(drawing.erase){eraseAt(pt);continue;}
+    const l=drawing.st.pts[drawing.st.pts.length-1];if(Math.abs(l[0]-pt[0])+Math.abs(l[1]-pt[1])>=2)drawing.st.pts.push(pt);}
+  if(!drawing.erase)liveDraw();
+});
+const endDraw=e=>{
+  if(!drawing||e.pointerId!==drawing.id)return;
+  if(drawing.erase){if(!drawing.hit)hand.undo.pop();drawing=null;handSave();syncHandTools();return;}
+  const st=drawing.st;drawing=null;pushUndo();
+  curPage().strokes.push({t:st.t,c:st.c,w:st.w,p:encPts(st.pts)});
+  redrawHand();handSave();
+};
+$('hWrap').addEventListener('pointerup',endDraw);$('hWrap').addEventListener('pointercancel',endDraw);
+function liveDraw(){const c=$('hLive'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);drawStroke(x,drawing.st,c.width/HW);}
+function eraseAt(pt){
+  const pg=curPage(),r=hand.size*10+8;let changed=false;
+  pg.strokes=pg.strokes.filter(s=>{const hit=decPts(s.p).some(q=>Math.abs(q[0]-pt[0])<r&&Math.abs(q[1]-pt[1])<r);if(hit)changed=true;return !hit;});
+  if(changed){drawing.hit=true;redrawHand();}
+}
+document.querySelector('#handEd .hand-tools').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b||!hand)return;
+  if(b.dataset.tool)hand.tool=b.dataset.tool;
+  else if(b.dataset.size)hand.size=+b.dataset.size;
+  else if(b.dataset.col){hand.col=b.dataset.col;if(hand.tool==='eraser')hand.tool='pen';}
+  else if(b.dataset.paper){curPage().paper=b.dataset.paper;state.handPaper=b.dataset.paper;redrawHand();handSave();}
+  else if(b.id==='hUndo'&&hand.undo.length){hand.redo.push(curPage().strokes);curPage().strokes=hand.undo.pop();redrawHand();handSave();}
+  else if(b.id==='hRedo'&&hand.redo.length){hand.undo.push(curPage().strokes);curPage().strokes=hand.redo.pop();redrawHand();handSave();}
+  else if(b.id==='hFinger'){hand.finger=!hand.finger;hint(hand.finger?'Finger drawing on':'Finger drawing off. Draw with your Apple Pencil.');}
+  else if(b.id==='hClear'){if(!curPage().strokes.length)return;pushUndo();curPage().strokes=[];redrawHand();handSave();}
+  else if(b.id==='hDel'){if(hand.pages.length===1&&!curPage().strokes.length)return;
+    if(curPage().strokes.length&&!confirm('Delete this page?'))return;
+    hand.pages.splice(hand.pi,1);if(!hand.pages.length)hand.pages.push({paper:'lined',strokes:[]});
+    hand.pi=Math.min(hand.pi,hand.pages.length-1);hand.undo=[];hand.redo=[];redrawHand();handSave();}
+  syncHandTools();
+});
+const goPage=i=>{hand.pi=i;hand.undo=[];hand.redo=[];redrawHand();};
+$('hPrev').onclick=()=>{if(hand.pi>0)goPage(hand.pi-1);};
+$('hNext').onclick=()=>{if(hand.pi<hand.pages.length-1)goPage(hand.pi+1);};
+$('hAdd').onclick=()=>{hand.pages.push({paper:curPage().paper||'lined',strokes:[]});goPage(hand.pages.length-1);handSave();};
+$('hDone').onclick=()=>{
+  const h=hand;$('handEd').classList.remove('show');
+  if(h.ink){
+    const strokes=h.pages[0].strokes;
+    if(strokes.length){
+      let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+      strokes.forEach(s=>{const pad=s.w*(s.t==='hl'?3:1.4)+4;decPts(s.p).forEach(q=>{x0=Math.min(x0,q[0]-pad);y0=Math.min(y0,q[1]-pad);x1=Math.max(x1,q[0]+pad);y1=Math.max(y1,q[1]+pad);});});
+      const sc=Math.min(1.2,900/Math.max(x1-x0,y1-y0)), cw=Math.max(8,Math.round((x1-x0)*sc)), chh=Math.max(8,Math.round((y1-y0)*sc));
+      const cv=document.createElement('canvas');cv.width=cw;cv.height=chh;const x=cv.getContext('2d');
+      x.scale(sc,sc);x.translate(-x0,-y0);strokes.forEach(s=>drawStroke(x,s,1));
+      const src=cv.toDataURL('image/png'), w=Math.max(12,Math.min(90,(x1-x0)/HW*100));
+      const pos={src,strokes,bb:[x0,y0,x1,y1],w,x:Math.min(98,Math.max(2,(x0+x1)/2/HW*100)),y:Math.min(98,Math.max(2,(y0+y1)/2/IH*100))};
+      if(h.item){Object.assign(h.item,pos);sel=h.item.id;save();}
+      else addItem({type:'ink',r:0,...pos});
+    }else if(h.item){const c=coll();c.items=c.items.filter(i=>i.id!==h.item.id);sel=null;}
+    hand=null;save();renderEditor();return;
+  }
+  const b=book(reviewId);b.hand.pages=b.hand.pages.filter(p=>p.strokes.length);
+  hand=null;document.body.style.overflow='';save();renderHandThumbs();
+};
+
 $('rCollage').onclick=e=>{if(!e.target.closest('a'))openEditor();};
 
 const LAYOUTS={
@@ -1898,7 +2142,7 @@ function renderEditor(){
 function updateSel(it){
   $('selTools').hidden=!it;if(!it)return;
   const txt=['quote','label'].includes(it.type);
-  $('editTextBtn').hidden=!(txt||it.type==='slot'||it.type==='text');$('editTextBtn').textContent=it.type==='slot'?'Fill':'Edit';
+  $('editTextBtn').hidden=!(txt||it.type==='slot'||it.type==='text'||it.type==='ink');$('editTextBtn').textContent=it.type==='slot'?'Fill':'Edit';
   document.querySelector('[data-act=style]').hidden=!txt;
 }
 function addItem(it){
@@ -1939,6 +2183,7 @@ document.querySelector('#selTools').onclick=e=>{
   if(a==='back'){c.items.forEach(i=>i.z++);it.z=0;}
   if(a==='style')it.v=((it.v||0)+1)%(it.type==='quote'?3:2);
   if(a==='delete'){c.items=c.items.filter(i=>i!==it);sel=null;}
+  if(a==='edit'&&it.type==='ink'){openHand({ink:true,item:it});return;}
   if(a==='edit'&&it.type==='text'){freeTextPicker(it,p=>{Object.assign(it,p);save();renderEditor();});return;}
   if(a==='edit'){if(it.type==='slot')fillSlot(it);else textPicker(it.type,it.text,t=>{it.text=t;save();renderEditor();});return;}
   save();renderEditor();
@@ -2038,6 +2283,7 @@ document.querySelector('.ed-tools').addEventListener('click',e=>{
       $('addArtSpace').onclick=()=>{$('pickDlg').close();addItem({type:'slot',kind:'art',w:42,a:1});};
       $('addQuoteSpace').onclick=()=>{$('pickDlg').close();addItem({type:'slot',kind:'quote',w:50,a:.5});};
     });
+  if(a==='draw'){openHand({ink:true});return;}
   if(a==='text')freeTextPicker(null,p=>addItem({type:'text',w:60,r:0,...p}));
   if(a==='label')textPicker('label','',t=>addItem({type:'label',text:t,w:50,r:0}));
   if(a==='sticker')picker('Stickers',
@@ -2505,7 +2751,8 @@ async function drawCollageOn(x,c,X,Y,W,H){
   const specials={ring:svgUrl('--ring'),splat:svgUrl('--splat'),lace:svgUrl('--lace-cream-top'),lacebrown:svgUrl('--lace-brown-top'),doily:svgUrl('--doily'),doilybrown:svgUrl('--doily-brown')};
   for(const it of (c.items||[]).filter(i=>i.type!=='slot').sort((a,b)=>a.z-b.z)){
     const w=it.w/100*W;x.save();x.translate(X+it.x/100*W,Y+it.y/100*H);x.rotate((it.r||0)*Math.PI/180);
-    if(it.type==='photo'){const im=await loadImg(it.src,true);
+    if(it.type==='ink'){const im=await loadImg(it.src,true);if(im){const h=w*im.height/im.width;x.drawImage(im,-w/2,-h/2,w,h);}}
+    else if(it.type==='photo'){const im=await loadImg(it.src,true);
       if(im){const h=w*im.height/im.width;x.shadowColor='rgba(0,0,0,.25)';x.shadowBlur=W*.02;x.shadowOffsetY=W*.01;x.drawImage(im,-w/2,-h/2,w,h);}}
     else if(it.type==='quote'||it.type==='label'){
       const q=it.type==='quote', fs=it.w*(q?.105:.065)*W/100, pad=q?W*.035:W*.024;
@@ -2800,7 +3047,7 @@ document.addEventListener('touchstart',e=>{
   if(e.touches.length!==1){swipe=null;return;}
   const t=e.touches[0], v=document.querySelector('.view.active')?.id.replace('view-','');
   // Only on the four main pages, not while a pop-up, the collage editor or the welcome page is open
-  if(!PAGE_ORDER.includes(v)||document.querySelector('dialog[open]')||$('editor').classList.contains('show')||$('welcome').classList.contains('show')||$('tour').classList.contains('show')){swipe=null;return;}
+  if(!PAGE_ORDER.includes(v)||document.querySelector('dialog[open]')||$('editor').classList.contains('show')||$('handEd').classList.contains('show')||$('welcome').classList.contains('show')||$('tour').classList.contains('show')){swipe=null;return;}
   // Ignore swipes that start on things that scroll sideways or take typing, or right at the screen edge (the phone's own back gesture)
   if(e.target.closest('input,textarea,select,.tabs,.mcovers,.ed-row,.swatches,.cover-grid')||t.clientX<24||t.clientX>innerWidth-24){swipe=null;return;}
   swipe={x:t.clientX,y:t.clientY,t:Date.now(),v};
