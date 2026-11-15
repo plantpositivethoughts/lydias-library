@@ -1137,7 +1137,8 @@
     <div class="panel guide"><h3>Writing by hand</h3>
       <ul>
         <li>On a book's page, tap <b>Write by hand</b> for lined, dotted, grid or plain pages.</li>
-        <li>Choose Pen or Highlighter, a size and a colour. Pencil pressure makes lines thicker or thinner.</li>
+        <li>Choose a pen: Ballpoint, Fountain pen, Pencil, Felt tip or Brush, or the Highlighter. Then pick a size and a colour.</li>
+        <li>Press harder with an Apple Pencil for thicker, darker lines. The fountain pen gets thicker and thinner as you change direction, like a real nib.</li>
         <li>Once you use an Apple Pencil, finger drawing turns off so your hand can rest on the page. Turn it back on with <b>Finger drawing</b>.</li>
         <li><b>Eraser</b> removes whole lines. <b>Undo</b> and <b>Redo</b> fix mistakes, and <b>New page</b> adds another page.</li>
         <li>Your pages show on the book's page. Tap one to carry on writing.</li>
@@ -1290,7 +1291,7 @@
   <div class="hand-stage" id="hStage"><div class="hand-wrap" id="hWrap"><canvas id="hCanvas"></canvas><canvas id="hLive"></canvas></div><div class="hand-hint" id="hHint"></div></div>
   <div class="hand-tools">
     <div class="ed-row" id="hTools1">
-      <button data-tool="pen" class="on">Pen</button><button data-tool="hl">Highlighter</button><button data-tool="eraser">Eraser</button>
+      <button data-tool="ball" class="on">Ballpoint</button><button data-tool="fountain">Fountain pen</button><button data-tool="pencil">Pencil</button><button data-tool="felt">Felt tip</button><button data-tool="brush">Brush</button><button data-tool="hl">Highlighter</button><button data-tool="eraser">Eraser</button>
       <span class="sep"></span>
       <button data-size="1">Fine</button><button data-size="2" class="on">Medium</button><button data-size="4">Thick</button>
       <span class="sep"></span>
@@ -1939,12 +1940,34 @@ function drawStroke(x,st,k){
   x.save();x.lineCap='round';x.lineJoin='round';x.strokeStyle=st.c;x.fillStyle=st.c;
   if(st.t==='hl'){x.globalAlpha=.35;x.lineWidth=st.w*k*6;x.lineCap='butt';x.beginPath();x.moveTo(p[0][0]*k,p[0][1]*k);
     for(let i=1;i<p.length;i++)x.lineTo(p[i][0]*k,p[i][1]*k);x.stroke();x.restore();return;}
-  const wid=pr=>Math.max(.6,st.w*k*(0.45+pr/9*1.1));
-  if(p.length===1){x.beginPath();x.arc(p[0][0]*k,p[0][1]*k,wid(p[0][2])/2,0,7);x.fill();x.restore();return;}
-  for(let i=1;i<p.length;i++){
-    const a=p[i-1],b=p[i],m0=i>1?[(p[i-2][0]+a[0])/2,(p[i-2][1]+a[1])/2]:a,m1=[(a[0]+b[0])/2,(a[1]+b[1])/2];
-    x.lineWidth=wid((a[2]+b[2])/2);x.beginPath();x.moveTo(m0[0]*k,m0[1]*k);x.quadraticCurveTo(a[0]*k,a[1]*k,m1[0]*k,m1[1]*k);x.stroke();}
-  const l=p[p.length-1],q=p[p.length-2];x.lineWidth=wid(l[2]);x.beginPath();x.moveTo((q[0]+l[0])/2*k,(q[1]+l[1])/2*k);x.lineTo(l[0]*k,l[1]*k);x.stroke();
+  const kind=st.k||'ball', n=p.length, rnd=i=>{const v=Math.sin(i*12.9898+(st.s||0)*78.233)*43758.5453;return v-Math.floor(v);};
+  const taper=i=>kind==='brush'||kind==='fountain'?Math.min(1,(i+1)/5,(n-i)/5)*.8+.2:1;
+  const speed=i=>i>0?Math.hypot(p[i][0]-p[i-1][0],p[i][1]-p[i-1][1]):6;
+  const wid=(i,a,b)=>{const pr=(a[2]+b[2])/2/9, base=st.w*k;
+    if(kind==='felt')return base*(0.9+pr*0.2);
+    if(kind==='pencil')return Math.max(.6,base*(0.55+pr*0.5));
+    if(kind==='brush'){const f=st.mouse?Math.max(.2,1.2-speed(i)/20):0.08+pr*1.35;return Math.max(.4,base*f*taper(i));}
+    if(kind==='fountain'){const ang=Math.atan2(b[1]-a[1],b[0]-a[0]), nib=Math.abs(Math.sin(ang-Math.PI/4));return Math.max(.6,base*(0.16+nib*1.25)*(0.75+pr*0.5)*taper(i));}
+    return Math.max(.6,base*(0.45+pr*1.1));};
+  const seg=(i,lw)=>{const a=p[i-1],b=p[i],m0=i>1?[(p[i-2][0]+a[0])/2,(p[i-2][1]+a[1])/2]:a,m1=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+    x.lineWidth=lw;x.beginPath();x.moveTo(m0[0]*k,m0[1]*k);x.quadraticCurveTo(a[0]*k,a[1]*k,m1[0]*k,m1[1]*k);x.stroke();};
+  if(n===1){x.globalAlpha=kind==='pencil'?.6:kind==='felt'?.9:1;x.beginPath();x.arc(p[0][0]*k,p[0][1]*k,wid(0,p[0],p[0])/2,0,7);x.fill();x.restore();return;}
+  if(kind==='pencil'){ // grainy graphite: several faint passes that wobble slightly
+    for(let pass=0;pass<3;pass++){
+      for(let i=1;i<n;i++){const pr=(p[i-1][2]+p[i][2])/18;x.globalAlpha=0.16+pr*0.22;
+        const o=(rnd(i*3+pass)-.5)*st.w*k*0.7, a=p[i-1],b=p[i];
+        x.lineWidth=wid(i,a,b)*(0.55+rnd(i+pass*7)*0.35);x.beginPath();x.moveTo(a[0]*k+o,a[1]*k-o);x.lineTo(b[0]*k+o,b[1]*k-o);x.stroke();}}
+    x.restore();return;}
+  if(kind==='felt'){x.globalAlpha=.88;x.lineCap='round';
+    x.lineWidth=wid(1,p[0],p[1]);x.beginPath();x.moveTo(p[0][0]*k,p[0][1]*k);
+    for(let i=1;i<n-1;i++){const m=[(p[i][0]+p[i+1][0])/2,(p[i][1]+p[i+1][1])/2];x.quadraticCurveTo(p[i][0]*k,p[i][1]*k,m[0]*k,m[1]*k);}
+    x.lineTo(p[n-1][0]*k,p[n-1][1]*k);x.stroke();x.restore();return;}
+  if(kind==='brush'){x.shadowColor=st.c;x.shadowBlur=st.w*k*0.35;x.globalAlpha=.85;}
+  if(kind==='fountain'){x.beginPath();x.arc(p[0][0]*k,p[0][1]*k,wid(1,p[0],p[1])*0.55,0,7);x.fill();}
+  let ws=[0];for(let i=1;i<n;i++)ws.push(wid(i,p[i-1],p[i]));ws[0]=ws[1];
+  if(kind==='fountain'||kind==='brush')for(let r=0;r<3;r++)ws=ws.map((v,i)=>(ws[Math.max(0,i-1)]+v*2+ws[Math.min(n-1,i+1)])/4);
+  for(let i=1;i<n;i++)seg(i,ws[i]);
+  const l=p[n-1],q=p[n-2];x.lineWidth=wid(n-1,q,l);x.beginPath();x.moveTo((q[0]+l[0])/2*k,(q[1]+l[1])/2*k);x.lineTo(l[0]*k,l[1]*k);x.stroke();
   x.restore();
 }
 function renderHandPage(cv,page,ink){
@@ -1973,7 +1996,7 @@ function openHand(o={}){
   else{pages=handPagesOf(b).pages;if(o.newPage||!pages.length)pages.push({paper:state.handPaper||'lined',strokes:[]});}
   const prev=hand;
   hand={ink:!!o.ink,item:o.item||null,pages,pi:o.ink?0:(o.newPage?pages.length-1:Math.min(o.pi||0,pages.length-1)),
-    tool:'pen',size:2,col:prev?.col||'#2b1d16',undo:[],redo:[],penSeen:!!state.handPen,finger:!state.handPen};
+    tool:state.handTool||'ball',size:2,col:prev?.col||'#2b1d16',undo:[],redo:[],penSeen:!!state.handPen,finger:!state.handPen};
   $('handTitle').textContent=o.ink?'Draw on your collage':'Handwritten notes · '+b.title;
   $('hTools2').querySelectorAll('[data-paper],#hDel').forEach(el=>el.hidden=hand.ink);
   $('hPrev').parentNode.style.display=hand.ink?'none':'flex';
@@ -2026,10 +2049,11 @@ $('hWrap').addEventListener('pointerdown',e=>{
   if(e.pointerType==='pen'&&!hand.penSeen){hand.penSeen=true;hand.finger=false;state.handPen=true;save();syncHandTools();hint('Apple Pencil found. Finger drawing is off, so your hand can rest on the page.');}
   if(e.pointerType==='touch'&&!hand.finger)return;
   if(drawing)return;
-  e.preventDefault();$('hWrap').setPointerCapture(e.pointerId);
+  e.preventDefault();try{$('hWrap').setPointerCapture(e.pointerId);}catch(_){}
   const pt=[...toPage(e),prs(e)];
   if(hand.tool==='eraser'){pushUndo();drawing={id:e.pointerId,erase:true,hit:false};eraseAt(pt);return;}
-  drawing={id:e.pointerId,st:{t:hand.tool==='hl'?'hl':'pen',c:hand.col,w:hand.size*(hand.tool==='hl'?1.4:2.2),pts:[pt]}};
+  const MULT={ball:2.2,fountain:3.2,pencil:2,felt:3.4,brush:2.4,hl:1.4};
+  drawing={id:e.pointerId,st:{t:hand.tool==='hl'?'hl':'pen',k:hand.tool==='hl'?undefined:hand.tool,c:hand.col,w:hand.size*MULT[hand.tool],s:Math.floor(Math.random()*999),mouse:e.pointerType==='mouse'||e.pointerType==='touch'?1:undefined,pts:[pt]}};
   liveDraw();
 });
 $('hWrap').addEventListener('pointermove',e=>{
@@ -2044,7 +2068,7 @@ const endDraw=e=>{
   if(!drawing||e.pointerId!==drawing.id)return;
   if(drawing.erase){if(!drawing.hit)hand.undo.pop();drawing=null;handSave();syncHandTools();return;}
   const st=drawing.st;drawing=null;pushUndo();
-  curPage().strokes.push({t:st.t,c:st.c,w:st.w,p:encPts(st.pts)});
+  curPage().strokes.push({t:st.t,k:st.k,c:st.c,w:st.w,s:st.s,mouse:st.mouse,p:encPts(st.pts)});
   redrawHand();handSave();
 };
 $('hWrap').addEventListener('pointerup',endDraw);$('hWrap').addEventListener('pointercancel',endDraw);
@@ -2056,9 +2080,9 @@ function eraseAt(pt){
 }
 document.querySelector('#handEd .hand-tools').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b||!hand)return;
-  if(b.dataset.tool)hand.tool=b.dataset.tool;
+  if(b.dataset.tool){hand.tool=b.dataset.tool;if(!['hl','eraser'].includes(hand.tool))state.handTool=hand.tool;}
   else if(b.dataset.size)hand.size=+b.dataset.size;
-  else if(b.dataset.col){hand.col=b.dataset.col;if(hand.tool==='eraser')hand.tool='pen';}
+  else if(b.dataset.col){hand.col=b.dataset.col;if(hand.tool==='eraser')hand.tool=state.handTool||'ball';}
   else if(b.dataset.paper){curPage().paper=b.dataset.paper;state.handPaper=b.dataset.paper;redrawHand();handSave();}
   else if(b.id==='hUndo'&&hand.undo.length){hand.redo.push(curPage().strokes);curPage().strokes=hand.undo.pop();redrawHand();handSave();}
   else if(b.id==='hRedo'&&hand.redo.length){hand.undo.push(curPage().strokes);curPage().strokes=hand.redo.pop();redrawHand();handSave();}
