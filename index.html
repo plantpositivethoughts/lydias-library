@@ -1439,6 +1439,7 @@ const BGS=[['paper','Cream paper'],['gingham','Gingham'],['kraft','Kraft'],['lin
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 let state=load();
+function migrate(){
 state.series=state.series||[];
 if(state.custom?.nav){delete state.custom.nav.icons;delete state.custom.nav.layout;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
 // Feelings used to start with an emoji; keep just the word
@@ -1448,15 +1449,44 @@ state.series.forEach(x=>{if(x.moods)x.moods=x.moods.map(plainMood);});
 // Fix books saved with a finished date but left on Reading / Want to read
 state.books.forEach(b=>{if(b.finished&&['reading','want'].includes(b.shelf))b.shelf='finished';});
 if(state.custom?.nav?.names){delete state.custom.nav.names;if(!Object.keys(state.custom.nav).length)delete state.custom.nav;}
+}
+migrate();
 let shelf='all', editingId=null, reviewId=null, sel=null;
 
+/* Storage: the journal lives in IndexedDB, which has room for hundreds of megabytes.
+   A copy also goes into localStorage while it fits there (about 5 MB), so the app opens instantly.
+   Once it no longer fits, localStorage keeps only a small stand-in and the books load from IndexedDB. */
+const IDB={db:null,
+  open(){return this.db||(this.db=new Promise((ok,no)=>{try{const r=indexedDB.open('lydiasLibrary',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);}catch(e){no(e);}}));},
+  async get(k){const db=await this.open();return new Promise((ok,no)=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error);});},
+  async set(k,v){const db=await this.open();return new Promise((ok,no)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>ok(true);t.onerror=()=>no(t.error);t.onabort=()=>no(t.error);});}
+};
 function load(){
   try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.books)return s;}catch(e){}
   return {books:[],goals:{}};
 }
+let idbWarned=false;
 function save(){
-  try{localStorage.setItem(KEY,JSON.stringify(state));return true;}
-  catch(e){alert("Couldn't save: your phone's storage for this journal is full. Export a backup, then remove some large pictures from collages.");return false;}
+  if(state.big)return false; // still opening a large journal: never save the stand-in over it
+  state.savedAt=Date.now();
+  const json=JSON.stringify(state);
+  let fitsLocal=true;
+  IDB.set(KEY,json).catch(()=>{if(!fitsLocal&&!idbWarned){idbWarned=true;alert("Couldn't save your latest changes. Please export a backup from Settings.");}});
+  try{localStorage.setItem(KEY,json);}
+  catch(e){fitsLocal=false;
+    try{const {books,series,...rest}=state;localStorage.setItem(KEY,JSON.stringify({...rest,books:[],series:[],big:true}));}catch(_){}
+  }
+  return true;
+}
+// After opening, use the IndexedDB copy if it is newer, or if localStorage only had the stand-in
+async function loadBig(){
+  try{
+    const json=await IDB.get(KEY);
+    if(!json){if(!state.big&&state.books.length)IDB.set(KEY,JSON.stringify(state)).catch(()=>{});return;}
+    const d=JSON.parse(json);
+    if(d&&d.books&&(state.big||(d.savedAt||0)>(state.savedAt||0))){state=d;migrate();renderAll();}
+  }catch(e){}
 }
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2383,8 +2413,10 @@ $('saveGoal').onclick=()=>{const v=+$('goalInput').value, y=String(new Date().ge
 /* ================= SETTINGS ================= */
 function renderSettings(){
   $('nameInput').value=state.name||'';
-  const kb=Math.round((localStorage.getItem(KEY)||'').length/1024);
-  $('storageUse').textContent=`Space used: ${kb<1?'less than 1 KB':'about '+(kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB')} of roughly 5 MB. Pictures take the most room.`;
+  const kb=Math.round(JSON.stringify(state).length/1024), sz=k=>k<1?'less than 1 KB':'about '+(k>1024?(k/1024).toFixed(1)+' MB':k+' KB');
+  $('storageUse').textContent=`Your journal uses ${sz(kb)}. Pictures take the most room.`;
+  if(navigator.storage?.estimate)navigator.storage.estimate().then(e=>{if(e.quota){const mb=e.quota/1048576;
+    $('storageUse').textContent=`Your journal uses ${sz(kb)}, with room for about ${mb>2048?(mb/1024).toFixed(0)+' GB':Math.round(mb)+' MB'} on this device. Pictures take the most room.`;}}).catch(()=>{});
 }
 $('exportBtn').onclick=()=>{
   const blob=new Blob([JSON.stringify(state)],{type:'application/json'});
@@ -3100,6 +3132,7 @@ function show(v){
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
 function renderAll(){applyTheme();applyCustom();renderName();show('shelf');if(state.name&&!state.toured)openTour();}
 renderAll();
+loadBig();
 
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
