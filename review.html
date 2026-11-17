@@ -138,7 +138,7 @@ async function makePic(a){
   x.fillStyle='#fbf5ea';x.fillRect(0,0,W,H);x.fillStyle='rgba(232,170,180,.2)';
   for(let i=0;i<W;i+=80)x.fillRect(i,0,40,H);for(let j=0;j<H;j+=80)x.fillRect(0,j,W,40);
   x.textAlign='center';x.fillStyle='#5a3a2e';x.font='600 76px Lora, Georgia, serif';
-  x.fillText('My friend reviewed',W/2,380);
+  x.fillText('A reader reviewed',W/2,380);
   const m1='my ',f1='600 76px Lora, Georgia, serif',f2='italic 600 76px Lora, Georgia, serif';x.font=f1;const w1=x.measureText(m1).width;x.font=f2;const w2=x.measureText('book journal').width;
   x.textAlign='left';let lx=W/2-(w1+w2)/2;x.font=f1;x.fillText(m1,lx,470);x.fillStyle='#c0627a';x.font=f2;x.fillText('book journal',lx+w1,470);x.textAlign='center';
   // paper card

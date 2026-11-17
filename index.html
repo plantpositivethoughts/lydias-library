@@ -244,6 +244,7 @@
   .tx-row button.on{outline:2px solid var(--espresso);outline-offset:2px}
   .tx-col{width:34px;height:34px;border-radius:50%;border:1px solid rgba(0,0,0,.2);cursor:pointer;padding:0}
 
+  a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
   /* handwriting */
   .ci.ink img{box-shadow:none}
   #handEd{position:fixed;inset:0;z-index:45;display:none;flex-direction:column;background:#3a2a20 var(--splat) 0 0/420px 620px;-webkit-user-select:none;user-select:none}
@@ -967,6 +968,7 @@
   <!-- BOOKSHELF -->
   <section id="view-shelf" class="view active">
     <div id="bkBanner" class="hs-banner" hidden></div>
+    <div id="rvBanner" class="hs-banner" hidden></div>
     <div id="hsBanner" class="hs-banner" hidden></div>
     <div class="seg shelf-mode" id="shelfMode"><button class="btn ghost on" data-m="books">Books</button><button class="btn ghost" data-m="series">Collections</button></div>
     <div id="booksMode">
@@ -1244,6 +1246,11 @@
       <h3 style="margin-top:20px">Earlier versions</h3>
       <p class="small">Each day you open the journal, it keeps a copy of how it looked, for the last 7 days. If something gets deleted by mistake, you can go back.</p>
       <div id="snapList"></div>
+    </div>
+    <div class="panel">
+      <h3>Tell us what you think</h3>
+      <p class="small">This journal is free and made by two book lovers. Your review helps other readers find it, and your ideas shape what we add next.</p>
+      <div class="btn-row"><a class="btn" href="review.html" target="_blank" rel="noopener">Leave a review</a><button class="btn ghost" id="shareAppBtn">Share with a friend</button></div>
     </div>
     <div class="panel">
       <h3>Add to your home screen</h3>
@@ -2448,11 +2455,30 @@ function renderBackup(){
 }
 $('remindTabs').onclick=e=>{const b=e.target.closest('[data-every]');if(!b)return;state.backupEvery=+b.dataset.every;save();renderBackup();renderBackupBanner();};
 $('exportBtn').onclick=doBackup;
+$('shareAppBtn').onclick=()=>shareApp();
 function backupDue(){
   const every=state.backupEvery??7;if(!every||!state.books.length)return false;
   if((state.bkSnooze||0)>Date.now())return false;
   const since=state.lastBackup||state.firstUse||Date.now();
   return daysAgo(since)>=every&&(state.savedAt||0)>(state.lastBackup||0)+5000;
+}
+const REVIEW_URL='review.html';
+function renderReviewBanner(){
+  const el=$('rvBanner');if(!el)return;
+  const n=state.books.length, rv=state.reviewAsk||{};
+  if(n<3||rv.done||(rv.snooze||0)>Date.now()||backupDue()){el.hidden=true;return;}
+  el.hidden=false;
+  el.innerHTML=`<button class="x" id="rvLater">Later</button><b class="t">Enjoying your journal?</b>It's free and made by two book lovers. A quick review helps other readers find it, and tells us what to make next. It takes about 2 minutes.
+    <div class="btn-row" style="margin-top:10px"><a class="btn" id="rvGo" href="${REVIEW_URL}" target="_blank" rel="noopener">Leave a review</a><button class="btn ghost" id="rvShare">Share with a friend</button><button class="btn ghost" id="rvNo">No thanks</button></div>`;
+  $('rvGo').onclick=()=>{state.reviewAsk={done:true};save();setTimeout(renderReviewBanner,300);};
+  $('rvLater').onclick=()=>{state.reviewAsk={snooze:Date.now()+14*864e5};save();renderReviewBanner();};
+  $('rvNo').onclick=()=>{state.reviewAsk={done:true};save();renderReviewBanner();};
+  $('rvShare').onclick=shareApp;
+}
+async function shareApp(){
+  const url=new URL('./',location.href).href, text='A free book journal with star and spice ratings, collages and writing by hand. No ads, no sign-up.';
+  if(navigator.share){try{await navigator.share({title:'Book journal',text,url});}catch(e){}}
+  else{try{await navigator.clipboard.writeText(url);alert('Link copied. Paste it to a friend.');}catch(e){prompt('Copy this link:',url);}}
 }
 function renderBackupBanner(){
   const el=$('bkBanner');if(!el)return;
@@ -3191,7 +3217,7 @@ function show(v){
   document.body.classList.toggle('in-collection',v==='collection');
   if(v==='shelf')renderShelfMode();
   $('addBtn').style.display=v==='shelf'&&shelfMode==='books'?'':'none';
-  if(v==='shelf'){renderShelf();renderHomeBanner();renderBackupBanner();} if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderBackup();renderCustom();renderHomeSettings();}
+  if(v==='shelf'){renderShelf();renderHomeBanner();renderBackupBanner();renderReviewBanner();} if(v==='months')renderMonths(); if(v==='diary')renderDiary(); if(v==='settings'){renderSettings();renderBackup();renderCustom();renderHomeSettings();}
   if(typeof applyCustom==='function')applyCustom();
 }
 document.querySelector('nav.bottom').onclick=e=>{const b=e.target.closest('[data-view]');if(b){show(b.dataset.view);scrollTo(0,0);}};
