@@ -303,7 +303,9 @@
   #editor.show{display:flex}
   .ed-top{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;color:#f6e7cf}
   .ed-top b{font-family:var(--type);font-weight:400}
-  .ed-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 12px;min-height:0}
+  .ed-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:6px 12px;min-height:0;overflow:hidden;position:relative;touch-action:none}
+  #edPage{transform-origin:0 0;will-change:transform}
+  #edFit{position:absolute;top:10px;right:12px;z-index:5}
   .ed-stage .collage{width:min(92vw,calc((100dvh - 230px) * .75));box-shadow:0 6px 24px rgba(0,0,0,.5)}
   .ed-tools{background:var(--espresso);padding:8px 8px calc(10px + env(safe-area-inset-bottom));border-top:3px solid var(--caramel)}
   .ed-row{display:flex;gap:6px;overflow-x:auto;padding:4px 2px}
@@ -1133,6 +1135,7 @@
         <li>Tap an <b>Add quote</b> space to add a quote from any book you've saved quotes for.</li>
         <li>Drag pieces to move them. Tap a piece for Smaller, Bigger, rotate, Front, Back, Style, Edit or Remove.</li>
         <li><b>Layout</b> gives a new arrangement, <b>Sticker</b> adds lace, tape, doilies and more, and <b>Page</b> changes the paper.</li>
+        <li>Pinch a piece with two fingers to make it bigger or smaller, and twist to turn it. Pinch the page to zoom in for small details, then tap <b>Fit to screen</b> or double-tap the page to zoom back out.</li>
         <li><b>Draw</b> lets you write or draw straight onto the collage with an Apple Pencil or your finger.</li>
         <li>Tap <b>Done</b> when you're finished. Free art is credited under the collage for you.</li>
       </ul></div>
@@ -1276,7 +1279,7 @@
 <!-- COLLAGE EDITOR -->
 <section id="editor" aria-label="Collage editor">
   <div class="ed-top"><b id="edTitle">Collage</b><button class="btn ghost" id="edDone">Done</button></div>
-  <div class="ed-stage"><div id="edPage"></div></div>
+  <div class="ed-stage" id="edStage"><div id="edPage"></div><button class="btn" id="edFit" hidden>Fit to screen</button></div>
   <div class="ed-tools">
     <div class="ed-row sel-tools" id="selTools" hidden>
       <button data-act="smaller">Smaller</button><button data-act="bigger">Bigger</button>
@@ -2198,7 +2201,7 @@ function applyLayout(k){const c=coll();c.items=LAYOUTS[k].items.map((it,i)=>({id
 function coll(){const b=book(reviewId);return b.collage||(b.collage={bg:'paper',items:[]});}
 function openEditor(){
   sel=null;const c=coll();if(!c.items.length&&!c.started){c.items=LAYOUTS.classic.items.map((it,i)=>({id:uid(),z:i+1,v:0,...it}));c.started=true;}$('edTitle').textContent=book(reviewId).title;
-  $('editor').classList.add('show');document.body.style.overflow='hidden';renderEditor();
+  $('editor').classList.add('show');document.body.style.overflow='hidden';resetZoom();renderEditor();
 }
 $('edDone').onclick=()=>{$('editor').classList.remove('show');document.body.style.overflow='';sel=null;save();renderReviewCollage();};
 function renderEditor(){
@@ -2222,22 +2225,80 @@ function addItem(it){
 function bindDrag(){
   const page=$('edPage').querySelector('.collage');
   page.onpointerdown=e=>{
+    if(fingers.size>1)return; // a second finger is part of a pinch, not a new tap
     const el=e.target.closest('.ci');
-    if(!el){sel=null;renderEditor();return;}
+    if(!el){ // tap the background to deselect; drag it to move around when zoomed in
+      const sx=e.clientX,sy=e.clientY,t0={...zoom};let moved=false;
+      page.setPointerCapture(e.pointerId);
+      page.onpointermove=m=>{if(pinch)return;if(Math.abs(m.clientX-sx)+Math.abs(m.clientY-sy)>6)moved=true;
+        if(moved&&zoom.s>1){zoom.x=t0.x+m.clientX-sx;zoom.y=t0.y+m.clientY-sy;applyZoom();}};
+      page.onpointerup=()=>{page.onpointermove=null;page.onpointerup=null;if(!moved&&!pinch&&sel){sel=null;renderEditor();}};
+      return;}
     const it=coll().items.find(i=>i.id===el.dataset.ci);
     if(sel!==it.id){sel=it.id;page.querySelectorAll('.ci').forEach(n=>n.classList.toggle('sel',n===el));
       updateSel(it);}
     const rect=page.getBoundingClientRect(), sx=e.clientX, sy=e.clientY, ox=it.x, oy=it.y;let moved=false;
     el.setPointerCapture(e.pointerId);e.preventDefault();
     el.onpointermove=m=>{
+      if(pinch)return;
       if(Math.abs(m.clientX-sx)+Math.abs(m.clientY-sy)>6)moved=true;if(!moved)return;
       it.x=Math.min(100,Math.max(0,ox+(m.clientX-sx)/rect.width*100));
       it.y=Math.min(100,Math.max(0,oy+(m.clientY-sy)/rect.height*100));
       el.style.left=it.x+'%';el.style.top=it.y+'%';
     };
-    el.onpointerup=()=>{el.onpointermove=null;el.onpointerup=null;save();if(!moved&&it.type==='slot')fillSlot(it);};
+    el.onpointerup=()=>{el.onpointermove=null;el.onpointerup=null;save();if(!moved&&!pinch&&it.type==='slot')fillSlot(it);};
   };
 }
+
+/* ---- two-finger gestures: pinch a piece to resize and twist to rotate it; pinch the page to zoom in ---- */
+let zoom={s:1,x:0,y:0}, pinch=null, gestureSel=null;
+const fingers=new Map();
+function applyZoom(){
+  if(zoom.s<=1.02){zoom={s:1,x:0,y:0};}
+  $('edPage').style.transform=zoom.s===1?'':`translate(${zoom.x}px,${zoom.y}px) scale(${zoom.s})`;
+  $('edFit').hidden=zoom.s===1;
+}
+function resetZoom(){zoom={s:1,x:0,y:0};applyZoom();}
+$('edFit').onclick=resetZoom;
+const gap=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y), ang=(a,b)=>Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI, mid=(a,b)=>({x:(a.x+b.x)/2,y:(a.y+b.y)/2});
+const stage=$('edStage');
+stage.addEventListener('pointerdown',e=>{
+  if(!fingers.size)gestureSel=sel; // what was selected before this touch began
+  fingers.set(e.pointerId,{x:e.clientX,y:e.clientY,el:e.target.closest('.ci')});
+  if(fingers.size!==2)return;
+  // two fingers on the piece that was already selected resize and turn it; anywhere else they zoom and move the page
+  const [a,b]=[...fingers.values()], el=[a.el,b.el].find(x=>x&&x.dataset.ci===gestureSel), it=el&&coll().items.find(i=>i.id===el.dataset.ci);
+  const base=$('edPage').getBoundingClientRect();
+  pinch={d0:gap(a,b),a0:ang(a,b),m0:mid(a,b),z0:{...zoom},left:base.left-zoom.x,top:base.top-zoom.y};
+  if(it){pinch.it=it;pinch.el=el;pinch.w0=it.w;pinch.r0=it.r||0;}
+  else if(sel!==gestureSel){ // a zoom shouldn't change which piece is selected (and mustn't redraw the page mid-gesture)
+    sel=gestureSel;$('edPage').querySelectorAll('.ci').forEach(n=>n.classList.toggle('sel',n.dataset.ci===sel));updateSel(coll().items.find(i=>i.id===sel));}
+},true);
+stage.addEventListener('pointermove',e=>{
+  const f=fingers.get(e.pointerId);if(!f)return;f.x=e.clientX;f.y=e.clientY;
+  if(!pinch||fingers.size<2)return;
+  e.preventDefault();
+  const [a,b]=[...fingers.values()], k=gap(a,b)/pinch.d0;
+  if(pinch.it){ // resize and rotate the piece
+    const it=pinch.it;let r=pinch.r0+ang(a,b)-pinch.a0;
+    const n=Math.round(r/90)*90;if(Math.abs(r-n)<4)r=n;
+    it.w=Math.min(140,Math.max(4,pinch.w0*k));it.r=Math.round(r*10)/10;
+    pinch.el.style.setProperty('--w',it.w);pinch.el.style.setProperty('--r',it.r+'deg');
+  }else{ // zoom the page, keeping the point between the fingers in place
+    const z0=pinch.z0, s=Math.min(5,Math.max(1,z0.s*k)), m=mid(a,b);
+    const px=(pinch.m0.x-pinch.left-z0.x)/z0.s, py=(pinch.m0.y-pinch.top-z0.y)/z0.s;
+    zoom={s,x:m.x-pinch.left-px*s,y:m.y-pinch.top-py*s};applyZoom();
+  }
+},true);
+const liftFinger=e=>{
+  fingers.delete(e.pointerId);
+  if(pinch&&fingers.size<2){const done=pinch;setTimeout(()=>{if(pinch===done)pinch=null;},0);
+    if(done.it){save();renderEditor();}}
+};
+stage.addEventListener('pointerup',liftFinger,true);stage.addEventListener('pointercancel',liftFinger,true);
+// stop Safari zooming the whole app instead of the collage
+['gesturestart','gesturechange'].forEach(t=>stage.addEventListener(t,e=>e.preventDefault()));
+let lastTap=0;stage.addEventListener('pointerup',e=>{if(e.target.closest('.ci')||fingers.size)return;const t=Date.now();if(t-lastTap<300&&zoom.s>1)resetZoom();lastTap=t;});
 document.querySelector('#selTools').onclick=e=>{
   const a=e.target.closest('[data-act]')?.dataset.act;if(!a)return;
   const c=coll(), it=c.items.find(i=>i.id===sel);if(!it)return;
